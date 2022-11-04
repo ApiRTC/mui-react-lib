@@ -13,12 +13,10 @@ export interface RemoteStreamsProps {
 const COMPONENT_NAME = "RemoteStreams";
 export default function RemoteStreams(props: RemoteStreamsProps) {
 
-    //const takeSnapProp = props.onTakeSnapshot ? { onTakeSnapshot: () => props?.onTakeSnapshot(stream) } : {}
-
     const [responsive, setResponsive] = useState<any>({ xs: 12 });
     useEffect(() => {
-        // This is R&D stuff, considering subscribedStreams.length would not exceed 12
-        // (we would do pagination to 12 max otherwise)
+        // This is R&D stuff, considering streams.length would not exceed 8
+        // (we would do pagination to 8 max otherwise)
         // Shall be improved if we would like to display more streams at a time...
         if (props.streams.length <= 1) {
             setResponsive({ xs: 12 })
