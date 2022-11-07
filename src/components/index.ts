@@ -1,4 +1,1 @@
-export { default as ConversationStreams } from "./ConversationStreams"
-export { default as LocalStream } from "./LocalStream"
-export { default as RemoteStream } from "./RemoteStream"
-export { default as RemoteStreams } from "./RemoteStreams"
+export { default as Stream, AudioEnableButton, SnapshotButton, TorchButton } from "./Stream"
