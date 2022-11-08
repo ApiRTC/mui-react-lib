@@ -16,6 +16,10 @@ export default [
                 format: "cjs",
                 sourcemap: true,
             },
+            // Commented out, because there was an error compiling visio-assisted :
+            // Attempted import error: 'useId' is not exported from 'react' (imported as 'e').
+            // but uncommented, subsequent were not building.. need to sort this out...
+            // maybe to build visio-assisted it is enough to just remove dist/esm directory ?
             {
                 file: packageJson.module,
                 format: "esm",

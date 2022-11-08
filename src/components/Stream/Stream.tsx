@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useRef } from 'react'
 
 import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 
 import IconButton from '@mui/material/IconButton'
@@ -10,12 +11,14 @@ import VolumeOffIcon from '@mui/icons-material/VolumeOff'
 
 import { Stream as ApiRtcStream } from '@apirtc/apirtc'
 
-import { useToggle } from '../..'
+import useToggle from '../../hooks/useToggle'
 
 export const StreamContext = createContext<ApiRtcStream | undefined>(undefined);
 const { Provider } = StreamContext;
 
 export interface StreamProps {
+    id?: string,
+    name?: string,
     stream: ApiRtcStream,
     muted?: boolean,
     withMuteToggle?: boolean,
@@ -40,13 +43,25 @@ export default function Stream(props: StreamProps) {
     }, [props.stream])
 
     return <Provider value={props.stream}>
-        <Box sx={{ display: 'inline-flex', position: 'relative' }}>
+        <Box id={props.id} sx={{
+            display: 'inline-flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'relative'
+        }}>
             <video id={props.stream.getId()} style={{ maxWidth: '100%' }}
                 ref={videoRef}
                 muted={muted}></video>
+            {props.name && <Chip sx={{
+                position: 'absolute',
+                top: 4,
+                opacity: [0.9, 0.8, 0.7],
+                zIndex: 1
+            }} label={props.name} color="primary" />}
             <Stack sx={{
                 position: 'absolute',
-                bottom: 8, float: 'right', right: 8,
+                float: 'right',
+                bottom: 8, right: 8,
                 opacity: [0.9, 0.8, 0.7],
                 zIndex: 1
             }}>

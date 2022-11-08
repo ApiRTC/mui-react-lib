@@ -7,15 +7,13 @@ const useToggle = (initialStatus: boolean) => {
     setStatus((prevStatus) => !prevStatus);
   }, []);
 
-  const values = useMemo(
-    () => ({
-      status,
-      toggleStatus
-    }),
-    [status, toggleStatus]
+  const values = useMemo(() => ({
+    status,
+    toggleStatus
+  }), [status, toggleStatus]
   );
 
-  return values;
+  return values
 };
 
 export default useToggle;

@@ -10,6 +10,10 @@ This library offers **React/MUI** components to be used along with **ApiRTC** ob
 
 `sudo npm link ../m-visio-assist/node_modules/@apirtc/apirtc  ../m-visio-assist/node_modules/@apirtc/react-lib ../m-visio-assist/node_modules/react`
 
+Or
+
+`sudo npm link ../visio-assisted/node_modules/@apirtc/apirtc  ../visio-assisted/node_modules/@apirtc/react-lib ../visio-assisted/node_modules/react`
+
 ## Components
 
 ### RemoteStream
