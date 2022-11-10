@@ -3,7 +3,8 @@ import React, { useContext } from 'react'
 import { Stream } from '@apirtc/apirtc'
 
 import IconButton from '@mui/material/IconButton'
-import CameraAltIcon from '@mui/icons-material/CameraAlt'
+// import CameraAltIcon from '@mui/icons-material/CameraAlt'
+import Icon from '@mui/material/Icon'
 
 import { StreamContext } from './Stream'
 
@@ -23,6 +24,7 @@ export function SnapshotButton(props: SnapshotButtonProps) {
     };
 
     return <IconButton id='snapshot' color="primary" aria-label="snapshot" onClick={onTakeSnapshot}>
-        <CameraAltIcon />
+        {/* <CameraAltIcon /> */}
+        <Icon>photo_camera</Icon>
     </IconButton>
 }

@@ -3,8 +3,13 @@ import React, { useContext, useEffect, useReducer } from 'react'
 import { MediaStreamTrackFlowStatus } from '@apirtc/apirtc'
 
 import IconButton from '@mui/material/IconButton'
-import MicIcon from '@mui/icons-material/Mic'
-import MicOffIcon from '@mui/icons-material/MicOff'
+
+// Note: replaced by usage of Icon, because @mui/icons-material has no umd package available
+// import MicIcon from '@mui/icons-material/Mic'
+// import MicOffIcon from '@mui/icons-material/MicOff'
+import Icon from '@mui/material/Icon'
+// Note to let Icon work, you have to have
+// <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" /> in <head>
 
 import { StreamContext } from './Stream'
 
@@ -90,6 +95,7 @@ export function AudioEnableButton() {
     return <IconButton id='mic' color="primary" aria-label="mic"
         onClick={toggleAudio}
         onKeyDown={onMicKeyDown} onKeyUp={onMicKeyUp}>
-        {stream && stream.isAudioMuted() ? <MicOffIcon /> : <MicIcon />}
+        {/* {stream && stream.isAudioMuted() ? <MicOffIcon /> : <MicIcon />} */}
+        {stream && stream.isAudioMuted() ? <Icon>mic_off</Icon> : <Icon>mic</Icon>}
     </IconButton>
 }

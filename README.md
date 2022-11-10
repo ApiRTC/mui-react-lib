@@ -6,13 +6,19 @@ This library offers **React/MUI** components to be used along with **ApiRTC** ob
 
 `npm install @apirtc/mui-react-lib`
 
+also you will need to install
+
+'<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />'
+
+in index.html <head> to make Icon work 
+
 ## DEV
 
-`sudo npm link ../m-visio-assist/node_modules/@apirtc/apirtc  ../m-visio-assist/node_modules/@apirtc/react-lib ../m-visio-assist/node_modules/react`
+`sudo npm link ../m-visio-assist/node_modules/@apirtc/apirtc ../m-visio-assist/node_modules/react ../m-visio-assist/node_modules/@apirtc/react-lib`
 
 Or
 
-`sudo npm link ../visio-assisted/node_modules/@apirtc/apirtc  ../visio-assisted/node_modules/@apirtc/react-lib ../visio-assisted/node_modules/react`
+`sudo npm link ../visio-assisted/node_modules/@apirtc/apirtc ../visio-assisted/node_modules/react ../visio-assisted/node_modules/@apirtc/react-lib`
 
 ## Components
 

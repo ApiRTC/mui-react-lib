@@ -3,8 +3,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import { MediaTrackVideoConstraints, MediaStreamSettings } from '@apirtc/apirtc'
 
 import IconButton from '@mui/material/IconButton'
-import FlashlightOffIcon from '@mui/icons-material/FlashlightOff'
-import FlashlightOnIcon from '@mui/icons-material/FlashlightOn'
+// import FlashlightOffIcon from '@mui/icons-material/FlashlightOff'
+// import FlashlightOnIcon from '@mui/icons-material/FlashlightOn'
+import Icon from '@mui/material/Icon'
 
 import { StreamContext } from './Stream'
 
@@ -78,6 +79,7 @@ export function TorchButton() {
     };
 
     return <IconButton id='torch' color="primary" aria-label="torch" onClick={onToggleTorch}>
-        {torch ? <FlashlightOffIcon /> : <FlashlightOnIcon />}
+        {/* {torch ? <FlashlightOffIcon /> : <FlashlightOnIcon />} */}
+        {torch ? <Icon>flashlight_off</Icon> : <Icon>flashlight_on</Icon>}
     </IconButton>
 }

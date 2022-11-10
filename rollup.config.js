@@ -11,6 +11,7 @@ export default [
     {
         input: "src/index.ts",
         output: [
+
             {
                 file: packageJson.main,
                 format: "cjs",
@@ -29,7 +30,28 @@ export default [
                 file: 'dist/mui-react-lib.production.min.js',
                 format: "umd",
                 sourcemap: true,
-                name: 'MuiReactLib'
+                name: 'MuiReactLib',
+                globals: {
+                    'react': 'React',
+                    // 'react/jsx-runtime': 'React.jsx',
+                    // '@mui/material': 'MaterialUI',
+                    '@apirtc/apirtc': 'apiRTC',
+                    '@mui/material/Box': 'MaterialUI.Box',
+                    '@mui/material/Chip': 'MaterialUI.Chip',
+                    '@mui/material/Grid': 'MaterialUI.Grid',
+                    '@mui/material/Icon': 'MaterialUI.Icon',
+                    '@mui/material/IconButton': 'MaterialUI.IconButton',
+                    '@mui/material/Stack': 'MaterialUI.Stack',
+                    // '@mui/material/utils': 'MaterialUI.utils',
+                    // '@mui/icons-material/Mic (guessing 'MicIcon')
+                    // '@mui/icons-material/MicOff (guessing 'MicOffIcon')
+                    // '@mui/icons-material/VolumeUp (guessing 'VolumeUpIcon')
+                    // '@mui/icons-material/VolumeOff (guessing 'VolumeOffIcon')
+                    // '@mui/icons-material/CameraAlt (guessing 'CameraAltIcon')
+                    // '@mui/icons-material/FlashlightOff (guessing 'FlashlightOffIcon')
+                    // '@mui/icons-material/FlashlightOn (guessing 'FlashlightOnIcon')
+
+                }
             },
         ],
         plugins: [
@@ -39,7 +61,7 @@ export default [
             typescript({ tsconfig: "./tsconfig.json" }),
             terser()
         ],
-        external: ["react", "@apirtc/apirtc"]
+        //external: ["react", "react-dom", "@apirtc/apirtc"] // peerDepsExternal already sets this ?
     },
     {
         input: "dist/esm/index.d.ts",

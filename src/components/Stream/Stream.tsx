@@ -6,8 +6,9 @@ import Stack from '@mui/material/Stack'
 
 import IconButton from '@mui/material/IconButton'
 
-import VolumeUpIcon from '@mui/icons-material/VolumeUp'
-import VolumeOffIcon from '@mui/icons-material/VolumeOff'
+// import VolumeUpIcon from '@mui/icons-material/VolumeUp'
+// import VolumeOffIcon from '@mui/icons-material/VolumeOff'
+import Icon from '@mui/material/Icon'
 
 import { Stream as ApiRtcStream } from '@apirtc/apirtc'
 
@@ -66,7 +67,8 @@ export default function Stream(props: StreamProps) {
                 zIndex: 1
             }}>
                 {props.withMuteToggle && <IconButton id='muted' color="primary" aria-label="muted" onClick={toggleMuted}>
-                    {muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
+                    {/* {muted ? <VolumeOffIcon /> : <VolumeUpIcon />} */}
+                    {muted ? <Icon>volume_off</Icon> : <Icon>volume_up</Icon>}
                 </IconButton>}
                 {props.controls}
             </Stack>

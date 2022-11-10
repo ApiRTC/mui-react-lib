@@ -5,7 +5,9 @@ import Grid from '@mui/material/Grid'
 
 import { Stream } from '@apirtc/apirtc'
 import { Credentials, useSession, useCameraStream, useConversation, useConversationStreams } from '@apirtc/react-lib'
-import { AudioEnableButton, Stream as StreamComponent, Grid as RemoteStreamsGrid } from '..'
+import { AudioEnableButton } from '../Stream/AudioEnableButton'
+import { default as StreamComponent } from '../Stream'
+import { default as RemoteStreamsGrid } from '../Grid/Grid'
 
 export type RoomProps = {
     name: string,
@@ -25,7 +27,8 @@ const Room = ({ name, credentials }: RoomProps) => {
         <RemoteStreamsGrid>
             {subscribedStreams.map((stream: Stream, index: number) =>
                 <StreamComponent id={'subscribed-stream-' + index} key={index}
-                    stream={stream} muted={false} withMuteToggle={true}
+                    stream={stream} muted={false}
+                    withMuteToggle={true}
                     controls={<AudioEnableButton />}></StreamComponent>
             )}
         </RemoteStreamsGrid>
