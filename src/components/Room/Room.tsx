@@ -17,8 +17,7 @@ const Room = ({ name, credentials }: RoomProps) => {
 
     const { session } = useSession(credentials ?? { apiKey: "myDemoApiKey" });
     const { stream: localStream } = useCameraStream(session);
-    const { conversation } = useConversation(session,
-        name, undefined, true);
+    const { conversation } = useConversation(session, name, undefined, true);
     const { publishedStreams, subscribedStreams } = useConversationStreams(conversation, [localStream]);
 
     return <Box sx={{

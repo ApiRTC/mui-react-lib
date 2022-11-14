@@ -22,6 +22,7 @@ export interface StreamProps {
     name?: string,
     stream: ApiRtcStream,
     muted?: boolean,
+    sinkId?: string,
     withMuteToggle?: boolean,
     controls?: React.ReactNode
 }
@@ -42,6 +43,20 @@ export default function Stream(props: StreamProps) {
             }
         }
     }, [props.stream])
+
+    useEffect(() => {
+        const ref = videoRef.current;
+        if (ref && props.sinkId) {
+            // As of today 2022/11 setSinkId does not exist on HtmlMediaElement
+            // while described on https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/setSinkId
+            // It is not supported on Firefox.
+            // To bypass typescript check, go through any
+            const htmlMediaElement = ref as any;
+            if (htmlMediaElement.setSinkId) {
+                htmlMediaElement.setSinkId(props.sinkId)
+            }
+        }
+    }, [props.sinkId])
 
     return <Provider value={props.stream}>
         <Box id={props.id} sx={{
