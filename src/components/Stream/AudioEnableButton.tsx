@@ -13,8 +13,11 @@ import Icon from '@mui/material/Icon'
 
 import { StreamContext } from './Stream'
 
+export interface AudioEnableButtonProps {
+    disabled?: boolean
+}
 const COMPONENT_NAME = "AudioEnableButton";
-export function AudioEnableButton() {
+export function AudioEnableButton(props: AudioEnableButtonProps) {
 
     // Toggling audio on stream is not captured in react state
     // so using forceUpdate when audio is changed will force rendering
@@ -49,6 +52,9 @@ export function AudioEnableButton() {
         // Event is only triggered here when the subscriber makes the enable/disable, but neither enabled or muted values from mediaStreamTrackFlowStatus change,
         // and also props.stream.isAudioMuted() is not updated (always returns false), despite the sound is actually disabled
         // => Opened JIRA https://apizee.atlassian.net/browse/APIRTC-1162
+        // 
+        // Also listen to remoteAudioFlowStatusChanged helps to reflect locally the change made from the remote on his (local) stream
+        // but there is still a problem when the change it triggered on a remote stream
         if (stream) {
             const onAudioFlowStatusChanged = (mediaStreamTrackFlowStatus: MediaStreamTrackFlowStatus) => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
@@ -57,8 +63,10 @@ export function AudioEnableButton() {
                 forceUpdate()
             }
             stream.on('audioFlowStatusChanged', onAudioFlowStatusChanged)
+            stream.on('remoteAudioFlowStatusChanged', onAudioFlowStatusChanged)
             return () => {
                 stream.removeListener('audioFlowStatusChanged', onAudioFlowStatusChanged)
+                stream.removeListener('remoteAudioFlowStatusChanged', onAudioFlowStatusChanged)
             }
         }
     }, [stream])
@@ -93,6 +101,7 @@ export function AudioEnableButton() {
     };
 
     return <IconButton id='mic' color="primary" aria-label="mic"
+        disabled={props.disabled}
         onClick={toggleAudio}
         onKeyDown={onMicKeyDown} onKeyUp={onMicKeyUp}>
         {/* {stream && stream.isAudioMuted() ? <MicOffIcon /> : <MicIcon />} */}
