@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid'
 import { Stream } from '@apirtc/apirtc'
 import { Credentials, useSession, useCameraStream, useConversation, useConversationStreams } from '@apirtc/react-lib'
 import { AudioEnableButton } from '../Stream/AudioEnableButton'
+import { MuteButton } from '../Stream/MuteButton'
 import { default as StreamComponent } from '../Stream'
 import { default as RemoteStreamsGrid } from '../Grid/Grid'
 
@@ -23,12 +24,11 @@ const Room = ({ name, credentials }: RoomProps) => {
     return <Box sx={{
         position: 'relative',
     }}>
-        <RemoteStreamsGrid>
+        <RemoteStreamsGrid sx={{ minHeight: '480px' }}>
             {subscribedStreams.map((stream: Stream, index: number) =>
                 <StreamComponent id={'subscribed-stream-' + index} key={index}
                     stream={stream} muted={false}
-                    withMuteToggle={true}
-                    controls={<AudioEnableButton />}></StreamComponent>
+                    controls={<><MuteButton /><AudioEnableButton /></>} />
             )}
         </RemoteStreamsGrid>
         <Grid container direction="row" justifyContent="flex-start"
@@ -40,7 +40,7 @@ const Room = ({ name, credentials }: RoomProps) => {
             {publishedStreams.map((stream, index) =>
                 <Grid item id={'published-stream-' + index} key={index} xs={2}>
                     <StreamComponent stream={stream} muted={true}
-                        controls={<AudioEnableButton />}></StreamComponent>
+                        controls={<AudioEnableButton />} />
                 </Grid>)}
         </Grid>
     </Box>

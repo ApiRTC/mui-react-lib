@@ -4,18 +4,12 @@ import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 
-import IconButton from '@mui/material/IconButton'
-
-// import VolumeUpIcon from '@mui/icons-material/VolumeUp'
-// import VolumeOffIcon from '@mui/icons-material/VolumeOff'
-import Icon from '@mui/material/Icon'
-
 import { Stream as ApiRtcStream } from '@apirtc/apirtc'
 
 import useToggle from '../../hooks/useToggle'
 
 export const StreamContext = createContext<ApiRtcStream | undefined>(undefined);
-const { Provider } = StreamContext;
+export const MutedContext = createContext<{ muted: boolean; toggleMuted: () => void; }>({ muted: false, toggleMuted: () => { } });
 
 export interface StreamProps {
     id?: string,
@@ -23,11 +17,15 @@ export interface StreamProps {
     stream: ApiRtcStream,
     muted?: boolean,
     sinkId?: string,
-    withMuteToggle?: boolean,
-    controls?: React.ReactNode
+    controls?: React.ReactNode,
+    //children?: React.ReactNode //for now 'children' is declared here only to allow parent to put a space or line return in content
 }
 const COMPONENT_NAME = "Stream";
 export default function Stream(props: StreamProps) {
+
+    if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
+        console.debug(COMPONENT_NAME + "|Rendering")
+    }
 
     const { status: muted, toggleStatus: toggleMuted } = useToggle(props.muted || false);
 
@@ -58,35 +56,33 @@ export default function Stream(props: StreamProps) {
         }
     }, [props.sinkId])
 
-    return <Provider value={props.stream}>
-        <Box id={props.id} sx={{
-            display: 'inline-flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'relative'
+    return <Box id={props.id} sx={{
+        display: 'inline-flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative'
+    }}>
+        <video id={props.stream.getId()} style={{ maxWidth: '100%' }}
+            ref={videoRef}
+            muted={muted}></video>
+        {props.name && <Chip sx={{
+            position: 'absolute',
+            top: 4,
+            opacity: [0.9, 0.8, 0.7],
+            zIndex: 1
+        }} label={props.name} color="primary" />}
+        <Stack sx={{
+            position: 'absolute',
+            float: 'right',
+            bottom: 8, right: 8,
+            opacity: [0.9, 0.8, 0.7],
+            zIndex: 1
         }}>
-            <video id={props.stream.getId()} style={{ maxWidth: '100%' }}
-                ref={videoRef}
-                muted={muted}></video>
-            {props.name && <Chip sx={{
-                position: 'absolute',
-                top: 4,
-                opacity: [0.9, 0.8, 0.7],
-                zIndex: 1
-            }} label={props.name} color="primary" />}
-            <Stack sx={{
-                position: 'absolute',
-                float: 'right',
-                bottom: 8, right: 8,
-                opacity: [0.9, 0.8, 0.7],
-                zIndex: 1
-            }}>
-                {props.withMuteToggle && <IconButton id='muted' color="primary" aria-label="muted" onClick={toggleMuted}>
-                    {/* {muted ? <VolumeOffIcon /> : <VolumeUpIcon />} */}
-                    {muted ? <Icon>volume_off</Icon> : <Icon>volume_up</Icon>}
-                </IconButton>}
-                {props.controls}
-            </Stack>
-        </Box>
-    </Provider>
+            <StreamContext.Provider value={props.stream}>
+                <MutedContext.Provider value={{ muted, toggleMuted }}>
+                    {props.controls}
+                </MutedContext.Provider>
+            </StreamContext.Provider>
+        </Stack>
+    </Box>
 }

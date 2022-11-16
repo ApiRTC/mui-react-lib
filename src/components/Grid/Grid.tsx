@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react'
 
 import MuiGrid from '@mui/material/Grid'
+import type { SxProps } from '@mui/material'
 
 export type GridProps = {
-    children: React.ReactNode
+    children: React.ReactNode,
+    sx?: SxProps
 };
-const Grid = ({ children }: GridProps) => {
+const Grid = ({ children, sx }: GridProps) => {
 
     const { arrayChildren, responsive } = useMemo(() => {
         const l_array = React.Children.toArray(children);
@@ -25,7 +27,8 @@ const Grid = ({ children }: GridProps) => {
         return { arrayChildren: l_array, responsive: l_responsive }
     }, [children])
 
-    return <MuiGrid container direction="row" justifyContent="space-around" alignItems="center">
+    return <MuiGrid container direction="row" justifyContent="space-around" alignItems="center"
+        sx={sx}>
         {React.Children.map(arrayChildren, (child, index) => {
             return <MuiGrid item key={index}
                 {...responsive}
