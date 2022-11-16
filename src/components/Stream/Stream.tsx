@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useRef } from 'react'
+import React, { createContext, useEffect, useRef, MouseEventHandler } from 'react'
 
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -17,6 +17,7 @@ export interface StreamProps {
     stream: ApiRtcStream,
     muted?: boolean,
     sinkId?: string,
+    onMouseMove?: (event: React.MouseEvent) => void,
     controls?: React.ReactNode,
     //children?: React.ReactNode //for now 'children' is declared here only to allow parent to put a space or line return in content
 }
@@ -63,6 +64,7 @@ export default function Stream(props: StreamProps) {
         position: 'relative'
     }}>
         <video id={props.stream.getId()} style={{ maxWidth: '100%' }}
+            onMouseMove={props.onMouseMove}
             ref={videoRef}
             muted={muted}></video>
         {props.name && <Chip sx={{

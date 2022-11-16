@@ -1,4 +1,5 @@
 export { AudioEnableButton } from "./AudioEnableButton"
+export { VideoEnableButton } from "./VideoEnableButton"
 export { MuteButton } from "./MuteButton"
 export { SnapshotButton } from "./SnapshotButton"
 export { TorchButton } from "./TorchButton"
