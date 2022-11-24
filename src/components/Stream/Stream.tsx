@@ -15,6 +15,7 @@ export interface StreamProps {
     id?: string,
     name?: string,
     stream: ApiRtcStream,
+    autoPlay?: boolean,
     muted?: boolean,
     sinkId?: string,
     onMouseMove?: (event: React.MouseEvent) => void,
@@ -36,7 +37,6 @@ export default function Stream(props: StreamProps) {
         const ref = videoRef.current;
         if (ref && props.stream) {
             props.stream.attachToElement(videoRef.current)
-            ref.autoplay = true;
             return () => {
                 ref.src = "";
             }
@@ -66,6 +66,7 @@ export default function Stream(props: StreamProps) {
         <video id={props.stream.getId()} style={{ maxWidth: '100%' }}
             onMouseMove={props.onMouseMove}
             ref={videoRef}
+            autoPlay={props.autoPlay}
             muted={muted}></video>
         {props.name && <Chip sx={{
             position: 'absolute',
