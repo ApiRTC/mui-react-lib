@@ -105,6 +105,6 @@ export function AudioEnableButton(props: AudioEnableButtonProps) {
         onClick={toggleAudio}
         onKeyDown={onMicKeyDown} onKeyUp={onMicKeyUp}>
         {/* {stream && stream.isAudioMuted() ? <MicOffIcon /> : <MicIcon />} */}
-        {stream && stream.isAudioMuted() ? <Icon>mic_off</Icon> : <Icon>mic</Icon>}
+        {stream && stream.hasAudio() && !stream.isAudioMuted() ? <Icon>mic</Icon> : <Icon>mic_off</Icon>}
     </IconButton>
 }

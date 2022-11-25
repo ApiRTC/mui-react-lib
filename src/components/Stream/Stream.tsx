@@ -64,10 +64,10 @@ export default function Stream(props: StreamProps) {
         position: 'relative'
     }}>
         <video id={props.stream.getId()} style={{ maxWidth: '100%' }}
-            onMouseMove={props.onMouseMove}
             ref={videoRef}
             autoPlay={props.autoPlay}
-            muted={muted}></video>
+            muted={muted}
+            onMouseMove={props.onMouseMove}></video>
         {props.name && <Chip sx={{
             position: 'absolute',
             top: 4,

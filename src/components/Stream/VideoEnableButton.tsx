@@ -58,6 +58,6 @@ export function VideoEnableButton(props: VideoEnableButtonProps) {
     return <IconButton id='mic' color="primary" aria-label="mic"
         disabled={props.disabled}
         onClick={toggleVideo}>
-        {stream && stream.isVideoMuted() ? <Icon>videocam_off</Icon> : <Icon>videocam</Icon>}
+        {stream && stream.hasVideo() && !stream.isVideoMuted() ? <Icon>videocam</Icon> : <Icon>videocam_off</Icon>}
     </IconButton>
 }
