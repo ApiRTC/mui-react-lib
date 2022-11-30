@@ -34,10 +34,23 @@ import { RemoteStream } from '@apirtc/mui-react-lib'
 
 ## Configure log level
 
-In console, or from web app code:
+Available log levels:
+
+ * **debug**
+ * **info**
+ * **warn**
+ * **error**
+
+from web app code:
 
 ```
-globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled=true
+import { setLogLevel } from '@apirtc/mui-react-lib'
+
+setLogLevel('warn')
 ```
 
-Available LogLevels : isDebugEnabled, isInfoEnabled, isWarnEnabled
+from console:
+
+```
+ApiRtcMuiReactLib.setLogLevel('debug')
+```
