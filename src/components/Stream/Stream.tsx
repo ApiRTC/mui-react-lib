@@ -29,6 +29,9 @@ export default function Stream(props: StreamProps) {
         console.debug(COMPONENT_NAME + "|Rendering")
     }
 
+    // default autoPlay
+    const { autoPlay = true } = props;
+
     const { status: muted, toggleStatus: toggleMuted } = useToggle(props.muted || false);
 
     const videoRef = useRef<HTMLVideoElement>(null)
@@ -36,12 +39,13 @@ export default function Stream(props: StreamProps) {
     useEffect(() => {
         const ref = videoRef.current;
         if (ref && props.stream) {
-            props.stream.attachToElement(videoRef.current)
+            props.stream.attachToElement(ref)
             return () => {
                 ref.src = "";
             }
         }
     }, [props.stream])
+    // No need to put videoRef.current because useRef does not trigger rerender anyways
 
     useEffect(() => {
         const ref = videoRef.current;
@@ -65,7 +69,7 @@ export default function Stream(props: StreamProps) {
     }}>
         <video id={props.stream.getId()} style={{ maxWidth: '100%' }}
             ref={videoRef}
-            autoPlay={props.autoPlay}
+            autoPlay={autoPlay}
             muted={muted}
             onMouseMove={props.onMouseMove}></video>
         {props.name && <Chip sx={{
