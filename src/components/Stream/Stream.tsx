@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useRef, MouseEventHandler } from 'react'
+import React, { createContext, useEffect, useRef } from 'react'
 
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -24,7 +24,7 @@ export interface StreamProps {
     controls?: React.ReactNode,
     videoStyle?: React.CSSProperties,
     sx?: SxProps
-    //children?: React.ReactNode //for now 'children' is declared here only to allow parent to put a space or line return in content
+    //children?: React.ReactNode //for now 'children' is declared here only to allow parent to put a space or line return in content // commented out because we can also use <Stream /> format and it works fine
 }
 const COMPONENT_NAME = "Stream";
 export default function Stream(props: StreamProps) {
@@ -67,9 +67,6 @@ export default function Stream(props: StreamProps) {
 
     return <Box id={props.id} sx={{
         ...props.sx,
-        // display: 'inline-flex',
-        //  justifyContent: 'center',
-        // alignItems: 'center',
         position: 'relative',
     }}>
         <video id={props.stream.getId()}
@@ -80,14 +77,14 @@ export default function Stream(props: StreamProps) {
             onMouseMove={props.onMouseMove}></video>
         {props.name && <Chip sx={{
             position: 'absolute',
-            top: 4,
+            top: 4, left: '50%', transform: 'translate(-50%)', // 4px from top and centered horizontally
             opacity: [0.9, 0.8, 0.7],
             zIndex: 1
         }} label={props.name} color="primary" />}
         <Stack sx={{
             position: 'absolute',
             float: 'right',
-            bottom: 8, right: 8,
+            bottom: 4, right: 4,
             opacity: [0.9, 0.8, 0.7],
             zIndex: 1
         }}>
