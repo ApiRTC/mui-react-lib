@@ -6,6 +6,8 @@ import Stack from '@mui/material/Stack'
 
 import { Stream as ApiRtcStream } from '@apirtc/apirtc'
 
+import type { SxProps } from '@mui/material'
+
 import useToggle from '../../hooks/useToggle'
 
 export const StreamContext = createContext<ApiRtcStream | undefined>(undefined);
@@ -20,6 +22,8 @@ export interface StreamProps {
     sinkId?: string,
     onMouseMove?: (event: React.MouseEvent) => void,
     controls?: React.ReactNode,
+    videoStyle?: React.CSSProperties,
+    sx?: SxProps
     //children?: React.ReactNode //for now 'children' is declared here only to allow parent to put a space or line return in content
 }
 const COMPONENT_NAME = "Stream";
@@ -62,12 +66,14 @@ export default function Stream(props: StreamProps) {
     }, [props.sinkId])
 
     return <Box id={props.id} sx={{
-        display: 'inline-flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'relative'
+        ...props.sx,
+        // display: 'inline-flex',
+        //  justifyContent: 'center',
+        // alignItems: 'center',
+        position: 'relative',
     }}>
-        <video id={props.stream.getId()} style={{ maxWidth: '100%' }}
+        <video id={props.stream.getId()}
+            style={{ maxWidth: '100%', ...props.videoStyle }}
             ref={videoRef}
             autoPlay={autoPlay}
             muted={muted}

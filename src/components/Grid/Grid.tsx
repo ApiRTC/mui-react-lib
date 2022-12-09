@@ -27,8 +27,11 @@ const Grid = ({ children, sx }: GridProps) => {
         return { arrayChildren: l_array, responsive: l_responsive }
     }, [children])
 
-    return <MuiGrid container direction="row" justifyContent="space-around" alignItems="center"
-        sx={sx}>
+    return <MuiGrid container
+        sx={sx}
+        direction="row"
+        justifyContent="space-around"
+        alignItems="center">
         {React.Children.map(arrayChildren, (child, index) => {
             return <MuiGrid item key={index}
                 {...responsive}
