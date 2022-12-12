@@ -24,14 +24,14 @@ Or
 
 ## Components
 
-### RemoteStream
+### Stream
 
 Use it to display any **ApiRTC** remote **Stream**.
 
 ```
-import { RemoteStream } from '@apirtc/mui-react-lib'
+import { Stream } from '@apirtc/mui-react-lib'
 
-<RemoteStream stream={stream}></RemoteStream>
+<Stream stream={stream}></Stream>
 ```
 
 ## Configure log level
@@ -54,5 +54,7 @@ setLogLevel('warn')
 from console:
 
 ```
-ApiRtcMuiReactLib.setLogLevel('debug')
+setApirtcMuiReactLibLogLevel('debug')
 ```
+
+[//]: # (ApiRtcMuiReactLib.setLogLevel('debug')) if loaded as umd package
