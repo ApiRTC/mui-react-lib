@@ -30,7 +30,7 @@ export function VideoEnableButton(props: VideoEnableButtonProps) {
                 console.debug(COMPONENT_NAME + "|onVideoFlowStatusChanged", stream, mediaStreamTrackFlowStatus, stream.isVideoMuted())
                 //}
                 forceUpdate()
-            }
+            };
             stream.on('videoFlowStatusChanged', onVideoFlowStatusChanged)
             stream.on('remoteVideoFlowStatusChanged', onVideoFlowStatusChanged)
             return () => {

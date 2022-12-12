@@ -61,7 +61,7 @@ export function AudioEnableButton(props: AudioEnableButtonProps) {
                     console.debug(COMPONENT_NAME + "|onAudioFlowStatusChanged", stream, mediaStreamTrackFlowStatus, stream.isAudioMuted())
                 }
                 forceUpdate()
-            }
+            };
             stream.on('audioFlowStatusChanged', onAudioFlowStatusChanged)
             stream.on('remoteAudioFlowStatusChanged', onAudioFlowStatusChanged)
             return () => {
