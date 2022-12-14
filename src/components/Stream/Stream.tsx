@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useRef } from 'react'
+import React, { createContext, useEffect, useRef, useState } from 'react'
 
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -13,6 +13,11 @@ import useToggle from '../../hooks/useToggle'
 export const StreamContext = createContext<ApiRtcStream | undefined>(undefined);
 export const MutedContext = createContext<{ muted: boolean; toggleMuted: () => void; }>({ muted: false, toggleMuted: () => { } });
 
+const speakingBorder = {
+    border: 1,
+    borderColor: 'primary.main'
+}
+
 export interface StreamProps {
     id?: string,
     name?: string,
@@ -23,7 +28,8 @@ export interface StreamProps {
     onMouseMove?: (event: React.MouseEvent) => void,
     controls?: React.ReactNode,
     videoStyle?: React.CSSProperties,
-    sx?: SxProps
+    sx?: SxProps,
+    detectSpeaking?: boolean
     //children?: React.ReactNode //for now 'children' is declared here only to allow parent to put a space or line return in content // commented out because we can also use <Stream /> format and it works fine
 }
 const COMPONENT_NAME = "Stream";
@@ -34,9 +40,11 @@ export default function Stream(props: StreamProps) {
     }
 
     // default autoPlay
-    const { autoPlay = true } = props;
+    const { autoPlay = true, detectSpeaking = false } = props;
 
     const { status: muted, toggleStatus: toggleMuted } = useToggle(props.muted || false);
+
+    const [isSpeaking, setSpeaking] = useState(false);
 
     //const audioRef = useRef<HTMLAudioElement>(null)
     const videoRef = useRef<HTMLVideoElement>(null)
@@ -52,6 +60,26 @@ export default function Stream(props: StreamProps) {
         }
     }, [props.stream])
     // No need to put videoRef.current because useRef does not trigger rerender anyways
+
+    useEffect(() => {
+        // TODO: NOT WORKING => Backlog Fred
+        // need to activate per (remote) stream the detection for that particular stream
+        // so that this component would register event listener only if detection is required
+        //
+        if (props.stream && detectSpeaking) {
+            const on_audioAmplitude = (amplitudeInfo: any) => {
+                // { "amplitude": 102.36, "isSpeaking": true }
+                setSpeaking(amplitudeInfo.isSpeaking)
+            };
+            props.stream.on('audioAmplitude', on_audioAmplitude)
+            // TODO: call method to enable speaker detection
+            //props.stream.enable
+            return () => {
+                // TODO: call method to disable speaker detection
+                props.stream.removeListener('audioAmplitude', on_audioAmplitude)
+            }
+        }
+    }, [props.stream, detectSpeaking])
 
     useEffect(() => {
         //const ref = audioRef ?? videoRef;
@@ -71,6 +99,7 @@ export default function Stream(props: StreamProps) {
     return <Box id={props.id} sx={{
         ...props.sx,
         position: 'relative',
+        ...isSpeaking && speakingBorder
     }}>
         {/* {props.stream.hasVideo() ? */}
         <video id={props.stream.getId()}
