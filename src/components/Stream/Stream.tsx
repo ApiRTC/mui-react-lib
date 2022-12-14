@@ -38,27 +38,30 @@ export default function Stream(props: StreamProps) {
 
     const { status: muted, toggleStatus: toggleMuted } = useToggle(props.muted || false);
 
+    //const audioRef = useRef<HTMLAudioElement>(null)
     const videoRef = useRef<HTMLVideoElement>(null)
 
     useEffect(() => {
-        const ref = videoRef.current;
-        if (ref && props.stream) {
-            props.stream.attachToElement(ref)
+        //const ref = audioRef ?? videoRef;
+        const htmlMediaElement = videoRef?.current as any;
+        if (htmlMediaElement && props.stream) {
+            props.stream.attachToElement(htmlMediaElement)
             return () => {
-                ref.src = "";
+                htmlMediaElement.src = "";
             }
         }
     }, [props.stream])
     // No need to put videoRef.current because useRef does not trigger rerender anyways
 
     useEffect(() => {
-        const ref = videoRef.current;
-        if (ref && props.sinkId) {
+        //const ref = audioRef ?? videoRef;
+        const htmlMediaElement = videoRef?.current as any;
+        if (htmlMediaElement && props.sinkId) {
             // As of today 2022/11 setSinkId does not exist on HtmlMediaElement
             // while described on https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/setSinkId
             // It is not supported on Firefox.
             // To bypass typescript check, go through any
-            const htmlMediaElement = ref as any;
+            //const htmlMediaElement = ref as any;
             if (htmlMediaElement.setSinkId) {
                 htmlMediaElement.setSinkId(props.sinkId)
             }
@@ -69,12 +72,18 @@ export default function Stream(props: StreamProps) {
         ...props.sx,
         position: 'relative',
     }}>
+        {/* {props.stream.hasVideo() ? */}
         <video id={props.stream.getId()}
             style={{ maxWidth: '100%', ...props.videoStyle }}
             ref={videoRef}
-            autoPlay={autoPlay}
-            muted={muted}
+            autoPlay={autoPlay} muted={muted}
             onMouseMove={props.onMouseMove}></video>
+        {/* : (props.stream.hasAudio() ? */}
+        {/* <audio id={props.stream.getId()} controls
+                ref={audioRef}
+                autoPlay={autoPlay} muted={muted}>
+            </audio>  */}
+        {/* : <span>{props.stream.getId()}</span>)} */}
         {props.name && <Chip sx={{
             position: 'absolute',
             top: 4, left: '50%', transform: 'translate(-50%)', // 4px from top and centered horizontally
