@@ -41,5 +41,5 @@ const Grid = ({ children, sx }: GridProps) => {
             </MuiGrid>
         })}
     </MuiGrid>
-}
+};
 export default Grid;
