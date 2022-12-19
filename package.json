@@ -19,7 +19,7 @@
     "material-ui"
   ],
   "author": "Kevin Moyse",
-  "license": "ISC",
+  "license": "MIT",
   "peerDependencies": {
     "@apirtc/apirtc": "^4.7.8",
     "@emotion/react": "^11.10.5",
