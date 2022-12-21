@@ -1,6 +1,6 @@
 {
   "name": "@apirtc/mui-react-lib",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "mui/react library for apirtc",
   "main": "dist/esm/index.js",
   "module": "dist/esm/index.js",
@@ -21,7 +21,7 @@
   "author": "Kevin Moyse",
   "license": "MIT",
   "peerDependencies": {
-    "@apirtc/apirtc": "^4.7.8",
+    "@apirtc/apirtc": "^5.0.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.10.12",
