@@ -14,13 +14,13 @@ in index.html <head> to make Icon work
 
 ## DEV
 
-`sudo npm link ../m-visio-assist/node_modules/@apirtc/apirtc ../m-visio-assist/node_modules/react ../m-visio-assist/node_modules/@apirtc/react-lib`
+`sudo npm link ../m-visio-assist/node_modules/@apirtc/apirtc ../m-visio-assist/node_modules/react ../m-visio-assist/node_modules/react-dom ../m-visio-assist/node_modules/@apirtc/react-lib`
 
 `sudo npm link ../react-app-ts/node_modules/react`
 
 Or
 
-`sudo npm link ../visio-assisted/node_modules/@apirtc/apirtc ../visio-assisted/node_modules/react ../visio-assisted/node_modules/@apirtc/react-lib`
+`sudo npm link ../visio-assisted/node_modules/@apirtc/apirtc ../visio-assisted/node_modules/react ../visio-assisted/node_modules/react-dom ../visio-assisted/node_modules/@apirtc/react-lib`
 
 ## Components
 
