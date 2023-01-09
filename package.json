@@ -20,6 +20,10 @@
   ],
   "author": "Kevin Moyse",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ApiRTC/mui-react-lib"
+  },
   "peerDependencies": {
     "@apirtc/apirtc": "^5.0.0",
     "@emotion/react": "^11.10.5",
