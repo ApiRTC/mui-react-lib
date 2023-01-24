@@ -16,7 +16,7 @@ export const MutedContext = createContext<{ muted: boolean; toggleMuted: () => v
 const speakingBorder = {
     border: 1,
     borderColor: 'primary.main'
-}
+};
 
 export interface StreamProps {
     id?: string,
@@ -47,7 +47,7 @@ export default function Stream(props: StreamProps) {
     const [isSpeaking, setSpeaking] = useState(false);
 
     //const audioRef = useRef<HTMLAudioElement>(null)
-    const videoRef = useRef<HTMLVideoElement>(null)
+    const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
         //const ref = audioRef ?? videoRef;
