@@ -18,7 +18,7 @@ const speakingBorder = {
     borderColor: 'primary.main'
 };
 
-export interface StreamProps {
+export type StreamProps = {
     id?: string,
     name?: string,
     stream: ApiRtcStream,
@@ -31,7 +31,7 @@ export interface StreamProps {
     sx?: SxProps,
     detectSpeaking?: boolean
     //children?: React.ReactNode //for now 'children' is declared here only to allow parent to put a space or line return in content // commented out because we can also use <Stream /> format and it works fine
-}
+};
 const COMPONENT_NAME = "Stream";
 export default function Stream(props: StreamProps) {
 

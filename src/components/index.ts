@@ -1,2 +1,9 @@
-export { default as Grid } from "./Grid/Grid"
-export { default as Stream, AudioEnableButton, MuteButton, SnapshotButton, TorchButton, VideoEnableButton } from "./Stream"
+export { default as Grid, GridProps } from "./Grid/Grid"
+export {
+    default as Stream, StreamProps,
+    AudioEnableButton, AudioEnableButtonProps,
+    MuteButton, MuteButtonProps,
+    SnapshotButton, SnapshotButtonProps,
+    TorchButton,
+    VideoEnableButton, VideoEnableButtonProps
+} from "./Stream"

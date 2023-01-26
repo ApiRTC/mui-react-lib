@@ -13,16 +13,15 @@ import Icon from '@mui/material/Icon'
 
 import { StreamContext } from './Stream'
 
-export interface AudioEnableButtonProps {
+export type AudioEnableButtonProps = {
     disabled?: boolean
-}
+};
 const COMPONENT_NAME = "AudioEnableButton";
 export function AudioEnableButton(props: AudioEnableButtonProps) {
 
     // Toggling audio on stream is not captured in react state
     // so using forceUpdate when audio is changed will force rendering
-    // based on props.stream.isAudioMuted()
-    // TODO isAudioMuted is not consistent with new function enable/disableAudio
+    // based on props.stream.isAudioEnabled()
     const [, forceUpdate] = useReducer(x => x + 1, 0);
 
     const stream = useContext(StreamContext);
@@ -58,7 +57,7 @@ export function AudioEnableButton(props: AudioEnableButtonProps) {
         if (stream) {
             const onAudioFlowStatusChanged = (mediaStreamTrackFlowStatus: MediaStreamTrackFlowStatus) => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                    console.debug(COMPONENT_NAME + "|onAudioFlowStatusChanged", stream, mediaStreamTrackFlowStatus, stream.isAudioMuted())
+                    console.debug(COMPONENT_NAME + "|onAudioFlowStatusChanged", stream, mediaStreamTrackFlowStatus, stream.isAudioEnabled())
                 }
                 forceUpdate()
             };
@@ -72,30 +71,36 @@ export function AudioEnableButton(props: AudioEnableButtonProps) {
     }, [stream])
 
     const toggleAudio = () => {
-        if (stream?.isAudioMuted()) {
+        if (stream?.isAudioEnabled()) {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|stream.enableAudio")
+                console.debug(COMPONENT_NAME + "|stream.disableAudio", stream?.isAudioEnabled())
             }
-            stream?.enableAudio()
+            // Note : always set applyRemotely to true so that it is executed
+            // remotely for remote Streams. For local Streams, the boolean is
+            // not used.
+            stream?.disableAudio(true)
         } else {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|stream.disableAudio")
+                console.debug(COMPONENT_NAME + "|stream.enableAudio", stream?.isAudioEnabled())
             }
-            stream?.disableAudio()
+            // Note : always set applyRemotely to true so that it is executed
+            // remotely for remote Streams. For local Streams, the boolean is
+            // not used.
+            stream?.enableAudio(true)
         }
         forceUpdate()
     };
 
     const onMicKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        if (e.key === " " && stream?.isAudioMuted()) {
+        if (e.key === " " && !stream?.isAudioEnabled()) {
             toggleAudio()
         }
     };
 
     const onMicKeyUp = (e: React.KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        if (e.key === " " && !stream?.isAudioMuted()) {
+        if (e.key === " " && stream?.isAudioEnabled()) {
             toggleAudio()
         }
     };
@@ -104,7 +109,6 @@ export function AudioEnableButton(props: AudioEnableButtonProps) {
         disabled={props.disabled}
         onClick={toggleAudio}
         onKeyDown={onMicKeyDown} onKeyUp={onMicKeyUp}>
-        {/* {stream && stream.isAudioMuted() ? <MicOffIcon /> : <MicIcon />} */}
-        {stream && stream.hasAudio() && !stream.isAudioMuted() ? <Icon>mic</Icon> : <Icon>mic_off</Icon>}
+        {stream && stream.hasAudio() && stream.isAudioEnabled() ? <Icon>mic</Icon> : <Icon>mic_off</Icon>}
     </IconButton>
 }

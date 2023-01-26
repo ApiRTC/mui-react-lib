@@ -9,6 +9,7 @@
   ],
   "types": "dist/index.d.ts",
   "scripts": {
+    "prebuild": "rm -rf dist",
     "build": "rollup -c",
     "test": "jest --coverage"
   },
@@ -25,7 +26,7 @@
     "url": "https://github.com/ApiRTC/mui-react-lib"
   },
   "peerDependencies": {
-    "@apirtc/apirtc": "^5.0.0",
+    "@apirtc/apirtc": "^5.0.3-rc.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.10.12",

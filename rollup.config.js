@@ -38,7 +38,7 @@ export default [
                     // 'react/jsx-runtime': 'React.jsx',
                     // '@mui/material': 'MaterialUI',
                     '@apirtc/apirtc': 'apiRTC',
-                    // '@apirtc/react-lib': 'ApiRtcReactLib', commented out because there should NOT be a dependency on it
+                    //'@apirtc/react-lib': 'ApiRtcReactLib', //commented out because there should NOT be a dependency on it
                     '@mui/material/Box': 'MaterialUI.Box',
                     '@mui/material/Chip': 'MaterialUI.Chip',
                     '@mui/material/Grid': 'MaterialUI.Grid',

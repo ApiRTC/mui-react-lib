@@ -7,10 +7,10 @@ import Icon from '@mui/material/Icon'
 
 import { StreamContext } from './Stream'
 
-export interface SnapshotButtonProps {
+export type SnapshotButtonProps = {
     disabled?: boolean,
     onTakeSnapshot: (stream: Stream) => void
-}
+};
 const COMPONENT_NAME = "SnapshotButton";
 export function SnapshotButton(props: SnapshotButtonProps) {
 

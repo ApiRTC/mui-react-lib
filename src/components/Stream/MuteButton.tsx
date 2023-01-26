@@ -5,9 +5,9 @@ import Icon from '@mui/material/Icon'
 
 import { MutedContext } from './Stream'
 
-export interface MuteButtonProps {
+export type MuteButtonProps = {
     disabled?: boolean,
-}
+};
 const COMPONENT_NAME = "MuteButton";
 export function MuteButton(props: MuteButtonProps) {
 

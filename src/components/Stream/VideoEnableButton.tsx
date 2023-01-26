@@ -9,16 +9,15 @@ import Icon from '@mui/material/Icon'
 
 import { StreamContext } from './Stream'
 
-export interface VideoEnableButtonProps {
+export type VideoEnableButtonProps = {
     disabled?: boolean
-}
+};
 const COMPONENT_NAME = "VideoEnableButton";
 export function VideoEnableButton(props: VideoEnableButtonProps) {
 
     // Toggling video on stream is not captured in react state
     // so using forceUpdate when video is changed will force rendering
-    // based on props.stream.isVideoMuted()
-    // TODO isVideoMuted is not consistent with new function enable/disableVideo
+    // based on props.stream.isVideoEnabled()
     const [, forceUpdate] = useReducer(x => x + 1, 0);
 
     const stream = useContext(StreamContext);
@@ -26,9 +25,9 @@ export function VideoEnableButton(props: VideoEnableButtonProps) {
     useEffect(() => {
         if (stream) {
             const onVideoFlowStatusChanged = (mediaStreamTrackFlowStatus: MediaStreamTrackFlowStatus) => {
-                //if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|onVideoFlowStatusChanged", stream, mediaStreamTrackFlowStatus, stream.isVideoMuted())
-                //}
+                if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
+                    console.debug(COMPONENT_NAME + "|onVideoFlowStatusChanged", stream, mediaStreamTrackFlowStatus, stream.isVideoEnabled())
+                }
                 forceUpdate()
             };
             stream.on('videoFlowStatusChanged', onVideoFlowStatusChanged)
@@ -41,16 +40,22 @@ export function VideoEnableButton(props: VideoEnableButtonProps) {
     }, [stream])
 
     const toggleVideo = () => {
-        if (stream?.isVideoMuted()) {
+        if (stream?.isVideoEnabled()) {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|stream.enableVideo")
+                console.debug(COMPONENT_NAME + "|stream.disableVideo", stream?.isVideoEnabled())
             }
-            stream?.enableVideo()
+            // Note : always set applyRemotely to true so that it is executed
+            // remotely for remote Streams. For local Streams, the boolean is
+            // not used.
+            stream?.disableVideo(true)
         } else {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|stream.disableVideo")
+                console.debug(COMPONENT_NAME + "|stream.enableVideo", stream?.isVideoEnabled())
             }
-            stream?.disableVideo()
+            // Note : always set applyRemotely to true so that it is executed
+            // remotely for remote Streams. For local Streams, the boolean is
+            // not used.
+            stream?.enableVideo(true)
         }
         forceUpdate()
     };
@@ -58,6 +63,6 @@ export function VideoEnableButton(props: VideoEnableButtonProps) {
     return <IconButton id='mic' color="primary" aria-label="mic"
         disabled={props.disabled}
         onClick={toggleVideo}>
-        {stream && stream.hasVideo() && !stream.isVideoMuted() ? <Icon>videocam</Icon> : <Icon>videocam_off</Icon>}
+        {stream && stream.hasVideo() && stream.isVideoEnabled() ? <Icon>videocam</Icon> : <Icon>videocam_off</Icon>}
     </IconButton>
 }
