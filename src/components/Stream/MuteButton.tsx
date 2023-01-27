@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 
-import IconButton from '@mui/material/IconButton'
-import Icon from '@mui/material/Icon'
+import Icon from '@mui/material/Icon';
+import IconButton from '@mui/material/IconButton';
 
-import { MutedContext } from './Stream'
+import { MutedContext } from './Stream';
 
 export type MuteButtonProps = {
     disabled?: boolean,

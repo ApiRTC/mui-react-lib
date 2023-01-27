@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 
 import { Stream } from '@apirtc/apirtc'
 
-import IconButton from '@mui/material/IconButton'
 import Icon from '@mui/material/Icon'
+import IconButton from '@mui/material/IconButton'
 
 import { StreamContext } from './Stream'
 

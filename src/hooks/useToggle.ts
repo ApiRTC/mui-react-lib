@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react"
+import { useCallback, useMemo, useState } from "react";
 
 const useToggle = (initialStatus: boolean) => {
   const [status, setStatus] = useState(initialStatus);

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { MediaTrackVideoConstraints, MediaStreamSettings } from '@apirtc/apirtc'
+import { MediaStreamSettings, MediaTrackVideoConstraints } from '@apirtc/apirtc'
 
 import IconButton from '@mui/material/IconButton'
 // import FlashlightOffIcon from '@mui/icons-material/FlashlightOff'

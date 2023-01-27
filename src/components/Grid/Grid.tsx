@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
+import React, { useMemo } from 'react';
 
-import MuiGrid from '@mui/material/Grid'
-import type { SxProps } from '@mui/material'
+import type { SxProps } from '@mui/material';
+import MuiGrid from '@mui/material/Grid';
 
 export type GridProps = {
     children: React.ReactNode,

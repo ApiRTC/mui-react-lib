@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useReducer } from 'react'
 
 import { MediaStreamTrackFlowStatus } from '@apirtc/apirtc'
 
-import IconButton from '@mui/material/IconButton'
 import Icon from '@mui/material/Icon'
+import IconButton from '@mui/material/IconButton'
 // Note to let Icon work, you have to have
 // <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" /> in <head>
 
