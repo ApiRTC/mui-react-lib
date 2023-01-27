@@ -78,7 +78,11 @@ export function AudioEnableButton(props: AudioEnableButtonProps) {
             // Note : always set applyRemotely to true so that it is executed
             // remotely for remote Streams. For local Streams, the boolean is
             // not used.
-            stream?.disableAudio(true)
+            stream?.disableAudio(true).catch((reason: any) => {
+                if (globalThis.apirtcMuiReactLibLogLevel.isWarnEnabled) {
+                    console.warn(COMPONENT_NAME + "|stream.disableAudio failed", reason)
+                }
+            })
         } else {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
                 console.debug(COMPONENT_NAME + "|stream.enableAudio", stream?.isAudioEnabled())
@@ -86,7 +90,11 @@ export function AudioEnableButton(props: AudioEnableButtonProps) {
             // Note : always set applyRemotely to true so that it is executed
             // remotely for remote Streams. For local Streams, the boolean is
             // not used.
-            stream?.enableAudio(true)
+            stream?.enableAudio(true).catch((reason: any) => {
+                if (globalThis.apirtcMuiReactLibLogLevel.isWarnEnabled) {
+                    console.warn(COMPONENT_NAME + "|stream.enableAudio failed", reason)
+                }
+            })
         }
         forceUpdate()
     };

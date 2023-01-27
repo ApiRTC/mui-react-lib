@@ -47,7 +47,11 @@ export function VideoEnableButton(props: VideoEnableButtonProps) {
             // Note : always set applyRemotely to true so that it is executed
             // remotely for remote Streams. For local Streams, the boolean is
             // not used.
-            stream?.disableVideo(true)
+            stream?.disableVideo(true).catch((reason: any) => {
+                if (globalThis.apirtcMuiReactLibLogLevel.isWarnEnabled) {
+                    console.warn(COMPONENT_NAME + "|stream.disableVideo failed", reason)
+                }
+            })
         } else {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
                 console.debug(COMPONENT_NAME + "|stream.enableVideo", stream?.isVideoEnabled())
@@ -55,7 +59,11 @@ export function VideoEnableButton(props: VideoEnableButtonProps) {
             // Note : always set applyRemotely to true so that it is executed
             // remotely for remote Streams. For local Streams, the boolean is
             // not used.
-            stream?.enableVideo(true)
+            stream?.enableVideo(true).catch((reason: any) => {
+                if (globalThis.apirtcMuiReactLibLogLevel.isWarnEnabled) {
+                    console.warn(COMPONENT_NAME + "|stream.enableVideo failed", reason)
+                }
+            })
         }
         forceUpdate()
     };
