@@ -49,12 +49,28 @@ export default function Stream(props: StreamProps) {
     //const audioRef = useRef<HTMLAudioElement>(null)
     const videoRef = useRef<HTMLVideoElement>(null);
 
+    // const [displayVideo, setDisplayVideo] = useState(false);
+    // useEffect(() => {
+    //     if (props.stream && props.stream.hasVideo()) {
+    //         setDisplayVideo(true)
+    //         return () => {
+    //             setDisplayVideo(false)
+    //         }
+    //     }
+    // }, [props.stream])
+
     useEffect(() => {
         //const ref = audioRef ?? videoRef;
         const htmlMediaElement = videoRef?.current as any;
-        if (htmlMediaElement && props.stream) {
+        if (props.stream && htmlMediaElement) {
+            if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
+                console.debug(COMPONENT_NAME + "|useEffect stream", htmlMediaElement, props.stream)
+            }
             props.stream.attachToElement(htmlMediaElement)
             return () => {
+                if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
+                    console.debug(COMPONENT_NAME + "|useEffect stream destroy")
+                }
                 htmlMediaElement.src = "";
             }
         }
@@ -107,7 +123,6 @@ export default function Stream(props: StreamProps) {
             ref={videoRef}
             autoPlay={autoPlay} muted={muted}
             onMouseMove={props.onMouseMove}></video>
-        {/* : (props.stream.hasAudio() ? */}
         {/* <audio id={props.stream.getId()} controls
                 ref={audioRef}
                 autoPlay={autoPlay} muted={muted}>
