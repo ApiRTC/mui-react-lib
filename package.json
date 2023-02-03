@@ -1,6 +1,6 @@
 {
   "name": "@apirtc/mui-react-lib",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "mui/react ui components library for ApiRTC",
   "main": "dist/esm/index.js",
   "module": "dist/esm/index.js",
