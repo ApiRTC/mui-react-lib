@@ -12,28 +12,18 @@ also you will need to install
 
 in index.html <head> to make Icon work 
 
-## DEV
-
-`sudo npm link $HOME/reactworkspace/m-visio-assist/node_modules/@apirtc/apirtc $HOME/reactworkspace/m-visio-assist/node_modules/react --force`
-
-`sudo npm link ../react-app-ts/node_modules/react`
-
-`ln -s $HOME/reactworkspace/m-visio-assist/node_modules/react node_modules/react`
-
-Or
-
-`sudo npm link $HOME/reactworkspace/visio-assisted/node_modules/@apirtc/apirtc $HOME/reactworkspace/visio-assisted/node_modules/react --force`
-
 ## Components
 
 ### Stream
 
-Use it to display any **ApiRTC** remote **Stream**.
+Use it to display any **ApiRTC** remote **Stream**. Example:
 
-```
+```tsx
 import { Stream } from '@apirtc/mui-react-lib'
 
-<Stream stream={stream}></Stream>
+<Stream stream={stream}
+        muted={false}
+        controls={<><MuteButton /></>}/>
 ```
 
 ## Configure log level
@@ -47,7 +37,7 @@ Available log levels:
 
 from web app code:
 
-```
+```ts
 import { setLogLevel } from '@apirtc/mui-react-lib'
 
 setLogLevel('warn')
@@ -55,8 +45,6 @@ setLogLevel('warn')
 
 from console:
 
-```
+```js
 setApirtcMuiReactLibLogLevel('debug')
 ```
-
-[//]: # (ApiRtcMuiReactLib.setLogLevel('debug')) if loaded as umd package
