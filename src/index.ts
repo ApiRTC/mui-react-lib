@@ -1,5 +1,6 @@
 export * from './components'
 export * from './hooks'
+export * from './locale/frFR'
 
 export type LogLevel = {
     level: 'debug' | 'info' | 'warn' | 'error'
