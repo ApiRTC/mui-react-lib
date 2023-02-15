@@ -18,6 +18,7 @@ import { StreamContext } from './Stream'
 export type AudioEnableButtonProps = {
     id?: string,
     disabled?: boolean,
+    ariaLabel?: string,
     enabledTooltip?: string,
     disabledTooltip?: string
 };
@@ -26,6 +27,7 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
 
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
     const { id = "audio-enable-btn",
+        ariaLabel = "enable or disable audio",
         enabledTooltip = "Audio enabled, click to disable",
         disabledTooltip = "Audio disabled, click to enable" } = props;
 
@@ -124,7 +126,7 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
     };
 
     return <Tooltip title={stream && stream.hasAudio() && stream.isAudioEnabled() ? enabledTooltip : disabledTooltip}>
-        <IconButton id={id} color="primary" aria-label="audio enable"
+        <IconButton id={id} color="primary" aria-label={ariaLabel}
             disabled={props.disabled}
             onClick={toggleAudio}
             onKeyDown={onMicKeyDown} onKeyUp={onMicKeyUp}>
