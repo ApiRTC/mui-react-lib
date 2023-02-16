@@ -2,10 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 
 import { MediaStreamSettings, MediaTrackVideoConstraints } from '@apirtc/apirtc'
 
-import IconButton from '@mui/material/IconButton'
-// import FlashlightOffIcon from '@mui/icons-material/FlashlightOff'
-// import FlashlightOnIcon from '@mui/icons-material/FlashlightOn'
 import Icon from '@mui/material/Icon'
+import IconButton from '@mui/material/IconButton'
 
 import { StreamContext } from './Stream'
 

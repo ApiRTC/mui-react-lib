@@ -9,8 +9,8 @@ import { Stream as ApiRtcStream } from '@apirtc/apirtc'
 
 import useToggle from '../../hooks/useToggle'
 
-export const StreamContext = createContext<{ stream: ApiRtcStream | undefined, muted: boolean; toggleMuted: () => void; }>({ stream: undefined, muted: false, toggleMuted: () => { } });
-//export const MutedContext = createContext<{ muted: boolean; toggleMuted: () => void; }>({ muted: false, toggleMuted: () => { } });
+export const StreamContext = createContext<{ stream: ApiRtcStream | undefined, muted: boolean; toggleMuted: () => void; }>(
+    { stream: undefined, muted: false, toggleMuted: () => { } });
 
 const speakingBorder = {
     border: 1,

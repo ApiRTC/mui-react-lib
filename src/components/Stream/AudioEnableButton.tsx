@@ -41,33 +41,6 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
     const { stream } = useContext(StreamContext);
 
     useEffect(() => {
-        // props.stream.getCapabilities().then(capabilities => {
-        //     if (globalThis.apirtcMuiReactLibLogLevel.isInfoEnabled) {
-        //         console.info(COMPONENT_NAME + "|stream.getCapabilities", props.stream, capabilities)
-        //     }
-        // }).catch((error: any) => {
-        //     if (globalThis.apirtcMuiReactLibLogLevel.isWarnEnabled) {
-        //         console.warn(COMPONENT_NAME + "|stream.getCapabilities", props.stream, error)
-        //     }
-        // })
-        // props.stream.getConstraints().then(obj => {
-        //     if (globalThis.apirtcMuiReactLibLogLevel.isInfoEnabled) {
-        //         console.info(COMPONENT_NAME + "|stream.getConstraints", props.stream, obj)
-        //     }
-        // }).catch((error: any) => {
-        //     if (globalThis.apirtcMuiReactLibLogLevel.isWarnEnabled) {
-        //         console.warn(COMPONENT_NAME + "|stream.getConstraints", props.stream, error)
-        //     }
-        // })
-
-        // TODO APIRTC: should be triggered both when remote as enabled/disabled audio and when
-        // we (as a subscriber) request enable/disable on the remote.
-        // Event is only triggered here when the subscriber makes the enable/disable, but neither enabled or muted values from mediaStreamTrackFlowStatus change,
-        // and also props.stream.isAudioMuted() is not updated (always returns false), despite the sound is actually disabled
-        // => Opened JIRA https://apizee.atlassian.net/browse/APIRTC-1162
-        // 
-        // Also listen to remoteAudioFlowStatusChanged helps to reflect locally the change made from the remote on his (local) stream
-        // but there is still a problem when the change it triggered on a remote stream
         if (stream) {
             const onAudioFlowStatusChanged = (mediaStreamTrackFlowStatus: MediaStreamTrackFlowStatus) => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
@@ -126,7 +99,7 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
             toggleAudio()
         }
     };
-    
+
     return <Tooltip title={stream && stream.hasAudio() && stream.isAudioEnabled() ? enabledTooltip : disabledTooltip}>
         <IconButton id={id} key={id} color={color} aria-label={ariaLabel}
             disabled={props.disabled}

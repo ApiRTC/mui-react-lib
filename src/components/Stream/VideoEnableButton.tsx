@@ -6,8 +6,6 @@ import Icon from '@mui/material/Icon'
 import IconButton from '@mui/material/IconButton'
 import { useThemeProps } from '@mui/material/styles'
 import Tooltip from '@mui/material/Tooltip'
-// Note to let Icon work, you have to have
-// <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" /> in <head>
 
 import { StreamContext } from './Stream'
 
