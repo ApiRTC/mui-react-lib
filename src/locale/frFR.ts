@@ -9,5 +9,12 @@ export const frFR: Localization = {
                 disabledTooltip: "Audio désactivé, cliquer pour activer"
             }
         },
+        ApiRtcMuiReactLibVideoEnableButton: {
+            defaultProps: {
+                ariaLabel: "activer ou désactiver la vidéo",
+                enabledTooltip: "Vidéo activée, cliquer pour désactiver",
+                disabledTooltip: "Vidéo désactivée, cliquer pour activer"
+            }
+        },
     }
 };

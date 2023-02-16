@@ -1,17 +1,16 @@
 import React, { createContext, useEffect, useRef, useState } from 'react'
 
+import type { SxProps } from '@mui/material'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 
 import { Stream as ApiRtcStream } from '@apirtc/apirtc'
 
-import type { SxProps } from '@mui/material'
-
 import useToggle from '../../hooks/useToggle'
 
-export const StreamContext = createContext<ApiRtcStream | undefined>(undefined);
-export const MutedContext = createContext<{ muted: boolean; toggleMuted: () => void; }>({ muted: false, toggleMuted: () => { } });
+export const StreamContext = createContext<{ stream: ApiRtcStream | undefined, muted: boolean; toggleMuted: () => void; }>({ stream: undefined, muted: false, toggleMuted: () => { } });
+//export const MutedContext = createContext<{ muted: boolean; toggleMuted: () => void; }>({ muted: false, toggleMuted: () => { } });
 
 const speakingBorder = {
     border: 1,
@@ -112,11 +111,12 @@ export default function Stream(props: StreamProps) {
         }
     }, [props.sinkId])
 
-    return <Box id={props.id} sx={{
-        ...props.sx,
-        position: 'relative',
-        ...isSpeaking && speakingBorder
-    }}>
+    return <Box id={props.id}
+        sx={{
+            ...props.sx,
+            position: 'relative',
+            ...isSpeaking && speakingBorder
+        }}>
         {/* {props.stream.hasVideo() ? */}
         <video id={props.stream.getId()}
             style={{ maxWidth: '100%', ...props.videoStyle }}
@@ -141,10 +141,8 @@ export default function Stream(props: StreamProps) {
             opacity: [0.9, 0.8, 0.7],
             zIndex: 1
         }}>
-            <StreamContext.Provider value={props.stream}>
-                <MutedContext.Provider value={{ muted, toggleMuted }}>
-                    {props.controls}
-                </MutedContext.Provider>
+            <StreamContext.Provider value={{ stream: props.stream, muted, toggleMuted }}>
+                {props.controls}
             </StreamContext.Provider>
         </Stack>
     </Box>

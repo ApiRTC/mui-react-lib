@@ -9,10 +9,19 @@ import Icon from '@mui/material/Icon'
 
 import { StreamContext } from './Stream'
 
-const COMPONENT_NAME = "TorchButton";
-export function TorchButton() {
+export type TorchButtonProps = {
+    id?: string,
+    color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning" | undefined,
+    disabled?: boolean,
+    ariaLabel?: string,
+};
 
-    const stream = useContext(StreamContext);
+const COMPONENT_NAME = "TorchButton";
+export function TorchButton(inProps: TorchButtonProps) {
+
+    const { id = "torch-btn", color = "primary", ariaLabel = "torch" } = inProps;
+
+    const { stream } = useContext(StreamContext);
 
     const [torch, setTorch] = useState<boolean>(false);
 
@@ -78,7 +87,9 @@ export function TorchButton() {
         }
     };
 
-    return <IconButton id='torch' color="primary" aria-label="torch" onClick={onToggleTorch}>
+    return <IconButton id={id} color={color} aria-label={ariaLabel}
+        disabled={inProps.disabled}
+        onClick={onToggleTorch}>
         {/* {torch ? <FlashlightOffIcon /> : <FlashlightOnIcon />} */}
         {torch ? <Icon>flashlight_off</Icon> : <Icon>flashlight_on</Icon>}
     </IconButton>

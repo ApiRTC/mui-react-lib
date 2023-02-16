@@ -45,6 +45,8 @@ export default [
                     '@mui/material/Icon': 'MaterialUI.Icon',
                     '@mui/material/IconButton': 'MaterialUI.IconButton',
                     '@mui/material/Stack': 'MaterialUI.Stack',
+                    '@mui/material/Tooltip': 'MaterialUI.Tooltip',
+                    '@mui/material/styles': 'MaterialUI',
                     // '@mui/material/utils': 'MaterialUI.utils',
                     // '@mui/icons-material/Mic (guessing 'MicIcon')
                     // '@mui/icons-material/MicOff (guessing 'MicOffIcon')

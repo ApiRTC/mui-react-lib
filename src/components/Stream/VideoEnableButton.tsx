@@ -4,23 +4,37 @@ import { MediaStreamTrackFlowStatus } from '@apirtc/apirtc'
 
 import Icon from '@mui/material/Icon'
 import IconButton from '@mui/material/IconButton'
+import { useThemeProps } from '@mui/material/styles'
+import Tooltip from '@mui/material/Tooltip'
 // Note to let Icon work, you have to have
 // <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" /> in <head>
 
 import { StreamContext } from './Stream'
 
 export type VideoEnableButtonProps = {
-    disabled?: boolean
+    id?: string,
+    color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning" | undefined,
+    disabled?: boolean,
+    ariaLabel?: string,
+    enabledTooltip?: string,
+    disabledTooltip?: string
 };
 const COMPONENT_NAME = "VideoEnableButton";
-export function VideoEnableButton(props: VideoEnableButtonProps) {
+export function VideoEnableButton(inProps: VideoEnableButtonProps) {
+
+    const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
+    const { id = "video-enable-btn",
+        color = "primary",
+        ariaLabel = "enable or disable video",
+        enabledTooltip = "Video enabled, click to disable",
+        disabledTooltip = "Video disabled, click to enable" } = props;
 
     // Toggling video on stream is not captured in react state
     // so using forceUpdate when video is changed will force rendering
     // based on props.stream.isVideoEnabled()
     const [, forceUpdate] = useReducer(x => x + 1, 0);
 
-    const stream = useContext(StreamContext);
+    const { stream } = useContext(StreamContext);
 
     useEffect(() => {
         if (stream) {
@@ -68,9 +82,11 @@ export function VideoEnableButton(props: VideoEnableButtonProps) {
         forceUpdate()
     };
 
-    return <IconButton id='mic' color="primary" aria-label="mic"
-        disabled={props.disabled}
-        onClick={toggleVideo}>
-        {stream && stream.hasVideo() && stream.isVideoEnabled() ? <Icon>videocam</Icon> : <Icon>videocam_off</Icon>}
-    </IconButton>
+    return <Tooltip title={stream && stream.hasVideo() && stream.isVideoEnabled() ? enabledTooltip : disabledTooltip}>
+        <IconButton id={id} key={id} color={color} aria-label={ariaLabel}
+            disabled={props.disabled}
+            onClick={toggleVideo}>
+            {stream && stream.hasVideo() && stream.isVideoEnabled() ? <Icon>videocam</Icon> : <Icon>videocam_off</Icon>}
+        </IconButton>
+    </Tooltip>
 }
