@@ -3,12 +3,17 @@ import React, { useContext } from 'react';
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
 import { StreamContext } from './Stream';
+import Tooltip from '@mui/material/Tooltip';
+import { useThemeProps } from '@mui/material/styles';
 
 export type MuteButtonProps = {
     id?: string,
     color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning" | undefined,
     disabled?: boolean,
     ariaLabel?: string,
+    mutedTooltip?: string,
+    unmutedTooltip?: string,
+    noAudioToolTip?: string
 };
 const COMPONENT_NAME = "MuteButton";
 export function MuteButton(inProps: MuteButtonProps) {
@@ -17,14 +22,23 @@ export function MuteButton(inProps: MuteButtonProps) {
         console.debug(COMPONENT_NAME + "|Rendering")
     }
 
-    const { id = "mute-btn", color = "primary", ariaLabel = "mute" } = inProps;
-    
-    const { muted, toggleMuted } = useContext(StreamContext);
+    const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
+    const { id = "mute-btn", color = "primary", ariaLabel = "mute",
+        mutedTooltip = "Muted", unmutedTooltip = "On",
+        noAudioToolTip = "No Audio" } = props;
 
-    return <IconButton id={id} color={color} aria-label={ariaLabel}
-        disabled={inProps.disabled}
-        onClick={toggleMuted}>
-        {/* {muted ? <VolumeOffIcon /> : <VolumeUpIcon />} */}
-        {muted ? <Icon>volume_off</Icon> : <Icon>volume_up</Icon>}
-    </IconButton>
+    const { stream, muted, toggleMuted } = useContext(StreamContext);
+
+    const title = stream && stream.hasAudio() ? (muted ? mutedTooltip : unmutedTooltip) : noAudioToolTip;
+
+    return <Tooltip title={title}>
+        <span>  {/*required by mui tooltip in case button is disabled */}
+            <IconButton id={id} color={color} aria-label={ariaLabel}
+                disabled={inProps.disabled || (stream && !stream.hasAudio())}
+                onClick={toggleMuted}>
+                {/* {muted ? <VolumeOffIcon /> : <VolumeUpIcon />} */}
+                {muted ? <Icon>volume_off</Icon> : <Icon>volume_up</Icon>}
+            </IconButton>
+        </span>
+    </Tooltip>
 }

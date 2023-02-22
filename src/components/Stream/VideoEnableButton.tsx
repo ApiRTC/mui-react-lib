@@ -15,7 +15,8 @@ export type VideoEnableButtonProps = {
     disabled?: boolean,
     ariaLabel?: string,
     enabledTooltip?: string,
-    disabledTooltip?: string
+    disabledTooltip?: string,
+    noVideoToolTip?: string
 };
 const COMPONENT_NAME = "VideoEnableButton";
 export function VideoEnableButton(inProps: VideoEnableButtonProps) {
@@ -25,7 +26,8 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
         color = "primary",
         ariaLabel = "enable or disable video",
         enabledTooltip = "Video enabled, click to disable",
-        disabledTooltip = "Video disabled, click to enable" } = props;
+        disabledTooltip = "Video disabled, click to enable",
+        noVideoToolTip = "No Video" } = props;
 
     // Toggling video on stream is not captured in react state
     // so using forceUpdate when video is changed will force rendering
@@ -80,11 +82,15 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
         forceUpdate()
     };
 
-    return <Tooltip title={stream && stream.hasVideo() && stream.isVideoEnabled() ? enabledTooltip : disabledTooltip}>
-        <IconButton id={id} key={id} color={color} aria-label={ariaLabel}
-            disabled={props.disabled}
-            onClick={toggleVideo}>
-            {stream && stream.hasVideo() && stream.isVideoEnabled() ? <Icon>videocam</Icon> : <Icon>videocam_off</Icon>}
-        </IconButton>
+    const title = stream && stream.hasVideo() ? (stream.isVideoEnabled() ? enabledTooltip : disabledTooltip) : noVideoToolTip;
+
+    return <Tooltip title={title}>
+        <span> {/*required by mui tooltip in case button is disabled */}
+            <IconButton id={id} key={id} color={color} aria-label={ariaLabel}
+                disabled={props.disabled || (stream && !stream.hasVideo())}
+                onClick={toggleVideo}>
+                {stream && stream.hasVideo() && stream.isVideoEnabled() ? <Icon>videocam</Icon> : <Icon>videocam_off</Icon>}
+            </IconButton>
+        </span>
     </Tooltip>
 }

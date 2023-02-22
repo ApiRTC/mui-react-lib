@@ -21,7 +21,8 @@ export type AudioEnableButtonProps = {
     disabled?: boolean,
     ariaLabel?: string,
     enabledTooltip?: string,
-    disabledTooltip?: string
+    disabledTooltip?: string,
+    noAudioToolTip?: string
 };
 const COMPONENT_NAME = "AudioEnableButton";
 export function AudioEnableButton(inProps: AudioEnableButtonProps) {
@@ -31,7 +32,8 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
         color = "primary",
         ariaLabel = "enable or disable audio",
         enabledTooltip = "Audio enabled, click to disable",
-        disabledTooltip = "Audio disabled, click to enable" } = props;
+        disabledTooltip = "Audio disabled, click to enable",
+        noAudioToolTip = "No Audio" } = props;
 
     // Toggling audio on stream is not captured in react state
     // so using forceUpdate when audio is changed will force rendering
@@ -100,12 +102,16 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
         }
     };
 
-    return <Tooltip title={stream && stream.hasAudio() && stream.isAudioEnabled() ? enabledTooltip : disabledTooltip}>
-        <IconButton id={id} key={id} color={color} aria-label={ariaLabel}
-            disabled={props.disabled}
-            onClick={toggleAudio}
-            onKeyDown={onMicKeyDown} onKeyUp={onMicKeyUp}>
-            {stream && stream.hasAudio() && stream.isAudioEnabled() ? <Icon>mic</Icon> : <Icon>mic_off</Icon>}
-        </IconButton>
+    const title = stream && stream.hasAudio() ? (stream.isAudioEnabled() ? enabledTooltip : disabledTooltip) : noAudioToolTip;
+
+    return <Tooltip title={title}>
+        <span>  {/*required by mui tooltip in case button is disabled */}
+            <IconButton id={id} key={id} color={color} aria-label={ariaLabel}
+                disabled={props.disabled || (stream && !stream.hasAudio())}
+                onClick={toggleAudio}
+                onKeyDown={onMicKeyDown} onKeyUp={onMicKeyUp}>
+                {stream && stream.hasAudio() && stream.isAudioEnabled() ? <Icon>mic</Icon> : <Icon>mic_off</Icon>}
+            </IconButton>
+        </span>
     </Tooltip>
 }
