@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useMemo, useRef } from 'react';
 
 import { Stream } from '@apirtc/apirtc';
 
-import { StreamContext } from './Stream';
+import { StreamContext } from '.';
 
 export type VideoProps = {
     id?: string,

@@ -2,9 +2,10 @@ import React, { useContext } from 'react';
 
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
-import { StreamContext } from './Stream';
-import Tooltip from '@mui/material/Tooltip';
 import { useThemeProps } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
+
+import { StreamContext } from '.';
 
 export type MuteButtonProps = {
     id?: string,

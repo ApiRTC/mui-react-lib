@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import type { SxProps } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -7,9 +7,7 @@ import Stack from '@mui/material/Stack'
 
 import { Stream as ApiRtcStream } from '@apirtc/apirtc'
 import useToggle from '../../hooks/useToggle'
-
-export const StreamContext = createContext<{ stream: ApiRtcStream | undefined, muted: boolean; toggleMuted: () => void; }>(
-    { stream: undefined, muted: false, toggleMuted: () => { } });
+import { StreamContext } from '.'
 
 const speakingBorder = {
     border: 1,
