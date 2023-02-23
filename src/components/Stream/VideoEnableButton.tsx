@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton'
 import { useThemeProps } from '@mui/material/styles'
 import Tooltip from '@mui/material/Tooltip'
 
-import { StreamContext } from './Stream'
+import { StreamContext } from './StreamContext'
 
 export type VideoEnableButtonProps = {
     id?: string,

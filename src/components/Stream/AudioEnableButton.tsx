@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip'
 // Note to let Icon work, you have to have
 // <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" /> in <head>
 
-import { StreamContext } from './Stream'
+import { StreamContext } from './StreamContext'
 
 export type AudioEnableButtonProps = {
     id?: string,

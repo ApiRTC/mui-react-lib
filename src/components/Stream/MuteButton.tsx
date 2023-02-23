@@ -5,7 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import { useThemeProps } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 
-import { StreamContext } from '.';
+import { StreamContext } from './StreamContext';
 
 export type MuteButtonProps = {
     id?: string,

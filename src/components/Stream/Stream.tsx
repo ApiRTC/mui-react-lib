@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack'
 
 import { Stream as ApiRtcStream } from '@apirtc/apirtc'
 import useToggle from '../../hooks/useToggle'
-import { StreamContext } from '.'
+import { StreamContext } from './StreamContext'
 
 const speakingBorder = {
     border: 1,
