@@ -7,8 +7,16 @@ import { StreamContext } from './StreamContext';
 export type VideoProps = {
     id?: string,
     style?: React.CSSProperties,
+    /**
+     * Can be set directly, or be passed through StreamContext.
+     */
     stream?: Stream,
+    /**
+     * @defaultValue true */
     autoPlay?: boolean,
+    /**
+     * Can be set directly, or be passed through StreamContext.
+     * @defaultValue false */
     muted?: boolean,
     sinkId?: string,
     onMouseMove?: (event: React.MouseEvent) => void
