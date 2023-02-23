@@ -6,7 +6,6 @@ import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 
 import { Stream as ApiRtcStream } from '@apirtc/apirtc'
-
 import useToggle from '../../hooks/useToggle'
 
 export const StreamContext = createContext<{ stream: ApiRtcStream | undefined, muted: boolean; toggleMuted: () => void; }>(
@@ -22,60 +21,24 @@ export type StreamProps = {
     name?: string,
     nameColor?: "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning" | undefined,
     stream: ApiRtcStream | undefined,
-    autoPlay?: boolean,
     muted?: boolean,
-    sinkId?: string,
-    onMouseMove?: (event: React.MouseEvent) => void,
     controls?: React.ReactNode,
-    videoStyle?: React.CSSProperties,
     sx?: SxProps,
     detectSpeaking?: boolean
-    //children?: React.ReactNode //for now 'children' is declared here only to allow parent to put a space or line return in content // commented out because we can also use <Stream /> format and it works fine
+    children?: React.ReactNode
 };
 const COMPONENT_NAME = "Stream";
-export default function Stream(props: StreamProps) {
+export function Stream(props: StreamProps) {
 
     if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
         console.debug(COMPONENT_NAME + "|Rendering")
     }
 
-    // default autoPlay
-    const { autoPlay = true, detectSpeaking = false, nameColor = "primary" } = props;
+    const { detectSpeaking = false, nameColor = "primary" } = props;
 
     const { status: muted, toggleStatus: toggleMuted } = useToggle(props.muted || false);
 
     const [isSpeaking, setSpeaking] = useState(false);
-
-    //const audioRef = useRef<HTMLAudioElement>(null)
-    const videoRef = useRef<HTMLVideoElement>(null);
-
-    // const [displayVideo, setDisplayVideo] = useState(false);
-    // useEffect(() => {
-    //     if (props.stream && props.stream.hasVideo()) {
-    //         setDisplayVideo(true)
-    //         return () => {
-    //             setDisplayVideo(false)
-    //         }
-    //     }
-    // }, [props.stream])
-
-    useEffect(() => {
-        //const ref = audioRef ?? videoRef;
-        const htmlMediaElement = videoRef?.current as any;
-        if (props.stream && htmlMediaElement) {
-            if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|useEffect stream", htmlMediaElement, props.stream)
-            }
-            props.stream.attachToElement(htmlMediaElement)
-            return () => {
-                if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                    console.debug(COMPONENT_NAME + "|useEffect stream destroy")
-                }
-                htmlMediaElement.src = "";
-            }
-        }
-    }, [props.stream])
-    // No need to put videoRef.current because useRef does not trigger rerender anyways
 
     useEffect(() => {
         // TODO: NOT WORKING => Backlog Fred
@@ -100,61 +63,32 @@ export default function Stream(props: StreamProps) {
         }
     }, [props.stream, detectSpeaking])
 
-    useEffect(() => {
-        //const ref = audioRef ?? videoRef;
-        const htmlMediaElement = videoRef?.current as any;
-        if (htmlMediaElement && props.sinkId) {
-            // As of today 2022/11 setSinkId does not exist on HtmlMediaElement
-            // while described on https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/setSinkId
-            // It is not supported on Firefox.
-            // To bypass typescript check, go through any
-            //const htmlMediaElement = ref as any;
-            if (htmlMediaElement.setSinkId) {
-                htmlMediaElement.setSinkId(props.sinkId)
-            }
-        }
-    }, [props.sinkId])
-
-    return <>
-        {props.stream &&
-            <Box id={props.id}
-                sx={{
-                    width: 'fit-content',
-                    height: 'fit-content',
-                    ...props.sx,
-                    position: 'relative',
-                    ...isSpeaking && speakingBorder
-                }}
-            >
-                {/* {props.stream.hasVideo() ? */}
-                <video id={props.stream.getId()}
-                    style={{ maxWidth: '100%', display: 'block', ...props.videoStyle }}
-                    ref={videoRef}
-                    autoPlay={autoPlay} muted={muted}
-                    onMouseMove={props.onMouseMove}></video>
-                {/* <audio id={props.stream.getId()} controls
-                ref={audioRef}
-                autoPlay={autoPlay} muted={muted}>
-            </audio>  */}
-                {/* : <span>{props.stream.getId()}</span>)} */}
-                {props.name && <Chip sx={{
-                    position: 'absolute',
-                    top: 4, left: '50%', transform: 'translate(-50%)', // 4px from top and centered horizontally
-                    opacity: [0.9, 0.8, 0.7],
-                    zIndex: 1
-                }} label={props.name} color={nameColor} />}
-                <Stack sx={{
-                    position: 'absolute',
-                    float: 'right',
-                    bottom: 4, right: 4,
-                    opacity: [0.9, 0.8, 0.7],
-                    zIndex: 1
-                }}>
-                    <StreamContext.Provider value={{ stream: props.stream, muted, toggleMuted }}>
-                        {props.controls}
-                    </StreamContext.Provider>
-                </Stack>
-            </Box>
-        }
-    </>
+    return <StreamContext.Provider value={{ stream: props.stream, muted, toggleMuted }}>
+        <Box id={props.id}
+            sx={{
+                width: 'fit-content',
+                height: 'fit-content',
+                ...props.sx,
+                position: 'relative',
+                ...isSpeaking && speakingBorder
+            }}
+        >
+            {props.children}
+            {props.name && <Chip sx={{
+                position: 'absolute',
+                top: 4, left: '50%', transform: 'translate(-50%)', // 4px from top and centered horizontally
+                opacity: [0.9, 0.8, 0.7],
+                zIndex: 1
+            }} label={props.name} color={nameColor} />}
+            <Stack sx={{
+                position: 'absolute',
+                float: 'right',
+                bottom: 4, right: 4,
+                opacity: [0.9, 0.8, 0.7],
+                zIndex: 1
+            }}>
+                {props.controls}
+            </Stack>
+        </Box>
+    </StreamContext.Provider>
 }
