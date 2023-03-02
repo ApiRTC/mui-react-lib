@@ -34,7 +34,7 @@ export function Stream(props: StreamProps) {
 
     const { detectSpeaking = false, nameColor = "primary" } = props;
 
-    const { status: muted, toggleStatus: toggleMuted } = useToggle(props.muted || false);
+    const { value: muted, toggle: toggleMuted } = useToggle(props.muted || false);
 
     const [isSpeaking, setSpeaking] = useState(false);
 
