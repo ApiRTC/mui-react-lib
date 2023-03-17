@@ -7,7 +7,7 @@ export const frFR: Localization = {
                 ariaLabel: "activer ou désactiver l'audio",
                 enabledTooltip: "Audio activé, cliquer pour désactiver",
                 disabledTooltip: "Audio désactivé, cliquer pour activer",
-                noAudioToolTip: "Pas d'audio"
+                noAudioTooltip: "Pas d'audio"
             }
         },
         ApiRtcMuiReactLibMuteButton: {
@@ -15,7 +15,12 @@ export const frFR: Localization = {
                 ariaLabel: "activer ou désactiver le son",
                 mutedTooltip: "Son désactivé, cliquer pour activer",
                 unmutedTooltip: "Son activé, cliquer pour désactiver",
-                noAudioToolTip: "Pas d'audio"
+                noAudioTooltip: "Pas d'audio"
+            }
+        },
+        ApiRtcMuiReactLibVideo: {
+            defaultProps: {
+                videoMutedTooltip: "Video coupée"
             }
         },
         ApiRtcMuiReactLibVideoEnableButton: {
@@ -23,7 +28,7 @@ export const frFR: Localization = {
                 ariaLabel: "activer ou désactiver la vidéo",
                 enabledTooltip: "Vidéo activée, cliquer pour désactiver",
                 disabledTooltip: "Vidéo désactivée, cliquer pour activer",
-                noVideoToolTip: "Pas de Vidéo"
+                noVideoTooltip: "Pas de Vidéo"
             }
         },
     }

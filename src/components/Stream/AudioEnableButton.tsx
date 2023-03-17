@@ -22,7 +22,7 @@ export type AudioEnableButtonProps = {
     ariaLabel?: string,
     enabledTooltip?: string,
     disabledTooltip?: string,
-    noAudioToolTip?: string
+    noAudioTooltip?: string
 };
 const COMPONENT_NAME = "AudioEnableButton";
 export function AudioEnableButton(inProps: AudioEnableButtonProps) {
@@ -33,7 +33,7 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
         ariaLabel = "enable or disable audio",
         enabledTooltip = "Audio enabled, click to disable",
         disabledTooltip = "Audio disabled, click to enable",
-        noAudioToolTip = "No Audio" } = props;
+        noAudioTooltip = "No Audio" } = props;
 
     // Toggling audio on stream is not captured in react state
     // so using forceUpdate when audio is changed will force rendering
@@ -102,7 +102,7 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
         }
     };
 
-    const title = stream && stream.hasAudio() ? (stream.isAudioEnabled() ? enabledTooltip : disabledTooltip) : noAudioToolTip;
+    const title = stream && stream.hasAudio() ? (stream.isAudioEnabled() ? enabledTooltip : disabledTooltip) : noAudioTooltip;
 
     return <Tooltip title={title}>
         <span>  {/*required by mui tooltip in case button is disabled */}

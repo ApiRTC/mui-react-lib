@@ -41,6 +41,7 @@ export default [
                     //'@apirtc/react-lib': 'ApiRtcReactLib', //commented out because there should NOT be a dependency on it
                     '@mui/material/Box': 'MaterialUI.Box',
                     '@mui/material/Chip': 'MaterialUI.Chip',
+                    '@mui/material/CircularProgress': 'MaterialUI.CircularProgress',
                     '@mui/material/Grid': 'MaterialUI.Grid',
                     '@mui/material/Icon': 'MaterialUI.Icon',
                     '@mui/material/IconButton': 'MaterialUI.IconButton',

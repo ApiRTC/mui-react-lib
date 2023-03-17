@@ -1,10 +1,12 @@
-import React, { useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import { MediaStreamTrackFlowStatus, Stream } from '@apirtc/apirtc';
 
-import { StreamContext } from './StreamContext';
-import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useThemeProps } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
+import { StreamContext } from './StreamContext';
 
 export type VideoProps = {
     id?: string,
@@ -21,16 +23,22 @@ export type VideoProps = {
      * @defaultValue false */
     muted?: boolean,
     sinkId?: string,
+    color?: "primary" | "inherit" | "secondary" | "error" | "info" | "success" | "warning",
+    videoMutedTooltip?: string,
     onMouseMove?: (event: React.MouseEvent) => void
 };
 const COMPONENT_NAME = "Video";
-export function Video(props: VideoProps) {
+export function Video(inProps: VideoProps) {
 
     if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
         console.debug(COMPONENT_NAME + "|Rendering")
     }
 
-    const { id = props.stream?.getId(), autoPlay = true } = props;
+    const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
+    const { id = props.stream?.getId(),
+        autoPlay = true,
+        color = "primary",
+        videoMutedTooltip = "Video muted" } = props;
 
     const { stream: ctxStream, muted: ctxMuted = false } = useContext(StreamContext);
     const stream = useMemo(() => props.stream ?? ctxStream, [ctxStream, props.stream]);
@@ -88,13 +96,20 @@ export function Video(props: VideoProps) {
         }
     }, [props.sinkId])
 
-    return <>
-        {videoMuted ? <Box sx={{ height: 200, width: 200 }}
-            display="flex" alignItems="center" justifyContent="center"><CircularProgress /></Box> :
-            <video id={id}
-                style={{ maxWidth: '100%', display: 'block', ...props.style }}
-                ref={videoRef}
-                autoPlay={autoPlay} muted={muted}
-                onMouseMove={props.onMouseMove} />}
-    </>
+    return <Box sx={{ minHeight: 200, minWidth: 200, position: 'relative' }}
+        display="flex" alignItems="center" justifyContent="center">
+        <video id={id}
+            style={{ maxWidth: '100%', display: 'block', ...props.style }}
+            ref={videoRef}
+            autoPlay={autoPlay} muted={muted}
+            onMouseMove={props.onMouseMove} />
+        {videoMuted &&
+            <Tooltip title={videoMutedTooltip}>
+                <CircularProgress sx={{
+                    position: 'absolute',
+                    top: '50%', left: '50%', transform: 'translate(-50%,-50%)', // centered
+                    opacity: [0.9, 0.8, 0.7],
+                    zIndex: 1
+                }} color={color} /></Tooltip>}
+    </Box>
 }

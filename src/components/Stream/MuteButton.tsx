@@ -14,7 +14,7 @@ export type MuteButtonProps = {
     ariaLabel?: string,
     mutedTooltip?: string,
     unmutedTooltip?: string,
-    noAudioToolTip?: string
+    noAudioTooltip?: string
 };
 const COMPONENT_NAME = "MuteButton";
 export function MuteButton(inProps: MuteButtonProps) {
@@ -26,11 +26,11 @@ export function MuteButton(inProps: MuteButtonProps) {
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
     const { id = "mute-btn", color = "primary", ariaLabel = "mute",
         mutedTooltip = "Muted", unmutedTooltip = "On",
-        noAudioToolTip = "No Audio" } = props;
+        noAudioTooltip = "No Audio" } = props;
 
     const { stream, muted, toggleMuted } = useContext(StreamContext);
 
-    const title = stream && stream.hasAudio() ? (muted ? mutedTooltip : unmutedTooltip) : noAudioToolTip;
+    const title = stream && stream.hasAudio() ? (muted ? mutedTooltip : unmutedTooltip) : noAudioTooltip;
 
     return <Tooltip title={title}>
         <span>  {/*required by mui tooltip in case button is disabled */}

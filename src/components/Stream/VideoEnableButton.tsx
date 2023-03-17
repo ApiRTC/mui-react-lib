@@ -16,7 +16,7 @@ export type VideoEnableButtonProps = {
     ariaLabel?: string,
     enabledTooltip?: string,
     disabledTooltip?: string,
-    noVideoToolTip?: string
+    noVideoTooltip?: string
 };
 const COMPONENT_NAME = "VideoEnableButton";
 export function VideoEnableButton(inProps: VideoEnableButtonProps) {
@@ -27,7 +27,7 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
         ariaLabel = "enable or disable video",
         enabledTooltip = "Video enabled, click to disable",
         disabledTooltip = "Video disabled, click to enable",
-        noVideoToolTip = "No Video" } = props;
+        noVideoTooltip = "No Video" } = props;
 
     // Toggling video on stream is not captured in react state
     // so using forceUpdate when video is changed will force rendering
@@ -82,7 +82,7 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
         forceUpdate()
     };
 
-    const title = stream && stream.hasVideo() ? (stream.isVideoEnabled() ? enabledTooltip : disabledTooltip) : noVideoToolTip;
+    const title = stream && stream.hasVideo() ? (stream.isVideoEnabled() ? enabledTooltip : disabledTooltip) : noVideoTooltip;
 
     return <Tooltip title={title}>
         <span> {/*required by mui tooltip in case button is disabled */}
