@@ -20,7 +20,7 @@ export const frFR: Localization = {
         },
         ApiRtcMuiReactLibVideo: {
             defaultProps: {
-                videoMutedTooltip: "Video coupée"
+                videoMutedTooltip: "Vidéo coupée"
             }
         },
         ApiRtcMuiReactLibVideoEnableButton: {

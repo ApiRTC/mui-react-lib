@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import { MediaStreamTrackFlowStatus, Stream } from '@apirtc/apirtc';
 
+import type { SxProps } from '@mui/material';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useThemeProps } from '@mui/material/styles';
@@ -10,6 +11,7 @@ import { StreamContext } from './StreamContext';
 
 export type VideoProps = {
     id?: string,
+    sx?: SxProps,
     style?: React.CSSProperties,
     /**
      * Can be set directly, or be passed through StreamContext.
@@ -96,7 +98,7 @@ export function Video(inProps: VideoProps) {
         }
     }, [props.sinkId])
 
-    return <Box sx={{ minHeight: 200, minWidth: 200, position: 'relative' }}
+    return <Box sx={{ ...props.sx, position: 'relative' }}
         display="flex" alignItems="center" justifyContent="center">
         <video id={id}
             style={{ maxWidth: '100%', display: 'block', ...props.style }}
