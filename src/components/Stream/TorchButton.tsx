@@ -88,7 +88,6 @@ export function TorchButton(inProps: TorchButtonProps) {
     return <IconButton id={id} color={color} aria-label={ariaLabel}
         disabled={inProps.disabled}
         onClick={onToggleTorch}>
-        {/* {torch ? <FlashlightOffIcon /> : <FlashlightOnIcon />} */}
         {torch ? <Icon>flashlight_off</Icon> : <Icon>flashlight_on</Icon>}
     </IconButton>
 }

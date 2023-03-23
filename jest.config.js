@@ -6,6 +6,6 @@ module.exports = {
     },
     transformIgnorePatterns: ['<rootDir>/node_modules/'],
     collectCoverageFrom: [
-        "src/**/{!(getDisplayMedia.mock|index),}.ts"
+        "src/**/{!(getDisplayMedia.mock|index),}.(ts|tsx)"
     ]
 };

@@ -95,6 +95,7 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
         }
     };
 
+    // Walt Disney ? :)
     const onMicKeyUp = (e: React.KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault()
         if (e.key === " " && stream?.isAudioEnabled()) {
@@ -105,7 +106,7 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
     const title = stream && stream.hasAudio() ? (stream.isAudioEnabled() ? enabledTooltip : disabledTooltip) : noAudioTooltip;
 
     return <Tooltip title={title}>
-        <span>  {/*required by mui tooltip in case button is disabled */}
+        <span>{/*required by mui tooltip in case button is disabled */}
             <IconButton id={id} key={id} color={color} aria-label={ariaLabel}
                 disabled={props.disabled || (stream && !stream.hasAudio())}
                 onClick={toggleAudio}

@@ -35,7 +35,7 @@ const Grid = ({ children, sx }: GridProps) => {
         {React.Children.map(arrayChildren, (child, index) => {
             return <MuiGrid item key={index}
                 {...responsive}
-                // in order to display StreamComponent in the middle of grid item, need to set display:flex AND justifyContent:center
+                // in order to display child in the middle of grid item, need to set display:flex AND justifyContent:center
                 sx={{ display: 'flex', justifyContent: 'center' }}>
                 {child}
             </MuiGrid>

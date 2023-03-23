@@ -33,7 +33,7 @@ export function MuteButton(inProps: MuteButtonProps) {
     const title = stream && stream.hasAudio() ? (muted ? mutedTooltip : unmutedTooltip) : noAudioTooltip;
 
     return <Tooltip title={title}>
-        <span>  {/*required by mui tooltip in case button is disabled */}
+        <span>{/*required by mui tooltip in case button is disabled */}
             <IconButton id={id} color={color} aria-label={ariaLabel}
                 disabled={inProps.disabled || (stream && !stream.hasAudio())}
                 onClick={toggleMuted}>

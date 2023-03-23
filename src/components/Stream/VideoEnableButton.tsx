@@ -85,7 +85,7 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
     const title = stream && stream.hasVideo() ? (stream.isVideoEnabled() ? enabledTooltip : disabledTooltip) : noVideoTooltip;
 
     return <Tooltip title={title}>
-        <span> {/*required by mui tooltip in case button is disabled */}
+        <span>{/*required by mui tooltip in case button is disabled */}
             <IconButton id={id} key={id} color={color} aria-label={ariaLabel}
                 disabled={props.disabled || (stream && !stream.hasVideo())}
                 onClick={toggleVideo}>
