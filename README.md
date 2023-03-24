@@ -23,7 +23,9 @@ import { Stream } from '@apirtc/mui-react-lib'
 
 <Stream stream={stream}
         muted={false}
-        controls={<><MuteButton /></>}/>
+        controls={<><MuteButton /></>}>
+        <Video />
+</Stream>
 ```
 
 ## Configure log level

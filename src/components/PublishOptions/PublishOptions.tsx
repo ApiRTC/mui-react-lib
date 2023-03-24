@@ -10,9 +10,19 @@ import { useThemeProps } from '@mui/material/styles'
 
 import useToggleArray from '../../hooks/useToggleArray'
 
-const PUBLISH_OPTIONS: Array<ApiRtcPublishOptions> = [{ audioOnly: false, videoOnly: false }, { audioOnly: true }, { videoOnly: true }];
+const PUBLISH_OPTIONS: Array<ApiRtcPublishOptions> = [{}, { audioOnly: true }, { videoOnly: true }];
+
+const toIndex = (publishOptions: ApiRtcPublishOptions): number => {
+    if (publishOptions.audioOnly) {
+        return 1
+    } else if (publishOptions.videoOnly) {
+        return 2
+    }
+    return 0
+}
 
 export type PublishOptionsProps = {
+    value: ApiRtcPublishOptions,
     onChange: (options: ApiRtcPublishOptions) => void,
     audioAndVideoText?: string,
     audioOnlyText?: string,
@@ -25,7 +35,11 @@ export function PublishOptions(inProps: PublishOptionsProps) {
     const { audioAndVideoText = "Audio & Video", audioOnlyText = "Audio Only", videoOnlyText = "Video Only" } = props;
 
     const { value: publishOptions, index: publishOptionsIndex,
-        setIndex: setPublishOptionsIndex } = useToggleArray(PUBLISH_OPTIONS);
+        setIndex: setPublishOptionsIndex } = useToggleArray(PUBLISH_OPTIONS, toIndex(props.value));
+
+    useEffect(() => {
+        setPublishOptionsIndex(toIndex(props.value))
+    }, [JSON.stringify(props.value)])
 
     useEffect(() => {
         props.onChange(publishOptions)
