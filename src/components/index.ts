@@ -1,4 +1,5 @@
-export { default as Grid, GridProps } from "./Grid/Grid"
+export { Grid, GridProps } from './Grid'
+export { PublishOptions, PublishOptionsProps } from './PublishOptions'
 export {
     Audio, AudioEnableButton, AudioEnableButtonProps, AudioProps,
     MuteButton, MuteButtonProps,
@@ -6,5 +7,5 @@ export {
     Stream, StreamContext, StreamProps,
     TorchButton, TorchButtonProps,
     Video, VideoEnableButton, VideoEnableButtonProps, VideoProps
-} from "./Stream"
+} from './Stream'
 

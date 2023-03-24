@@ -23,7 +23,7 @@ afterEach(() => {
   container = null;
 });
 
-it("renders volume_up with no stream", () => {
+it("renders photo_camera with no stream", () => {
   const onSnapshot = (dataUrl: string) => { };
   act(() => { render(<SnapshotButton onSnapshot={onSnapshot} />, container); });
   expect(container.textContent).toBe("photo_camera");

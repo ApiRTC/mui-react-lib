@@ -7,7 +7,7 @@ import { StreamContext } from "./StreamContext";
 
 import { setLogLevel } from '../..';
 
-import './getDisplayMedia.mock';
+import '../../mock/getDisplayMedia.mock';
 
 import { Stream } from "@apirtc/apirtc";
 
