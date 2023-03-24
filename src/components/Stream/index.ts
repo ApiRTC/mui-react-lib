@@ -1,6 +1,7 @@
 export { Audio, AudioProps } from './Audio'
 export { AudioEnableButton, AudioEnableButtonProps } from './AudioEnableButton'
 export { MuteButton, MuteButtonProps } from './MuteButton'
+export { SnapshotButton, SnapshotButtonProps } from './SnapshotButton'
 export { Stream, StreamProps } from './Stream'
 export { StreamContext } from './StreamContext'
 export { TorchButton, TorchButtonProps } from './TorchButton'
