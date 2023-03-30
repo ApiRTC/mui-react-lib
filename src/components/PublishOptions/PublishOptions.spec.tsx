@@ -1,10 +1,9 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { unmountComponentAtNode } from "react-dom";
-import { act } from "react-dom/test-utils";
 
-import { PublishOptions } from "./PublishOptions";
 import { setLogLevel } from '../..';
+import { PublishOptions } from "./PublishOptions";
 
 // Set log level to max to maximize code coverage
 setLogLevel('debug')
@@ -28,7 +27,7 @@ it("renders", () => {
   const props = {
     value: {},
     onChange: jest.fn()
-  }
+  };
   const { rerender } = render(<PublishOptions {...props} />);
 
   const audioVideo = screen.getByRole("radio", { name: "Audio & Video" });

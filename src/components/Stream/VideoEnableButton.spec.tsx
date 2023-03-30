@@ -1,6 +1,6 @@
+import { act } from '@testing-library/react';
 import React from "react";
-import { render, unmountComponentAtNode } from "react-dom";
-import { act } from "react-dom/test-utils";
+import ReactDOM from 'react-dom/client';
 
 import { VideoEnableButton } from "./VideoEnableButton";
 
@@ -10,20 +10,18 @@ import { setLogLevel } from '../..';
 setLogLevel('debug')
 
 let container: any = null;
+
 beforeEach(() => {
-  // setup a DOM element as a render target
-  container = document.createElement("div");
+  container = document.createElement('div');
   document.body.appendChild(container);
 });
 
 afterEach(() => {
-  // cleanup on exiting
-  unmountComponentAtNode(container);
-  container.remove();
+  document.body.removeChild(container);
   container = null;
 });
 
 it("renders videocam_off with no stream", () => {
-  act(() => { render(<VideoEnableButton />, container); });
+  act(() => { ReactDOM.createRoot(container).render(<VideoEnableButton />); });
   expect(container.textContent).toBe("videocam_off");
 });

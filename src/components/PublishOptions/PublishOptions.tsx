@@ -19,7 +19,7 @@ const toIndex = (publishOptions: ApiRtcPublishOptions): number => {
         return 2
     }
     return 0
-}
+};
 
 export type PublishOptionsProps = {
     value: ApiRtcPublishOptions,
@@ -35,7 +35,7 @@ export function PublishOptions(inProps: PublishOptionsProps) {
     const { audioAndVideoText = "Audio & Video", audioOnlyText = "Audio Only", videoOnlyText = "Video Only" } = props;
 
     const { value: publishOptions, index: publishOptionsIndex,
-        setIndex: setPublishOptionsIndex } = useToggleArray(PUBLISH_OPTIONS, toIndex(props.value));
+        setIndex: setPublishOptionsIndex } = useToggleArray<ApiRtcPublishOptions>(PUBLISH_OPTIONS, toIndex(props.value));
 
     useEffect(() => {
         setPublishOptionsIndex(toIndex(props.value))

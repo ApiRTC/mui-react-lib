@@ -73,8 +73,9 @@ export function TorchButton(inProps: TorchButtonProps) {
                         console.debug(COMPONENT_NAME + "|stream.applyConstraints done")
                     }
                 }).catch((error: any) => {
+                    setTorch(videoSettings.torch)
                     if (globalThis.apirtcMuiReactLibLogLevel.isWarnEnabled) {
-                        console.warn(COMPONENT_NAME + "|stream.applyConstraints error", error)
+                        console.warn(COMPONENT_NAME + "|stream.applyConstraints error", error, videoSettings.torch)
                     }
                 })
             }).catch((error) => {

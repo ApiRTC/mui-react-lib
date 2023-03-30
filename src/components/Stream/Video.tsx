@@ -32,10 +32,6 @@ export type VideoProps = {
 const COMPONENT_NAME = "Video";
 export function Video(inProps: VideoProps) {
 
-    if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-        console.debug(COMPONENT_NAME + "|Rendering")
-    }
-
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
     const { id = props.stream?.getId(),
         autoPlay = true,
@@ -51,7 +47,6 @@ export function Video(inProps: VideoProps) {
     const [videoMuted, setVideoMuted] = useState(false);
 
     useEffect(() => {
-
         const htmlMediaElement = videoRef?.current as any;
         if (stream && htmlMediaElement) {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {

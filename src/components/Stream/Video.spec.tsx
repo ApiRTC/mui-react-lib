@@ -1,10 +1,11 @@
-import { act, fireEvent, getByRole, waitFor } from '@testing-library/react';
+import { act } from '@testing-library/react';
 import React from "react";
 import ReactDOM from 'react-dom/client';
 
-import { SnapshotButton } from "./SnapshotButton";
+import { StreamContext } from "./StreamContext";
+import { Video } from "./Video";
 
-import { setLogLevel, StreamContext } from '../..';
+import { setLogLevel } from '../..';
 
 import '../../mock/getDisplayMedia.mock';
 
@@ -19,12 +20,10 @@ jest.mock('@apirtc/apirtc', () => {
     ...originalModule,
     Stream: jest.fn().mockImplementation((data: MediaStream | null, opts: any) => {
       return {
+        attachToElement: (element: HTMLElement) => { },
         getId: () => { return opts.id },
-        takeSnapshot: () => {
-          return new Promise<string>((resolve, reject) => {
-            resolve("dataUrl")
-          });
-        }
+        on: (event: string, fn: Function) => { },
+        removeListener: (event: string, fn: Function) => { }
       }
     }),
   }
@@ -45,36 +44,25 @@ afterEach(() => {
   container = null;
 });
 
-it("renders photo_camera with no stream", () => {
-  const onSnapshot = (dataUrl: string) => { };
-  act(() => { ReactDOM.createRoot(container).render(<SnapshotButton onSnapshot={onSnapshot} />); });
-  expect(container.textContent).toBe("photo_camera");
+it("renders with no stream", () => {
+  act(() => { ReactDOM.createRoot(container).render(<Video />); });
+  expect(container.textContent).toBe("");
 });
 
-it("renders photo_camera with stream, click calls takeSnapshot and onSnapshot callback prop", async () => {
+it("renders with stream", () => {
+
   const stream = new Stream(null, { id: 'stream-01' });
 
   const muted = false;
   const toggleMuted = () => {
     console.log('toggleMuted called')
-  }
-
-  const onSnapshot = jest.fn();
+  };
 
   act(() => {
     ReactDOM.createRoot(container).render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
-      <SnapshotButton onSnapshot={onSnapshot} />
+      <Video />
     </StreamContext.Provider>);
   });
-  expect(container.textContent).toBe("photo_camera");
 
-  fireEvent.click(getByRole(container, "button"));
-
-  await waitFor(() => {
-    expect(container.textContent).toBe("photo_camera");
-    expect(onSnapshot).toHaveBeenCalledWith("dataUrl");
-  });
-
+  expect(container.textContent).toBe("");
 });
-
-

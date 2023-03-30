@@ -2,7 +2,7 @@ import { act } from '@testing-library/react';
 import React from "react";
 import ReactDOM from 'react-dom/client';
 
-import { AudioEnableButton } from "./AudioEnableButton";
+import { Audio } from "./Audio";
 import { StreamContext } from "./StreamContext";
 
 import { setLogLevel } from '../..';
@@ -20,10 +20,9 @@ jest.mock('@apirtc/apirtc', () => {
     ...originalModule,
     Stream: jest.fn().mockImplementation((data: MediaStream | null, opts: any) => {
       return {
+        isRemote: false,
+        attachToElement: (element: HTMLElement) => { },
         getId: () => { return opts.id },
-        getOpts: () => { return opts },
-        hasAudio: () => { return true },
-        isAudioEnabled: () => { return true },
         on: (event: string, fn: Function) => { },
         removeListener: (event: string, fn: Function) => { }
       }
@@ -46,14 +45,15 @@ afterEach(() => {
   container = null;
 });
 
-it("renders mic_off with no stream", () => {
-  act(() => { ReactDOM.createRoot(container).render(<AudioEnableButton />); });
-  expect(container.textContent).toBe("mic_off");
+it("renders with no stream", () => {
+  act(() => { ReactDOM.createRoot(container).render(<Audio />); });
+  expect(container.textContent).toBe("");
 });
 
-it("renders mic with stream with audio and audio enabled", () => {
+it("renders mic with stream with isRemote false", () => {
 
   const stream = new Stream(null, { id: 'stream-01' });
+  stream.isRemote = false;
   const muted = true;
   const toggleMuted = () => {
     console.log('toggleMuted called')
@@ -61,7 +61,7 @@ it("renders mic with stream with audio and audio enabled", () => {
 
   act(() => {
     ReactDOM.createRoot(container).render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
-      <AudioEnableButton />
+      <Audio />
     </StreamContext.Provider>);
   });
 
