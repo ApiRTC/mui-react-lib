@@ -4,9 +4,10 @@ import { MediaStreamSettings, MediaTrackVideoConstraints } from '@apirtc/apirtc'
 
 import Icon from '@mui/material/Icon'
 import IconButton from '@mui/material/IconButton'
+import { useThemeProps } from '@mui/material/styles'
+import Tooltip from '@mui/material/Tooltip'
 
 import { StreamContext } from './StreamContext'
-import Tooltip from '@mui/material/Tooltip'
 
 export type TorchButtonProps = {
     id?: string,
@@ -20,8 +21,9 @@ export type TorchButtonProps = {
 const COMPONENT_NAME = "TorchButton";
 export function TorchButton(inProps: TorchButtonProps) {
 
+    const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
     const { id = "torch-btn", color = "primary", ariaLabel = "torch",
-        torchOffTooltip = "Turn off torch", torchOnTooltip = "Turn on torch" } = inProps;
+        torchOffTooltip = "Turn off torch", torchOnTooltip = "Turn on torch" } = props;
 
     const { stream } = useContext(StreamContext);
 

@@ -1,22 +1,21 @@
 import React, { useContext, useState } from 'react';
 
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
 import { useThemeProps } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 
 import { StreamContext } from './StreamContext';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
 
 export type SnapshotButtonProps = {
     id?: string,
     color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning" | undefined,
     disabled?: boolean,
     ariaLabel?: string,
-    inProgress?: boolean,
     snapshotTooltip?: string,
-    onSnapshot: (dataUrl: string) => void
+    onSnapshot: (dataUrl: string) => Promise<void>
 };
 const COMPONENT_NAME = "SnapshotButton";
 export function SnapshotButton(inProps: SnapshotButtonProps) {
@@ -33,11 +32,11 @@ export function SnapshotButton(inProps: SnapshotButtonProps) {
         event.preventDefault()
         if (stream) {
             setInProgress(true)
-            stream.takeSnapshot().then((dataUrl: string) => {
-                inProps.onSnapshot(dataUrl)
-            }).finally(() => {
-                setInProgress(false)
-            })
+            stream.takeSnapshot()
+                .then((dataUrl: string) => inProps.onSnapshot(dataUrl))
+                .finally(() => {
+                    setInProgress(false)
+                })
         }
     };
 
@@ -45,13 +44,13 @@ export function SnapshotButton(inProps: SnapshotButtonProps) {
         position: 'relative'
     }}><Tooltip title={snapshotTooltip}>
             <span><IconButton id={id} color={color} aria-label={ariaLabel}
-                disabled={inProps.disabled || inProgress || props.inProgress}
+                disabled={inProps.disabled || inProgress}
                 onClick={onTakeSnapshot}>
                 <Icon>photo_camera</Icon>
             </IconButton></span>
         </Tooltip>
         {/* IconButton is 37px, so set CircularProgress size to 33 with 2px margin centers it */}
-        {(inProgress || props.inProgress) && <CircularProgress sx={{
+        {inProgress && <CircularProgress sx={{
             position: 'absolute',
             top: '2px', left: '2px',
             opacity: [0.9, 0.8, 0.7],
