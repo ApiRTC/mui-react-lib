@@ -1,6 +1,7 @@
 import { AudioEnableButtonProps } from "../components/Stream/AudioEnableButton";
 import { MuteButtonProps } from "../components/Stream/MuteButton";
 import { SnapshotButtonProps } from "../components/Stream/SnapshotButton";
+import { TorchButtonProps } from "../components/Stream/TorchButton";
 import { VideoProps } from "../components/Stream/Video";
 import { VideoEnableButtonProps } from "../components/Stream/VideoEnableButton";
 
@@ -14,6 +15,9 @@ export default interface Localization {
         };
         ApiRtcMuiReactLibSnapshotButton?: {
             defaultProps: Pick<SnapshotButtonProps, 'snapshotTooltip'>;
+        };
+        ApiRtcMuiReactLibTorchButton?: {
+            defaultProps: Pick<TorchButtonProps, 'torchOffTooltip' | 'torchOnTooltip'>;
         };
         ApiRtcMuiReactLibVideo?: {
             defaultProps: Pick<VideoProps, 'videoMutedTooltip'>;

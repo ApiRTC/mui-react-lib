@@ -23,6 +23,12 @@ export const frFR: Localization = {
                 snapshotTooltip: "Prendre une photo"
             }
         },
+        ApiRtcMuiReactLibTorchButton: {
+            defaultProps: {
+                torchOffTooltip: "Eteindre la torche",
+                torchOnTooltip: "Allumer la torche"
+            }
+        },
         ApiRtcMuiReactLibVideo: {
             defaultProps: {
                 videoMutedTooltip: "Vidéo coupée"

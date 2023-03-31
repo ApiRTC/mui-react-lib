@@ -6,18 +6,22 @@ import Icon from '@mui/material/Icon'
 import IconButton from '@mui/material/IconButton'
 
 import { StreamContext } from './StreamContext'
+import Tooltip from '@mui/material/Tooltip'
 
 export type TorchButtonProps = {
     id?: string,
     color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning" | undefined,
     disabled?: boolean,
     ariaLabel?: string,
+    torchOffTooltip?: string,
+    torchOnTooltip?: string
 };
 
 const COMPONENT_NAME = "TorchButton";
 export function TorchButton(inProps: TorchButtonProps) {
 
-    const { id = "torch-btn", color = "primary", ariaLabel = "torch" } = inProps;
+    const { id = "torch-btn", color = "primary", ariaLabel = "torch",
+        torchOffTooltip = "Turn off torch", torchOnTooltip = "Turn on torch" } = inProps;
 
     const { stream } = useContext(StreamContext);
 
@@ -86,9 +90,15 @@ export function TorchButton(inProps: TorchButtonProps) {
         }
     };
 
-    return <IconButton id={id} color={color} aria-label={ariaLabel}
-        disabled={inProps.disabled}
-        onClick={onToggleTorch}>
-        {torch ? <Icon>flashlight_off</Icon> : <Icon>flashlight_on</Icon>}
-    </IconButton>
+    const title = torch ? torchOffTooltip : torchOnTooltip;
+
+    return <Tooltip title={title}>
+        <span>{/*required by mui tooltip in case button is disabled */}
+            <IconButton id={id} color={color} aria-label={ariaLabel}
+                disabled={inProps.disabled}
+                onClick={onToggleTorch}>
+                {torch ? <Icon>flashlight_off</Icon> : <Icon>flashlight_on</Icon>}
+            </IconButton>
+        </span>
+    </Tooltip>
 }
