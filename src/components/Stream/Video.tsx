@@ -11,6 +11,7 @@ import { StreamContext } from './StreamContext';
 
 export type VideoProps = {
     id?: string,
+    'data-testid'?: string,
     sx?: SxProps,
     style?: React.CSSProperties,
     /**
@@ -95,7 +96,7 @@ export function Video(inProps: VideoProps) {
 
     return <Box sx={{ ...props.sx, position: 'relative' }}
         display="flex" alignItems="center" justifyContent="center">
-        <video id={id}
+        <video id={id} data-testid={props['data-testid']}
             style={{ maxWidth: '100%', display: 'block', ...props.style }}
             ref={videoRef}
             autoPlay={autoPlay} muted={muted}

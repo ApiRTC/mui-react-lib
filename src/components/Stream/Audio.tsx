@@ -10,6 +10,7 @@ import { StreamContext } from './StreamContext';
 
 export type AudioProps = {
     id?: string,
+    'data-testid'?: string,
     sx?: SxProps,
     /**
      * Can be set directly, or be passed through StreamContext.
@@ -74,7 +75,7 @@ export function Audio(props: AudioProps) {
     return <Box sx={{ height: 100, width: 100, ...props.sx }} bgcolor="grey"
         display="flex" alignItems="center" justifyContent="center">
         {stream && <Icon fontSize='large'>{stream.isRemote ? 'headset_mic' : 'mic'}</Icon>}
-        <audio id={id} ref={audioRef}
+        <audio id={id} data-testid={props['data-testid']} ref={audioRef}
             autoPlay={autoPlay} muted={muted}
             onMouseMove={props.onMouseMove} />
     </Box>

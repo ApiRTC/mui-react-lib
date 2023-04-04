@@ -46,7 +46,8 @@ afterEach(() => {
 });
 
 it("renders photo_camera with no stream", () => {
-  const onSnapshot = (dataUrl: string) => { };
+  const onSnapshot = async (dataUrl: string) => { };
+  // const onSnapshot = jest.fn();
   act(() => { ReactDOM.createRoot(container).render(<SnapshotButton onSnapshot={onSnapshot} />); });
   expect(container.textContent).toBe("photo_camera");
 });

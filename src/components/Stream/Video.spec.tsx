@@ -1,4 +1,4 @@
-import { act } from '@testing-library/react';
+import { act, queryByTestId } from '@testing-library/react';
 import React from "react";
 import ReactDOM from 'react-dom/client';
 
@@ -60,9 +60,11 @@ it("renders with stream", () => {
 
   act(() => {
     ReactDOM.createRoot(container).render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
-      <Video />
+      <Video data-testid='DATA-TEST-ID' />
     </StreamContext.Provider>);
   });
 
   expect(container.textContent).toBe("");
+
+  expect(queryByTestId(container, 'DATA-TEST-ID')).toBeTruthy();
 });
