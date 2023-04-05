@@ -1,4 +1,4 @@
-import { act, queryByTestId } from '@testing-library/react';
+import { act, queryByTestId, render } from '@testing-library/react';
 import React from "react";
 import ReactDOM from 'react-dom/client';
 
@@ -50,6 +50,12 @@ it("renders with no stream", () => {
   expect(container.textContent).toBe("");
 });
 
+it("renders with no stream, sinkId", () => {
+  act(() => { ReactDOM.createRoot(container).render(<Audio sinkId='a-sink-id' />); });
+  expect(container.textContent).toBe("");
+  //TODO: how to check
+});
+
 it("renders mic with stream with isRemote false", () => {
 
   const stream = new Stream(null, { id: 'stream-01' });
@@ -57,16 +63,21 @@ it("renders mic with stream with isRemote false", () => {
   const muted = true;
   const toggleMuted = () => {
     console.log('toggleMuted called')
-  }
+  };
 
-  act(() => {
-    ReactDOM.createRoot(container).render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
-      <Audio data-testid='DATA-TEST-ID' />
-    </StreamContext.Provider>);
-  });
+  // act(() => {
+  //   ReactDOM.createRoot(container).render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
+  //     <Audio data-testid='DATA-TEST-ID' />
+  //   </StreamContext.Provider>);
+  // });
+  const { container, unmount } = render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
+    <Audio data-testid='DATA-TEST-ID' />
+  </StreamContext.Provider>);
 
   expect(container.textContent).toBe("mic");
 
   expect(queryByTestId(container, 'DATA-TEST-ID')).toBeTruthy();
 
+  unmount();
+  expect(container.textContent).toBe("");
 });

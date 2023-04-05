@@ -1,4 +1,4 @@
-import { act } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import React from "react";
 import ReactDOM from 'react-dom/client';
 
@@ -57,13 +57,19 @@ it("renders mic with stream with audio and audio enabled", () => {
   const muted = true;
   const toggleMuted = () => {
     console.log('toggleMuted called')
-  }
+  };
 
-  act(() => {
-    ReactDOM.createRoot(container).render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
-      <AudioEnableButton />
-    </StreamContext.Provider>);
-  });
+  // act(() => {
+  //   ReactDOM.createRoot(container).render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
+  //     <AudioEnableButton />
+  //   </StreamContext.Provider>);
+  // });
+  const { container, unmount } = render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
+    <AudioEnableButton />
+  </StreamContext.Provider>);
 
   expect(container.textContent).toBe("mic");
+
+  unmount()
+  expect(container.textContent).toBe("");
 });

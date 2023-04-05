@@ -1,4 +1,4 @@
-import { act, fireEvent, getByRole, waitFor } from '@testing-library/react';
+import { act, fireEvent, getByRole, render, waitFor } from '@testing-library/react';
 import React from "react";
 import ReactDOM from 'react-dom/client';
 
@@ -58,15 +58,18 @@ it("renders photo_camera with stream, click calls takeSnapshot and onSnapshot ca
   const muted = false;
   const toggleMuted = () => {
     console.log('toggleMuted called')
-  }
+  };
 
   const onSnapshot = jest.fn();
 
-  act(() => {
-    ReactDOM.createRoot(container).render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
-      <SnapshotButton onSnapshot={onSnapshot} />
-    </StreamContext.Provider>);
-  });
+  // act(() => {
+  //   ReactDOM.createRoot(container).render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
+  //     <SnapshotButton onSnapshot={onSnapshot} />
+  //   </StreamContext.Provider>);
+  // });
+  const { container, unmount } = render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
+    <SnapshotButton onSnapshot={onSnapshot} />
+  </StreamContext.Provider>);
   expect(container.textContent).toBe("photo_camera");
 
   fireEvent.click(getByRole(container, "button"));
@@ -76,6 +79,8 @@ it("renders photo_camera with stream, click calls takeSnapshot and onSnapshot ca
     expect(onSnapshot).toHaveBeenCalledWith("dataUrl");
   });
 
+  unmount()
+  expect(container.textContent).toBe("");
 });
 
 

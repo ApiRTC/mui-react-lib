@@ -2,9 +2,9 @@ import { act, render } from '@testing-library/react';
 import React from "react";
 import ReactDOM from 'react-dom/client';
 
-import { VideoEnableButton } from "./VideoEnableButton";
+import { Stream as StreamComponent } from "./Stream";
 
-import { StreamContext, setLogLevel } from '../..';
+import { setLogLevel } from '../..';
 
 import '../../mock/getDisplayMedia.mock';
 
@@ -19,10 +19,9 @@ jest.mock('@apirtc/apirtc', () => {
     ...originalModule,
     Stream: jest.fn().mockImplementation((data: MediaStream | null, opts: any) => {
       return {
+        attachToElement: (element: HTMLElement) => { },
         getId: () => { return opts.id },
-        getOpts: () => { return opts },
-        hasVideo: () => { return true },
-        isVideoEnabled: () => { return true },
+        hasAudio: () => { return true },
         on: (event: string, fn: Function) => { },
         removeListener: (event: string, fn: Function) => { }
       }
@@ -45,25 +44,29 @@ afterEach(() => {
   container = null;
 });
 
-it("renders videocam_off with no stream", () => {
-  act(() => { ReactDOM.createRoot(container).render(<VideoEnableButton />); });
-  expect(container.textContent).toBe("videocam_off");
-});
-
-it("renders mic with stream with audio and audio enabled", () => {
-
-  const stream = new Stream(null, { id: 'stream-01' });
-  const muted = true;
-  const toggleMuted = () => {
-    console.log('toggleMuted called')
-  };
-
-  const { container, unmount } = render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
-    <VideoEnableButton />
-  </StreamContext.Provider>);
-
-  expect(container.textContent).toBe("videocam");
-
-  unmount()
+it("renders with stream undefined", () => {
+  const stream = undefined;
+  act(() => { ReactDOM.createRoot(container).render(<StreamComponent stream={stream} />); });
   expect(container.textContent).toBe("");
 });
+
+it("renders with stream", () => {
+  const stream = new Stream(null, { id: 'stream-01' });
+  act(() => { ReactDOM.createRoot(container).render(<StreamComponent stream={stream} />); });
+  expect(container.textContent).toBe("");
+});
+
+it("renders with stream and detectSpeaking", () => {
+  const stream = new Stream(null, { id: 'stream-01' });
+
+  //let root: any;
+  //act(() => { root = ReactDOM.createRoot(container).render(<StreamComponent stream={stream} detectSpeaking={true} />); });
+
+  const { container, unmount } = render(<StreamComponent stream={stream} detectSpeaking={true} />);
+  expect(container.textContent).toBe("");
+
+  //act(() => { root?.unmount(); });
+  unmount();
+  expect(container.textContent).toBe("");
+});
+

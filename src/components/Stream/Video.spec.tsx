@@ -1,4 +1,4 @@
-import { act, queryByTestId } from '@testing-library/react';
+import { act, queryByTestId, render } from '@testing-library/react';
 import React from "react";
 import ReactDOM from 'react-dom/client';
 
@@ -49,6 +49,12 @@ it("renders with no stream", () => {
   expect(container.textContent).toBe("");
 });
 
+it("renders with no stream, sinkId", () => {
+  act(() => { ReactDOM.createRoot(container).render(<Video sinkId='a-sink-id' />); });
+  expect(container.textContent).toBe("");
+  //TODO: how to check
+});
+
 it("renders with stream", () => {
 
   const stream = new Stream(null, { id: 'stream-01' });
@@ -58,13 +64,20 @@ it("renders with stream", () => {
     console.log('toggleMuted called')
   };
 
-  act(() => {
-    ReactDOM.createRoot(container).render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
-      <Video data-testid='DATA-TEST-ID' />
-    </StreamContext.Provider>);
-  });
+  // act(() => {
+  //   ReactDOM.createRoot(container).render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
+  //     <Video data-testid='DATA-TEST-ID' />
+  //   </StreamContext.Provider>);
+  // });
+
+  const { container, unmount } = render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
+    <Video data-testid='DATA-TEST-ID' />
+  </StreamContext.Provider>);
 
   expect(container.textContent).toBe("");
 
   expect(queryByTestId(container, 'DATA-TEST-ID')).toBeTruthy();
+
+  unmount();
+  expect(container.textContent).toBe("");
 });
