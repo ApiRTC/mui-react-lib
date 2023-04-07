@@ -5,8 +5,10 @@ import { MediaStreamTrackFlowStatus, Stream } from '@apirtc/apirtc';
 import type { SxProps } from '@mui/material';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useThemeProps } from '@mui/material/styles';
+import Icon from '@mui/material/Icon';
 import Tooltip from '@mui/material/Tooltip';
+import { useThemeProps } from '@mui/material/styles';
+
 import { StreamContext } from './StreamContext';
 
 export type VideoProps = {
@@ -26,6 +28,7 @@ export type VideoProps = {
      * @defaultValue false */
     muted?: boolean,
     sinkId?: string,
+    pointer?: { top: number | string, left: number | string },
     color?: "primary" | "inherit" | "secondary" | "error" | "info" | "success" | "warning",
     videoMutedTooltip?: string,
     onMouseMove?: (event: React.MouseEvent) => void
@@ -100,6 +103,13 @@ export function Video(inProps: VideoProps) {
             ref={videoRef}
             autoPlay={autoPlay} muted={muted}
             onMouseMove={props.onMouseMove} />
+        {props.pointer && <Icon sx={{
+            position: 'absolute',
+            //top: props.pointer.y - 12, left: props.pointer.x - 12, // icon is 24x24px, so offset to mid
+            top: props.pointer.top, left: props.pointer.left, transform: 'translate(-50%,-50%)',
+            opacity: [0.9, 0.8, 0.7],
+            zIndex: 1
+        }} color='primary'>adjust</Icon>}
         {videoMuted &&
             <Tooltip sx={{
                 position: 'absolute',

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import type { SxProps } from '@mui/material'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
-import Icon from '@mui/material/Icon'
 import Stack from '@mui/material/Stack'
 
 import { Stream as ApiRtcStream } from '@apirtc/apirtc'
@@ -24,7 +23,6 @@ export type StreamProps = {
     stream: ApiRtcStream | undefined,
     muted?: boolean,
     controls?: React.ReactNode,
-    pointer?: { top: number | string, left: number | string },
     detectSpeaking?: boolean,
     children?: React.ReactNode
 };
@@ -89,13 +87,6 @@ export function Stream(props: StreamProps) {
             }}>
                 {props.controls}
             </Stack>
-            {props.pointer && <Icon sx={{
-                position: 'absolute',
-                //top: props.pointer.y - 12, left: props.pointer.x - 12, // icon is 24x24px, so offset to mid
-                top: props.pointer.top, left: props.pointer.left, transform: 'translate(-50%,-50%)',
-                opacity: [0.9, 0.8, 0.7],
-                zIndex: 1
-            }} color='primary'>adjust</Icon>}
         </Box>
     </StreamContext.Provider>
 }
