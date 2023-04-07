@@ -2,7 +2,7 @@ import { act } from '@testing-library/react';
 import React from "react";
 import ReactDOM from 'react-dom/client';
 
-import Grid from "./Grid";
+import { Grid } from "./Grid";
 
 import { setLogLevel } from '../..';
 

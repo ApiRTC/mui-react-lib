@@ -94,20 +94,20 @@ export function Video(inProps: VideoProps) {
         }
     }, [props.sinkId])
 
-    return <Box sx={{ ...props.sx, position: 'relative' }}
-        display="flex" alignItems="center" justifyContent="center">
+    return <Box sx={{ ...props.sx, position: 'relative' }}>
         <video id={id} data-testid={props['data-testid']}
-            style={{ maxWidth: '100%', display: 'block', ...props.style }}
+            style={props.style}
             ref={videoRef}
             autoPlay={autoPlay} muted={muted}
             onMouseMove={props.onMouseMove} />
         {videoMuted &&
-            <Tooltip title={videoMutedTooltip}>
-                <CircularProgress sx={{
-                    position: 'absolute',
-                    top: '50%', left: '50%', transform: 'translate(-50%,-50%)', // centered
-                    opacity: [0.9, 0.8, 0.7],
-                    zIndex: 1
-                }} color={color} /></Tooltip>}
+            <Tooltip sx={{
+                position: 'absolute',
+                top: '50%', left: '50%', transform: 'translate(-50%,-50%)', // centered
+                opacity: [0.9, 0.8, 0.7],
+                zIndex: 1
+            }} title={videoMutedTooltip}>
+                <CircularProgress color={color} />
+            </Tooltip>}
     </Box>
 }
