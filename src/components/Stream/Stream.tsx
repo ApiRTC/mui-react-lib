@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react'
 import type { SxProps } from '@mui/material'
 import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
+import Icon from '@mui/material/Icon'
 import Stack from '@mui/material/Stack'
 
 import { Stream as ApiRtcStream } from '@apirtc/apirtc'
+
 import useToggle from '../../hooks/useToggle'
 import { StreamContext } from './StreamContext'
 
@@ -16,13 +18,14 @@ const speakingBorder = {
 
 export type StreamProps = {
     id?: string,
+    sx?: SxProps,
     name?: string,
     nameColor?: "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning" | undefined,
     stream: ApiRtcStream | undefined,
     muted?: boolean,
     controls?: React.ReactNode,
-    sx?: SxProps,
-    detectSpeaking?: boolean
+    pointer?: { top: number | string, left: number | string },
+    detectSpeaking?: boolean,
     children?: React.ReactNode
 };
 const COMPONENT_NAME = "Stream";
@@ -69,8 +72,7 @@ export function Stream(props: StreamProps) {
                 ...props.sx,
                 position: 'relative',
                 ...isSpeaking && speakingBorder
-            }}
-        >
+            }}>
             {props.children}
             {props.name && <Chip sx={{
                 position: 'absolute',
@@ -87,6 +89,13 @@ export function Stream(props: StreamProps) {
             }}>
                 {props.controls}
             </Stack>
+            {props.pointer && <Icon sx={{
+                position: 'absolute',
+                //top: props.pointer.y - 12, left: props.pointer.x - 12, // icon is 24x24px, so offset to mid
+                top: props.pointer.top, left: props.pointer.left, transform: 'translate(-50%,-50%)',
+                opacity: [0.9, 0.8, 0.7],
+                zIndex: 1
+            }} color='primary'>adjust</Icon>}
         </Box>
     </StreamContext.Provider>
 }
