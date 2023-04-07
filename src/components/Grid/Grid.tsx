@@ -12,7 +12,10 @@ export const Grid = ({ children, sx }: GridProps) => {
     const { arrayChildren, responsive } = useMemo(() => {
         const l_array = React.Children.toArray(children);
         let l_responsive;
-        if (l_array.length <= 2) {
+        if (l_array.length <= 1) {
+            const xsHeight = '100%';
+            l_responsive = { xs: 12, sx: { height: { xs: xsHeight } } };
+        } else if (l_array.length <= 2) {
             const xsHeight = (100 / l_array.length) + '%';
             const mdHeight = (100 / Math.ceil(l_array.length / 2)) + '%';
             l_responsive = { xs: 12, md: 6, sx: { height: { xs: xsHeight, md: mdHeight } } };
