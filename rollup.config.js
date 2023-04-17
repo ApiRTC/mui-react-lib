@@ -44,6 +44,7 @@ export default [
                     '@mui/material/CircularProgress': 'MaterialUI.CircularProgress',
                     '@mui/material/FormControl': 'MaterialUI.FormControl',
                     '@mui/material/FormControlLabel': 'MaterialUI.FormControlLabel',
+                    '@mui/material/FormLabel': 'MaterialUI.FormLabel',
                     '@mui/material/Grid': 'MaterialUI.Grid',
                     '@mui/material/Icon': 'MaterialUI.Icon',
                     '@mui/material/IconButton': 'MaterialUI.IconButton',

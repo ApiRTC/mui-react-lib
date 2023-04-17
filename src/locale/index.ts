@@ -1,3 +1,4 @@
+import { PublishOptionsProps } from "../components/PublishOptions/PublishOptions";
 import { AudioEnableButtonProps } from "../components/Stream/AudioEnableButton";
 import { MuteButtonProps } from "../components/Stream/MuteButton";
 import { SnapshotButtonProps } from "../components/Stream/SnapshotButton";
@@ -12,6 +13,9 @@ export default interface Localization {
         };
         ApiRtcMuiReactLibMuteButton?: {
             defaultProps: Pick<MuteButtonProps, 'ariaLabel' | 'mutedTooltip' | 'unmutedTooltip' | 'noAudioTooltip'>;
+        };
+        ApiRtcMuiReactLibPublishOptions?: {
+            defaultProps: Pick<PublishOptionsProps, 'labelText' | 'audioAndVideoText' | 'audioOnlyText' | 'videoOnlyText'>;
         };
         ApiRtcMuiReactLibSnapshotButton?: {
             defaultProps: Pick<SnapshotButtonProps, 'snapshotTooltip'>;

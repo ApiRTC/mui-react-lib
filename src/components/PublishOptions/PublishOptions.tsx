@@ -9,6 +9,7 @@ import RadioGroup from '@mui/material/RadioGroup'
 import { useThemeProps } from '@mui/material/styles'
 
 import useToggleArray from '../../hooks/useToggleArray'
+import FormLabel from '@mui/material/FormLabel'
 
 const PUBLISH_OPTIONS: Array<ApiRtcPublishOptions> = [{}, { audioOnly: true }, { videoOnly: true }];
 
@@ -24,6 +25,7 @@ const toIndex = (publishOptions: ApiRtcPublishOptions): number => {
 export type PublishOptionsProps = {
     value: ApiRtcPublishOptions,
     onChange: (options: ApiRtcPublishOptions) => void,
+    labelText?: string,
     audioAndVideoText?: string,
     audioOnlyText?: string,
     videoOnlyText?: string
@@ -31,8 +33,9 @@ export type PublishOptionsProps = {
 const COMPONENT_NAME = "PublishOptions";
 export function PublishOptions(inProps: PublishOptionsProps) {
 
-    const props = useThemeProps({ props: inProps, name: COMPONENT_NAME });
-    const { audioAndVideoText = "Audio & Video", audioOnlyText = "Audio Only", videoOnlyText = "Video Only" } = props;
+    const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
+    const { labelText = "Publish options",
+        audioAndVideoText = "Audio & Video", audioOnlyText = "Audio Only", videoOnlyText = "Video Only" } = props;
 
     const { value: publishOptions, index: publishOptionsIndex,
         setIndex: setPublishOptionsIndex } = useToggleArray<ApiRtcPublishOptions>(PUBLISH_OPTIONS, toIndex(props.value));
@@ -50,9 +53,9 @@ export function PublishOptions(inProps: PublishOptionsProps) {
     };
 
     return <FormControl>
-        {/* <FormLabel id="publish-options">publish</FormLabel> */}
+        <FormLabel id="publish-options-label">{labelText}</FormLabel>
         <RadioGroup
-            aria-labelledby="publish-options"
+            aria-labelledby="publish-options-label"
             name="publish-options"
             value={String(publishOptionsIndex)}
             onChange={handleChange}>

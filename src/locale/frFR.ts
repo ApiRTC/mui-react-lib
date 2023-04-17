@@ -18,6 +18,14 @@ export const frFR: Localization = {
                 noAudioTooltip: "Pas d'audio"
             }
         },
+        ApiRtcMuiReactLibPublishOptions: {
+            defaultProps: {
+                labelText: "Options de publication",
+                audioAndVideoText: "Audio et Vidéo",
+                audioOnlyText: "Audio seul",
+                videoOnlyText: "Vidéo seule"
+            }
+        },
         ApiRtcMuiReactLibSnapshotButton: {
             defaultProps: {
                 snapshotTooltip: "Prendre une photo"
