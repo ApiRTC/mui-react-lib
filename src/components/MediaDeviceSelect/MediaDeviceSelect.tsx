@@ -12,6 +12,7 @@ import { MediaDevice } from '@apirtc/apirtc'
 export type MediaDeviceSelectProps = {
     id?: string,
     label?: string,
+    disabled?: boolean,
     sx?: SxProps<Theme>,
     devices: {
         [key: string]: MediaDevice
@@ -43,6 +44,7 @@ export function MediaDeviceSelect(props: MediaDeviceSelectProps) {
             id={id}
             value={props.selectedDevice ? props.selectedDevice.getId() : 'default'}
             label={label}
+            disabled={props.disabled}
             onChange={onSelectDevice}>
             {_devices}
         </Select>
