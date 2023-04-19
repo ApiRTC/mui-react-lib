@@ -29,7 +29,8 @@ export type VideoProps = {
     muted?: boolean,
     sinkId?: string,
     pointer?: { top: number | string, left: number | string },
-    color?: "primary" | "inherit" | "secondary" | "error" | "info" | "success" | "warning",
+    pointerColor?: any,
+    progressColor?: "primary" | "inherit" | "secondary" | "error" | "info" | "success" | "warning",
     videoMutedTooltip?: string,
     onMouseMove?: (event: React.MouseEvent) => void
 };
@@ -39,7 +40,8 @@ export function Video(inProps: VideoProps) {
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
     const { id = props.stream?.getId(),
         autoPlay = true,
-        color = "primary",
+        pointerColor = undefined,
+        progressColor = undefined,
         videoMutedTooltip = "Video muted" } = props;
 
     const { stream: ctxStream, muted: ctxMuted = false } = useContext(StreamContext);
@@ -107,17 +109,17 @@ export function Video(inProps: VideoProps) {
             position: 'absolute',
             //top: props.pointer.y - 12, left: props.pointer.x - 12, // icon is 24x24px, so offset to mid
             top: props.pointer.top, left: props.pointer.left, transform: 'translate(-50%,-50%)',
-            opacity: [0.9, 0.8, 0.7],
+            opacity: 0.9,
             zIndex: 1
-        }} color='primary'>adjust</Icon>}
+        }} color={pointerColor}>adjust</Icon>}
         {videoMuted &&
             <Tooltip sx={{
                 position: 'absolute',
                 top: '50%', left: '50%', transform: 'translate(-50%,-50%)', // centered
-                opacity: [0.9, 0.8, 0.7],
+                opacity: 0.9,
                 zIndex: 1
             }} title={videoMutedTooltip}>
-                <CircularProgress color={color} />
+                <CircularProgress color={progressColor} />
             </Tooltip>}
     </Box>
 }

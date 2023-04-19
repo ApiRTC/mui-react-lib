@@ -12,6 +12,7 @@ export type AudioProps = {
     id?: string,
     'data-testid'?: string,
     sx?: SxProps,
+    color?: any,
     /**
      * Can be set directly, or be passed through StreamContext.
      */
@@ -33,7 +34,7 @@ export function Audio(props: AudioProps) {
         console.debug(COMPONENT_NAME + "|Rendering")
     }
 
-    const { id = props.stream?.getId(), autoPlay = true } = props;
+    const { id = props.stream?.getId(), color = undefined, autoPlay = true } = props;
 
     const { stream: ctxStream, muted: ctxMuted = false } = useContext(StreamContext);
     const stream = useMemo(() => props.stream ?? ctxStream, [ctxStream, props.stream]);
@@ -74,7 +75,7 @@ export function Audio(props: AudioProps) {
 
     return <Box sx={{ height: 100, width: 100, ...props.sx }} bgcolor="grey"
         display="flex" alignItems="center" justifyContent="center">
-        {stream && <Icon fontSize='large'>{stream.isRemote ? 'headset_mic' : 'mic'}</Icon>}
+        {stream && <Icon color={color} fontSize='large'>{stream.isRemote ? 'headset_mic' : 'mic'}</Icon>}
         <audio id={id} data-testid={props['data-testid']} ref={audioRef}
             autoPlay={autoPlay} muted={muted}
             onMouseMove={props.onMouseMove} />

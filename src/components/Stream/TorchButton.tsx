@@ -11,7 +11,7 @@ import { StreamContext } from './StreamContext'
 
 export type TorchButtonProps = {
     id?: string,
-    color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning" | undefined,
+    color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning",
     disabled?: boolean,
     ariaLabel?: string,
     torchOffTooltip?: string,
@@ -22,7 +22,7 @@ const COMPONENT_NAME = "TorchButton";
 export function TorchButton(inProps: TorchButtonProps) {
 
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
-    const { id = "torch-btn", color = "primary", ariaLabel = "torch",
+    const { id = "torch-btn", color = undefined, ariaLabel = "torch",
         torchOffTooltip = "Turn off torch", torchOnTooltip = "Turn on torch" } = props;
 
     const { stream } = useContext(StreamContext);

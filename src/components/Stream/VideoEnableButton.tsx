@@ -11,7 +11,7 @@ import { StreamContext } from './StreamContext'
 
 export type VideoEnableButtonProps = {
     id?: string,
-    color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning" | undefined,
+    color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning",
     disabled?: boolean,
     ariaLabel?: string,
     enabledTooltip?: string,
@@ -23,7 +23,7 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
 
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
     const { id = "video-enable-btn",
-        color = "primary",
+        color = undefined,
         ariaLabel = "enable or disable video",
         enabledTooltip = "Video enabled, click to disable",
         disabledTooltip = "Video disabled, click to enable",

@@ -9,7 +9,7 @@ import { StreamContext } from './StreamContext';
 
 export type MuteButtonProps = {
     id?: string,
-    color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning" | undefined,
+    color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning",
     disabled?: boolean,
     ariaLabel?: string,
     mutedTooltip?: string,
@@ -24,7 +24,7 @@ export function MuteButton(inProps: MuteButtonProps) {
     }
 
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
-    const { id = "mute-btn", color = "primary", ariaLabel = "mute",
+    const { id = "mute-btn", color = undefined, ariaLabel = "mute",
         mutedTooltip = "Muted", unmutedTooltip = "On",
         noAudioTooltip = "No Audio" } = props;
 

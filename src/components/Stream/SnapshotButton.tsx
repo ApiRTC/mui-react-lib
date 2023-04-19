@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 
-import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
@@ -11,7 +10,7 @@ import { StreamContext } from './StreamContext';
 
 export type SnapshotButtonProps = {
     id?: string,
-    color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning" | undefined,
+    color?: any,
     disabled?: boolean,
     ariaLabel?: string,
     snapshotTooltip?: string,
@@ -21,12 +20,15 @@ const COMPONENT_NAME = "SnapshotButton";
 export function SnapshotButton(inProps: SnapshotButtonProps) {
 
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
-    const { id = "snapshot-btn", color = "primary", ariaLabel = "snapshot",
+    const { id = "snapshot-btn", color = undefined, ariaLabel = "snapshot",
         snapshotTooltip = "Take snapshot" } = props;
 
     const { stream } = useContext(StreamContext);
 
     const [inProgress, setInProgress] = useState(false);
+
+    //const parentRef = useRef(null);
+    //const progressSize = useMemo(() => Math.min(parentRef.current?.clientHeight, parentRef.current?.clientWidth), [parentRef]);
 
     const onTakeSnapshot = (event: React.SyntheticEvent) => {
         event.preventDefault()
@@ -39,22 +41,21 @@ export function SnapshotButton(inProps: SnapshotButtonProps) {
                 })
         }
     };
-
-    return <Box sx={{
-        position: 'relative'
-    }}><Tooltip title={snapshotTooltip}>
-            <span><IconButton id={id} color={color} aria-label={ariaLabel}
-                disabled={inProps.disabled || inProgress}
-                onClick={onTakeSnapshot}>
-                <Icon>photo_camera</Icon>
-            </IconButton></span>
-        </Tooltip>
-        {/* IconButton is 37px, so set CircularProgress size to 33 with 2px margin centers it */}
-        {inProgress && <CircularProgress sx={{
-            position: 'absolute',
-            top: '2px', left: '2px',
-            opacity: [0.9, 0.8, 0.7],
-            zIndex: 1
-        }} size={33} />}
-    </Box>
+    return <Tooltip title={snapshotTooltip}>
+        <span><IconButton id={id} color={color} aria-label={ariaLabel}
+            disabled={inProps.disabled || inProgress}
+            onClick={onTakeSnapshot}
+            sx={{
+                position: 'relative'
+            }}>
+            <Icon>photo_camera</Icon>
+            {inProgress && <CircularProgress
+                sx={{
+                    position: 'absolute',
+                    zIndex: 1
+                }}
+                style={{ width: '100%', height: '100%' }}
+            />}
+        </IconButton></span>
+    </Tooltip>
 }

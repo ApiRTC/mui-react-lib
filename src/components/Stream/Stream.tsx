@@ -19,7 +19,7 @@ export type StreamProps = {
     id?: string,
     sx?: SxProps,
     name?: string,
-    nameColor?: "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning" | undefined,
+    nameColor?: "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning",
     stream: ApiRtcStream | undefined,
     muted?: boolean,
     controls?: React.ReactNode,
@@ -33,7 +33,7 @@ export function Stream(props: StreamProps) {
         console.debug(COMPONENT_NAME + "|Rendering")
     }
 
-    const { detectSpeaking = false, nameColor = "primary" } = props;
+    const { detectSpeaking = false, nameColor = undefined } = props;
 
     const { value: muted, toggle: toggleMuted } = useToggle(props.muted || false);
 
@@ -75,14 +75,14 @@ export function Stream(props: StreamProps) {
             {props.name && <Chip sx={{
                 position: 'absolute',
                 top: 4, left: '50%', transform: 'translate(-50%)', // 4px from top and centered horizontally
-                opacity: [0.9, 0.8, 0.7],
+                opacity: 0.9,
                 zIndex: 1
             }} label={props.name} color={nameColor} />}
             <Stack sx={{
                 position: 'absolute',
                 float: 'right',
-                bottom: 4, right: 4,
-                opacity: [0.9, 0.8, 0.7],
+                bottom: 8, right: 4,
+                opacity: 0.9,
                 zIndex: 1
             }}>
                 {props.controls}
