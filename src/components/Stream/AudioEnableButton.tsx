@@ -88,6 +88,13 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
         forceUpdate()
     };
 
+    const onToggle = (event: React.SyntheticEvent) => {
+        event.preventDefault()
+        // stop propagation because the underlying Stream may be clickable
+        event.stopPropagation()
+        toggleAudio()
+    };
+
     const onMicKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
         e.preventDefault()
         if (e.key === " " && !stream?.isAudioEnabled()) {
@@ -109,7 +116,7 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
         <span>{/*required by mui tooltip in case button is disabled */}
             <IconButton id={id} key={id} color={color} aria-label={ariaLabel}
                 disabled={props.disabled || (stream && !stream.hasAudio())}
-                onClick={toggleAudio}
+                onClick={onToggle}
                 onKeyDown={onMicKeyDown} onKeyUp={onMicKeyUp}>
                 {stream && stream.hasAudio() && stream.isAudioEnabled() ? <Icon>mic</Icon> : <Icon>mic_off</Icon>}
             </IconButton>

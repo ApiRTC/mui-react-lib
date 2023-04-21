@@ -34,11 +34,18 @@ export function MuteButton(inProps: MuteButtonProps) {
 
     const _icon = stream && stream.hasAudio() ? (muted ? <Icon>volume_off</Icon> : <Icon>volume_up</Icon>) : <Icon>volume_off</Icon>;
 
+    const onToggle = (event: React.SyntheticEvent) => {
+        event.preventDefault()
+        // stop propagation because the underlying Stream may be clickable
+        event.stopPropagation()
+        toggleMuted()
+    };
+
     return <Tooltip title={title}>
         <span>{/*required by mui tooltip in case button is disabled */}
             <IconButton id={id} color={color} aria-label={ariaLabel}
                 disabled={inProps.disabled || (stream && !stream.hasAudio())}
-                onClick={toggleMuted}>
+                onClick={onToggle}>
                 {_icon}
             </IconButton>
         </span>

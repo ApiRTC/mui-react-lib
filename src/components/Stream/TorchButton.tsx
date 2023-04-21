@@ -61,6 +61,8 @@ export function TorchButton(inProps: TorchButtonProps) {
 
     const onToggleTorch = (event: React.SyntheticEvent) => {
         event.preventDefault()
+        // stop propagation because the underlying Stream may be clickable
+        event.stopPropagation()
         if (stream) {
             stream.getSettings().then(settings => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {

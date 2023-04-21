@@ -32,6 +32,8 @@ export function SnapshotButton(inProps: SnapshotButtonProps) {
 
     const onTakeSnapshot = (event: React.SyntheticEvent) => {
         event.preventDefault()
+        // stop propagation because the underlying Stream may be clickable
+        event.stopPropagation()
         if (stream) {
             setInProgress(true)
             stream.takeSnapshot()

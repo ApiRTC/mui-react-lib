@@ -53,7 +53,10 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
         }
     }, [stream])
 
-    const toggleVideo = () => {
+    const toggleVideo = (event: React.SyntheticEvent) => {
+        event.preventDefault()
+        // stop propagation because the underlying Stream may be clickable
+        event.stopPropagation()
         if (stream?.isVideoEnabled()) {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
                 console.debug(COMPONENT_NAME + "|stream.disableVideo", stream?.isVideoEnabled())
