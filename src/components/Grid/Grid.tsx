@@ -1,13 +1,8 @@
 import React, { useMemo } from 'react';
 
-import type { SxProps } from '@mui/material';
-import MuiGrid from '@mui/material/Grid';
+import MuiGrid, { type GridProps } from '@mui/material/Grid';
 
-export type GridProps = {
-    children: React.ReactNode,
-    sx?: SxProps
-};
-export const Grid = ({ children, sx }: GridProps) => {
+export const Grid = ({ children, ...rest }: GridProps) => {
 
     const { arrayChildren, responsive } = useMemo(() => {
         const l_array = React.Children.toArray(children);
@@ -52,9 +47,9 @@ export const Grid = ({ children, sx }: GridProps) => {
         return { arrayChildren: l_array, responsive: l_responsive }
     }, [children])
 
-    return <MuiGrid container direction="row"
-        sx={sx}
-        justifyContent="space-around" alignItems="center">
+    return <MuiGrid container
+        direction="row" justifyContent="space-around" alignItems="center"
+        {...rest}>
         {React.Children.map(arrayChildren, (child, index) => {
             return <MuiGrid item key={index}
                 // in order to display child in the middle of grid item, need to set display:flex AND justifyContent:center

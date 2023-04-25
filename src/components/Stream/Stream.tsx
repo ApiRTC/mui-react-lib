@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import type { SxProps } from '@mui/material'
-import Box from '@mui/material/Box'
+import Box, { type BoxProps } from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Stack from '@mui/material/Stack'
 
@@ -15,27 +14,33 @@ const speakingBorder = {
     borderColor: 'primary.main'
 };
 
-export type StreamProps = {
-    id?: string,
-    sx?: SxProps,
+export interface StreamProps extends BoxProps {
     name?: string,
     nameColor?: "default" | "primary" | "secondary" | "error" | "info" | "success" | "warning",
     stream: ApiRtcStream | undefined,
     muted?: boolean,
     controls?: React.ReactNode,
     detectSpeaking?: boolean,
-    children?: React.ReactNode
-};
+}
+
 const COMPONENT_NAME = "Stream";
-export function Stream(props: StreamProps) {
+export function Stream({
+    id,
+    children,
+    controls,
+    detectSpeaking = false,
+    muted = false,
+    name,
+    nameColor = undefined,
+    stream,
+    sx,
+    ...rest }: StreamProps) {
 
     if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
         console.debug(COMPONENT_NAME + "|Rendering")
     }
 
-    const { detectSpeaking = false, nameColor = undefined } = props;
-
-    const { value: muted, toggle: toggleMuted } = useToggle(props.muted || false);
+    const { value: s_muted, toggle: toggleMuted } = useToggle(muted);
 
     const [isSpeaking, setSpeaking] = useState(false);
 
@@ -44,9 +49,8 @@ export function Stream(props: StreamProps) {
         // need to activate per (remote) stream the detection for that particular stream
         // so that this component would register event listener only if detection is required
         //
-        if (props.stream && detectSpeaking) {
-
-            const l_stream = props.stream;
+        if (stream && detectSpeaking) {
+            const l_stream = stream;
 
             const on_audioAmplitude = (amplitudeInfo: any) => {
                 // { "amplitude": 102.36, "isSpeaking": true }
@@ -60,24 +64,25 @@ export function Stream(props: StreamProps) {
                 l_stream.removeListener('audioAmplitude', on_audioAmplitude)
             }
         }
-    }, [props.stream, detectSpeaking])
+    }, [stream, detectSpeaking])
 
-    return <StreamContext.Provider value={{ stream: props.stream, muted, toggleMuted }}>
-        <Box id={props.id}
+    return <StreamContext.Provider value={{ stream: stream, muted: s_muted, toggleMuted }}>
+        <Box id={id}
             sx={{
                 width: 'fit-content',
                 height: 'fit-content',
-                ...props.sx,
+                ...sx,
                 position: 'relative',
                 ...isSpeaking && speakingBorder
-            }}>
-            {props.children}
-            {props.name && <Chip sx={{
+            }}
+            {...rest}>
+            {children}
+            {name && <Chip sx={{
                 position: 'absolute',
                 top: 4, left: '50%', transform: 'translate(-50%)', // 4px from top and centered horizontally
                 opacity: 0.9,
                 zIndex: 1
-            }} label={props.name} color={nameColor} />}
+            }} label={name} color={nameColor} />}
             <Stack sx={{
                 position: 'absolute',
                 float: 'right',
@@ -85,7 +90,7 @@ export function Stream(props: StreamProps) {
                 opacity: 0.9,
                 zIndex: 1
             }}>
-                {props.controls}
+                {controls}
             </Stack>
         </Box>
     </StreamContext.Provider>
