@@ -53,6 +53,12 @@ it("renders volume_off with no stream", () => {
   expect(container.textContent).toBe("volume_off");
 });
 
+it("renders with aria-label", () => {
+  act(() => { ReactDOM.createRoot(container).render(<MuteButton aria-label="TEST ARIA LABEL" />); });
+  var element = document.querySelector('[aria-label="TEST ARIA LABEL"]');
+  expect(element).toBeTruthy();
+});
+
 it("renders with stream, not muted", async () => {
   const stream = new Stream(null, { id: 'stream-01' });
   const muted = false;

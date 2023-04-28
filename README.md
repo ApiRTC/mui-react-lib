@@ -6,11 +6,13 @@ This library offers **React/MUI** components to be used along with **ApiRTC** ob
 
 `npm install @apirtc/mui-react-lib`
 
-also you will need to install
+Also you will need to add
 
-'<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />'
+```html
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+```
 
-in index.html <head> to make Icon work 
+in index.html `<head>` to make Icons work.
 
 ## Components
 

@@ -1,21 +1,18 @@
 import React, { useContext } from 'react';
 
 import Icon from '@mui/material/Icon';
-import IconButton from '@mui/material/IconButton';
+import IconButton, { type IconButtonProps } from '@mui/material/IconButton';
 import { useThemeProps } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 
 import { StreamContext } from './StreamContext';
 
-export type MuteButtonProps = {
-    id?: string,
-    color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning",
-    disabled?: boolean,
-    ariaLabel?: string,
+export interface MuteButtonProps extends IconButtonProps {
     mutedTooltip?: string,
     unmutedTooltip?: string,
     noAudioTooltip?: string
-};
+}
+
 const COMPONENT_NAME = "MuteButton";
 export function MuteButton(inProps: MuteButtonProps) {
 
@@ -24,9 +21,10 @@ export function MuteButton(inProps: MuteButtonProps) {
     }
 
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
-    const { id = "mute-btn", color = undefined, ariaLabel = "mute",
+    const { id = "mute-btn",
         mutedTooltip = "Muted", unmutedTooltip = "On",
-        noAudioTooltip = "No Audio" } = props;
+        noAudioTooltip = "No Audio", ...rest } = props;
+    const ariaLabel = props['aria-label'] ?? "mute";
 
     const { stream, muted, toggleMuted } = useContext(StreamContext);
 
@@ -34,7 +32,7 @@ export function MuteButton(inProps: MuteButtonProps) {
 
     const _icon = stream && stream.hasAudio() ? (muted ? <Icon>volume_off</Icon> : <Icon>volume_up</Icon>) : <Icon>volume_off</Icon>;
 
-    const onToggle = (event: React.SyntheticEvent) => {
+    const doToggle = (event: React.SyntheticEvent) => {
         event.preventDefault()
         // stop propagation because the underlying Stream may be clickable
         event.stopPropagation()
@@ -43,9 +41,11 @@ export function MuteButton(inProps: MuteButtonProps) {
 
     return <Tooltip title={title}>
         <span>{/*required by mui tooltip in case button is disabled */}
-            <IconButton id={id} color={color} aria-label={ariaLabel}
+            <IconButton id={id}
+                aria-label={ariaLabel}
+                {...rest}
                 disabled={inProps.disabled || (stream && !stream.hasAudio())}
-                onClick={onToggle}>
+                onClick={doToggle}>
                 {_icon}
             </IconButton>
         </span>

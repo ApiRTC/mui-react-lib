@@ -53,7 +53,7 @@ export const Grid = ({ children, ...rest }: GridProps) => {
         {React.Children.map(arrayChildren, (child, index) => {
             return <MuiGrid item key={index}
                 // in order to display child in the middle of grid item, need to set display:flex AND justifyContent:center
-                display='flex' justifyContent='center'
+                display='flex' justifyContent='center' alignItems='center'
                 {...responsive}>
                 {child}
             </MuiGrid>

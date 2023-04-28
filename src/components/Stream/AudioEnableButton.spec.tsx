@@ -51,6 +51,12 @@ it("renders mic_off with no stream", () => {
   expect(container.textContent).toBe("mic_off");
 });
 
+it("renders with aria-label", () => {
+  act(() => { ReactDOM.createRoot(container).render(<AudioEnableButton aria-label="TEST ARIA LABEL" />); });
+  var element = document.querySelector('[aria-label="TEST ARIA LABEL"]');
+  expect(element).toBeTruthy();
+});
+
 it("renders mic with stream with audio and audio enabled", () => {
 
   const stream = new Stream(null, { id: 'stream-01' });

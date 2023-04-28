@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Children, useEffect, useRef, useState } from 'react'
 
 import Box, { type BoxProps } from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -13,6 +13,10 @@ const speakingBorder = {
     border: 1,
     borderColor: 'primary.main'
 };
+
+const mt = 4;
+const mb = 8;
+const mr = 4;
 
 export interface StreamProps extends BoxProps {
     name?: string,
@@ -44,6 +48,8 @@ export function Stream({
 
     const [isSpeaking, setSpeaking] = useState(false);
 
+    const controlsRef = useRef(null);
+
     useEffect(() => {
         // TODO: NOT WORKING => Backlog Fred
         // need to activate per (remote) stream the detection for that particular stream
@@ -66,29 +72,40 @@ export function Stream({
         }
     }, [stream, detectSpeaking])
 
+    const [controlsSize, setControlsSize] = useState({ height: 0, width: 0 });
+
+    useEffect(() => {
+        const current = controlsRef.current as any;
+        if (current) {
+            if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
+                console.debug(COMPONENT_NAME + "|setControlsSize", current.clientHeight, current.clientWidth)
+            }
+            setControlsSize({ height: current.clientHeight, width: current.clientWidth })
+        }
+    }, [controlsRef])
+
     return <StreamContext.Provider value={{ stream: stream, muted: s_muted, toggleMuted }}>
         <Box id={id}
             sx={{
-                width: 'fit-content',
-                height: 'fit-content',
+                minHeight: controlsSize.height + mb * 2 + (name ? 32 + mt : 0),
+                minWidth: controls ? controlsSize.width * 2 + mr * 2 + 40 : 0,
                 ...sx,
                 position: 'relative',
                 ...isSpeaking && speakingBorder
             }}
+            display='flex' justifyContent='center' alignItems='center'
             {...rest}>
             {children}
             {name && <Chip sx={{
                 position: 'absolute',
-                top: 4, left: '50%', transform: 'translate(-50%)', // 4px from top and centered horizontally
-                opacity: 0.9,
-                zIndex: 1
+                top: mt, left: '50%', transform: 'translate(-50%)', // 4px from top and centered horizontally
+                opacity: 0.9, zIndex: 1
             }} label={name} color={nameColor} />}
-            <Stack sx={{
+            <Stack ref={controlsRef} sx={{
                 position: 'absolute',
                 float: 'right',
-                bottom: 8, right: 4,
-                opacity: 0.9,
-                zIndex: 1
+                bottom: mb, right: mr,
+                opacity: 0.9, zIndex: 1
             }}>
                 {controls}
             </Stack>

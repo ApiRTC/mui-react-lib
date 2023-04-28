@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import { MediaStreamTrackFlowStatus, Stream } from '@apirtc/apirtc';
 
-import type { SxProps } from '@mui/material';
-import Box from '@mui/material/Box';
+import Box, { type BoxProps } from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Icon from '@mui/material/Icon';
 import Tooltip from '@mui/material/Tooltip';
@@ -11,10 +10,10 @@ import { useThemeProps } from '@mui/material/styles';
 
 import { StreamContext } from './StreamContext';
 
-export type VideoProps = {
-    id?: string,
-    'data-testid'?: string,
-    sx?: SxProps,
+export interface VideoProps extends Omit<BoxProps, 'style'> {
+    /**
+     * Applies to the video element
+     */
     style?: React.CSSProperties,
     /**
      * Can be set directly, or be passed through StreamContext.
@@ -32,21 +31,26 @@ export type VideoProps = {
     pointerColor?: any,
     progressColor?: "primary" | "inherit" | "secondary" | "error" | "info" | "success" | "warning",
     videoMutedTooltip?: string,
-    onMouseMove?: (event: React.MouseEvent) => void
-};
+}
+
 const COMPONENT_NAME = "Video";
 export function Video(inProps: VideoProps) {
 
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
     const { id = props.stream?.getId(),
-        autoPlay = true,
-        pointerColor = undefined,
-        progressColor = undefined,
-        videoMutedTooltip = "Video muted" } = props;
+        sx,
+        // for video
+        style,
+        autoPlay = true, muted,
+        pointer, pointerColor,
+        progressColor,
+        stream, sinkId,
+        videoMutedTooltip = "Video muted",
+        ...rest } = props;
 
     const { stream: ctxStream, muted: ctxMuted = false } = useContext(StreamContext);
-    const stream = useMemo(() => props.stream ?? ctxStream, [ctxStream, props.stream]);
-    const muted = useMemo(() => props.muted ?? ctxMuted, [ctxMuted, props.muted]);
+    const s_stream = useMemo(() => stream ?? ctxStream, [ctxStream, stream]);
+    const s_muted = useMemo(() => muted ?? ctxMuted, [ctxMuted, muted]);
 
     const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -54,23 +58,23 @@ export function Video(inProps: VideoProps) {
 
     useEffect(() => {
         const htmlMediaElement = videoRef?.current as any;
-        if (stream && htmlMediaElement) {
+        if (s_stream && htmlMediaElement) {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|useEffect stream", htmlMediaElement, stream)
+                console.debug(COMPONENT_NAME + "|useEffect stream", htmlMediaElement, s_stream)
             }
-            stream.attachToElement(htmlMediaElement)
+            s_stream.attachToElement(htmlMediaElement)
 
             // manage isVideoMuted to display a spinner when track is muted for technical reasons
             // only works on chrome
             //
             const onVideoFlowStatusChanged = (mediaStreamTrackFlowStatus: MediaStreamTrackFlowStatus) => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                    console.debug(COMPONENT_NAME + "|onVideoFlowStatusChanged", stream, mediaStreamTrackFlowStatus)
+                    console.debug(COMPONENT_NAME + "|onVideoFlowStatusChanged", s_stream, mediaStreamTrackFlowStatus)
                 }
                 setVideoMuted(mediaStreamTrackFlowStatus.muted)
             };
-            stream.on('videoFlowStatusChanged', onVideoFlowStatusChanged)
-            stream.on('remoteVideoFlowStatusChanged', onVideoFlowStatusChanged)
+            s_stream.on('videoFlowStatusChanged', onVideoFlowStatusChanged)
+            s_stream.on('remoteVideoFlowStatusChanged', onVideoFlowStatusChanged)
 
             return () => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
@@ -78,46 +82,40 @@ export function Video(inProps: VideoProps) {
                 }
                 htmlMediaElement.src = "";
 
-                stream.removeListener('audioFlowStatusChanged', onVideoFlowStatusChanged)
-                stream.removeListener('remoteAudioFlowStatusChanged', onVideoFlowStatusChanged)
+                s_stream.removeListener('audioFlowStatusChanged', onVideoFlowStatusChanged)
+                s_stream.removeListener('remoteAudioFlowStatusChanged', onVideoFlowStatusChanged)
             }
         }
-    }, [stream])
+    }, [s_stream])
     // No need to put videoRef.current because useRef does not trigger rerender anyways
-
+    
     useEffect(() => {
         const htmlMediaElement = videoRef?.current as any;
-        if (htmlMediaElement && props.sinkId) {
+        if (htmlMediaElement && sinkId) {
             // As of today 2022/11 setSinkId does not exist on HtmlMediaElement
             // while described on https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/setSinkId
             // It is not supported on Firefox.
             // To bypass typescript check, go through any
             //const htmlMediaElement = ref as any;
             if (htmlMediaElement.setSinkId) {
-                htmlMediaElement.setSinkId(props.sinkId)
+                htmlMediaElement.setSinkId(sinkId)
             }
         }
-    }, [props.sinkId])
+    }, [sinkId])
 
-    return <Box sx={{ ...props.sx, position: 'relative' }}>
-        <video id={id} data-testid={props['data-testid']}
-            style={props.style}
-            ref={videoRef}
-            autoPlay={autoPlay} muted={muted}
-            onMouseMove={props.onMouseMove} />
-        {props.pointer && <Icon sx={{
+    return <Box sx={{ ...sx, position: 'relative' }} {...rest}>
+        <video id={id} ref={videoRef} style={style}
+            autoPlay={autoPlay} muted={s_muted} />
+        {pointer && <Icon sx={{
             position: 'absolute',
-            //top: props.pointer.y - 12, left: props.pointer.x - 12, // icon is 24x24px, so offset to mid
-            top: props.pointer.top, left: props.pointer.left, transform: 'translate(-50%,-50%)',
-            opacity: 0.9,
-            zIndex: 1
+            top: pointer.top, left: pointer.left, transform: 'translate(-50%,-50%)',
+            opacity: 0.9, zIndex: 1
         }} color={pointerColor}>adjust</Icon>}
         {videoMuted &&
             <Tooltip sx={{
                 position: 'absolute',
                 top: '50%', left: '50%', transform: 'translate(-50%,-50%)', // centered
-                opacity: 0.9,
-                zIndex: 1
+                opacity: 0.9, zIndex: 1
             }} title={videoMutedTooltip}>
                 <CircularProgress color={progressColor} />
             </Tooltip>}

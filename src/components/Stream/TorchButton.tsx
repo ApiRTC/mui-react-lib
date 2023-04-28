@@ -13,7 +13,7 @@ export type TorchButtonProps = {
     id?: string,
     color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning",
     disabled?: boolean,
-    ariaLabel?: string,
+    'aria-label'?: string,
     torchOffTooltip?: string,
     torchOnTooltip?: string
 };
@@ -22,8 +22,9 @@ const COMPONENT_NAME = "TorchButton";
 export function TorchButton(inProps: TorchButtonProps) {
 
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
-    const { id = "torch-btn", color = undefined, ariaLabel = "torch",
+    const { id = "torch-btn", color = undefined,
         torchOffTooltip = "Turn off torch", torchOnTooltip = "Turn on torch" } = props;
+    const ariaLabel = props['aria-label'] ?? "torch";
 
     const { stream } = useContext(StreamContext);
 

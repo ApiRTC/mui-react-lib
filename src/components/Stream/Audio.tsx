@@ -2,17 +2,12 @@ import React, { useContext, useEffect, useMemo, useRef } from 'react';
 
 import { Stream } from '@apirtc/apirtc';
 
-import type { SxProps } from '@mui/material';
-import Box from '@mui/material/Box';
+import Box, { type BoxProps } from '@mui/material/Box';
 import Icon from '@mui/material/Icon';
 
 import { StreamContext } from './StreamContext';
 
-export type AudioProps = {
-    id?: string,
-    'data-testid'?: string,
-    sx?: SxProps,
-    color?: any,
+export interface AudioProps extends BoxProps {
     /**
      * Can be set directly, or be passed through StreamContext.
      */
@@ -24,9 +19,9 @@ export type AudioProps = {
      * Can be set directly, or be passed through StreamContext.
      * @defaultValue false */
     muted?: boolean,
-    sinkId?: string,
-    onMouseMove?: (event: React.MouseEvent) => void
-};
+    sinkId?: string
+}
+
 const COMPONENT_NAME = "Audio";
 export function Audio(props: AudioProps) {
 
@@ -34,21 +29,24 @@ export function Audio(props: AudioProps) {
         console.debug(COMPONENT_NAME + "|Rendering")
     }
 
-    const { id = props.stream?.getId(), color = undefined, autoPlay = true } = props;
+    const { id = props.stream?.getId(),
+        autoPlay = true, muted,
+        stream, sinkId,
+        ...rest } = props;
 
     const { stream: ctxStream, muted: ctxMuted = false } = useContext(StreamContext);
-    const stream = useMemo(() => props.stream ?? ctxStream, [ctxStream, props.stream]);
-    const muted = useMemo(() => props.muted ?? ctxMuted, [ctxMuted, props.muted]);
+    const s_stream = useMemo(() => stream ?? ctxStream, [ctxStream, stream]);
+    const s_muted = useMemo(() => muted ?? ctxMuted, [ctxMuted, muted]);
 
     const audioRef = useRef<HTMLAudioElement>(null);
 
     useEffect(() => {
         const htmlMediaElement = audioRef?.current as any;
-        if (stream && htmlMediaElement) {
+        if (s_stream && htmlMediaElement) {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|useEffect stream", htmlMediaElement, stream)
+                console.debug(COMPONENT_NAME + "|useEffect stream", htmlMediaElement, s_stream)
             }
-            stream.attachToElement(htmlMediaElement)
+            s_stream.attachToElement(htmlMediaElement)
             return () => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
                     console.debug(COMPONENT_NAME + "|useEffect stream destroy")
@@ -56,7 +54,7 @@ export function Audio(props: AudioProps) {
                 htmlMediaElement.src = "";
             }
         }
-    }, [stream])
+    }, [s_stream])
     // No need to put videoRef.current because useRef does not trigger rerender anyways
 
     useEffect(() => {
@@ -73,11 +71,10 @@ export function Audio(props: AudioProps) {
         }
     }, [props.sinkId])
 
-    return <Box sx={{ height: 100, width: 100, ...props.sx }} bgcolor="grey"
-        display="flex" alignItems="center" justifyContent="center">
-        {stream && <Icon color={color} fontSize='large'>{stream.isRemote ? 'headset_mic' : 'mic'}</Icon>}
-        <audio id={id} data-testid={props['data-testid']} ref={audioRef}
-            autoPlay={autoPlay} muted={muted}
-            onMouseMove={props.onMouseMove} />
+    return <Box display="flex" alignItems="center" justifyContent="center"
+        {...rest}>
+        {s_stream && <Icon fontSize='large'>{s_stream.isRemote ? 'headset_mic' : 'mic'}</Icon>}
+        <audio id={id} ref={audioRef}
+            autoPlay={autoPlay} muted={s_muted} />
     </Box>
 }

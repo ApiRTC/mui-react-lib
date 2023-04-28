@@ -13,7 +13,7 @@ export type VideoEnableButtonProps = {
     id?: string,
     color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning",
     disabled?: boolean,
-    ariaLabel?: string,
+    'aria-label'?: string,
     enabledTooltip?: string,
     disabledTooltip?: string,
     noVideoTooltip?: string
@@ -24,10 +24,11 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
     const { id = "video-enable-btn",
         color = undefined,
-        ariaLabel = "enable or disable video",
+        // ariaLabel = "enable or disable video",
         enabledTooltip = "Video enabled, click to disable",
         disabledTooltip = "Video disabled, click to enable",
         noVideoTooltip = "No Video" } = props;
+    const ariaLabel = props['aria-label'] ?? "enable or disable video";
 
     // Toggling video on stream is not captured in react state
     // so using forceUpdate when video is changed will force rendering

@@ -52,7 +52,12 @@ it("renders with no stream", () => {
 it("renders with no stream, sinkId", () => {
   act(() => { ReactDOM.createRoot(container).render(<Video sinkId='a-sink-id' />); });
   expect(container.textContent).toBe("");
-  //TODO: how to check
+  //TODO: how to check sinkId
+});
+
+it("renders with no stream, onMouseMove", () => {
+  act(() => { ReactDOM.createRoot(container).render(<Video onMouseMove={jest.fn()} />); });
+  expect(container.textContent).toBe("");
 });
 
 it("renders with stream", () => {

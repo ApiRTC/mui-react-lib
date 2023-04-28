@@ -19,7 +19,7 @@ export type AudioEnableButtonProps = {
     id?: string,
     color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning",
     disabled?: boolean,
-    ariaLabel?: string,
+    'aria-label'?: string,
     enabledTooltip?: string,
     disabledTooltip?: string,
     noAudioTooltip?: string
@@ -30,10 +30,11 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
     const { id = "audio-enable-btn",
         color = undefined,
-        ariaLabel = "enable or disable audio",
+        //ariaLabel = "enable or disable audio",
         enabledTooltip = "Audio enabled, click to disable",
         disabledTooltip = "Audio disabled, click to enable",
         noAudioTooltip = "No Audio" } = props;
+    const ariaLabel = props['aria-label'] ?? "enable or disable audio";
 
     // Toggling audio on stream is not captured in react state
     // so using forceUpdate when audio is changed will force rendering

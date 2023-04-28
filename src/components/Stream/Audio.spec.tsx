@@ -56,6 +56,11 @@ it("renders with no stream, sinkId", () => {
   //TODO: how to check
 });
 
+it("renders with no stream, onMouseMove", () => {
+  act(() => { ReactDOM.createRoot(container).render(<Audio onMouseMove={jest.fn()} />); });
+  expect(container.textContent).toBe("");
+});
+
 it("renders mic with stream with isRemote false", () => {
 
   const stream = new Stream(null, { id: 'stream-01' });

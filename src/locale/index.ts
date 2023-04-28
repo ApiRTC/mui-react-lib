@@ -9,25 +9,25 @@ import { VideoEnableButtonProps } from "../components/Stream/VideoEnableButton";
 export default interface Localization {
     components?: {
         ApiRtcMuiReactLibAudioEnableButton?: {
-            defaultProps: Pick<AudioEnableButtonProps, 'ariaLabel' | 'enabledTooltip' | 'disabledTooltip' | 'noAudioTooltip'>;
+            defaultProps: Pick<AudioEnableButtonProps, 'aria-label' | 'enabledTooltip' | 'disabledTooltip' | 'noAudioTooltip'>;
         };
         ApiRtcMuiReactLibMuteButton?: {
-            defaultProps: Pick<MuteButtonProps, 'ariaLabel' | 'mutedTooltip' | 'unmutedTooltip' | 'noAudioTooltip'>;
+            defaultProps: Pick<MuteButtonProps, 'aria-label' | 'mutedTooltip' | 'unmutedTooltip' | 'noAudioTooltip'>;
         };
         ApiRtcMuiReactLibPublishOptions?: {
             defaultProps: Pick<PublishOptionsProps, 'labelText' | 'audioAndVideoText' | 'audioOnlyText' | 'videoOnlyText'>;
         };
         ApiRtcMuiReactLibSnapshotButton?: {
-            defaultProps: Pick<SnapshotButtonProps, 'snapshotTooltip'>;
+            defaultProps: Pick<SnapshotButtonProps, 'aria-label' | 'snapshotTooltip'>;
         };
         ApiRtcMuiReactLibTorchButton?: {
-            defaultProps: Pick<TorchButtonProps, 'torchOffTooltip' | 'torchOnTooltip'>;
+            defaultProps: Pick<TorchButtonProps, 'aria-label' | 'torchOffTooltip' | 'torchOnTooltip'>;
         };
         ApiRtcMuiReactLibVideo?: {
             defaultProps: Pick<VideoProps, 'videoMutedTooltip'>;
         };
         ApiRtcMuiReactLibVideoEnableButton?: {
-            defaultProps: Pick<VideoEnableButtonProps, 'ariaLabel' | 'enabledTooltip' | 'disabledTooltip' | 'noVideoTooltip'>;
+            defaultProps: Pick<VideoEnableButtonProps, 'aria-label' | 'enabledTooltip' | 'disabledTooltip' | 'noVideoTooltip'>;
         };
     };
 }
