@@ -54,8 +54,7 @@ export function SnapshotButton(inProps: SnapshotButtonProps) {
             <Icon>photo_camera</Icon>
             {inProgress && <CircularProgress
                 sx={{
-                    position: 'absolute',
-                    zIndex: 1
+                    position: 'absolute'
                 }}
                 style={{ width: '100%', height: '100%' }}
             />}

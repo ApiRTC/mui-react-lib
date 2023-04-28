@@ -88,7 +88,7 @@ export function Video(inProps: VideoProps) {
         }
     }, [s_stream])
     // No need to put videoRef.current because useRef does not trigger rerender anyways
-    
+
     useEffect(() => {
         const htmlMediaElement = videoRef?.current as any;
         if (htmlMediaElement && sinkId) {
@@ -109,13 +109,13 @@ export function Video(inProps: VideoProps) {
         {pointer && <Icon sx={{
             position: 'absolute',
             top: pointer.top, left: pointer.left, transform: 'translate(-50%,-50%)',
-            opacity: 0.9, zIndex: 1
+            opacity: 0.9
         }} color={pointerColor}>adjust</Icon>}
         {videoMuted &&
             <Tooltip sx={{
                 position: 'absolute',
                 top: '50%', left: '50%', transform: 'translate(-50%,-50%)', // centered
-                opacity: 0.9, zIndex: 1
+                opacity: 0.9
             }} title={videoMutedTooltip}>
                 <CircularProgress color={progressColor} />
             </Tooltip>}
