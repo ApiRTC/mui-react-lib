@@ -1,6 +1,6 @@
 {
   "name": "@apirtc/mui-react-lib",
-  "version": "1.0.1-rc.25",
+  "version": "1.0.1",
   "description": "mui/react ui components library for ApiRTC",
   "main": "dist/esm/index.js",
   "module": "dist/esm/index.js",
@@ -25,10 +25,10 @@
     "url": "https://github.com/ApiRTC/mui-react-lib"
   },
   "peerDependencies": {
-    "@apirtc/apirtc": "^5.0.4",
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@mui/material": "^5.11.9",
+    "@apirtc/apirtc": "^5.0.10",
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@mui/material": "^5.12.3",
     "react": ">=17"
   },
   "devDependencies": {
