@@ -98,13 +98,13 @@ export function Stream({
             {children}
             {name && <Chip sx={{
                 position: 'absolute',
-                top: mt, left: '50%', transform: 'translate(-50%)', // 4px from top and centered horizontally
+                top: { xs: mt, md: mt * 2, lg: mt * 4 }, left: '50%', transform: 'translate(-50%)', // 4px from top and centered horizontally
                 opacity: 0.9
             }} label={name} color={nameColor} />}
             <Stack ref={controlsRef} sx={{
                 position: 'absolute',
                 float: 'right',
-                bottom: mb, right: mr,
+                bottom: { xs: mb, md: mb * 2, lg: mb * 4 }, right: { xs: mr, md: mr * 2, lg: mr * 4 },
                 opacity: 0.9
             }}>
                 {controls}
