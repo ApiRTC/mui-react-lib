@@ -10,6 +10,9 @@ import '../../mock/getDisplayMedia.mock';
 
 import { Stream } from "@apirtc/apirtc";
 
+import ResizeObserver from 'resize-observer-polyfill';
+global.ResizeObserver = ResizeObserver;
+
 // Partial mocking @apirtc/apirtc module
 // see https://jestjs.io/docs/mock-functions
 jest.mock('@apirtc/apirtc', () => {

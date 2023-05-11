@@ -3,27 +3,25 @@ import React, { useContext, useEffect, useState } from 'react'
 import { MediaStreamSettings, MediaTrackVideoConstraints } from '@apirtc/apirtc'
 
 import Icon from '@mui/material/Icon'
-import IconButton from '@mui/material/IconButton'
+import IconButton, { IconButtonProps } from '@mui/material/IconButton'
 import { useThemeProps } from '@mui/material/styles'
 import Tooltip from '@mui/material/Tooltip'
 
 import { StreamContext } from './StreamContext'
 
-export type TorchButtonProps = {
-    id?: string,
-    color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning",
-    disabled?: boolean,
-    'aria-label'?: string,
+export interface TorchButtonProps extends IconButtonProps {
     torchOffTooltip?: string,
     torchOnTooltip?: string
-};
+}
 
 const COMPONENT_NAME = "TorchButton";
 export function TorchButton(inProps: TorchButtonProps) {
 
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
-    const { id = "torch-btn", color = undefined,
-        torchOffTooltip = "Turn off torch", torchOnTooltip = "Turn on torch" } = props;
+    const { id = "torch-btn",
+        torchOffTooltip = "Turn off torch", torchOnTooltip = "Turn on torch",
+        ...rest
+    } = props;
     const ariaLabel = props['aria-label'] ?? "torch";
 
     const { stream } = useContext(StreamContext);
@@ -74,8 +72,8 @@ export function TorchButton(inProps: TorchButtonProps) {
                 stream.applyConstraints({
                     video: {
                         torch: newValue,
-                        advanced: [{ torch: newValue }]
-                    }
+                        advanced: [{ torch: newValue } as any]
+                    } as any
                 }).then(() => {
                     setTorch(newValue)
                     if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
@@ -99,10 +97,13 @@ export function TorchButton(inProps: TorchButtonProps) {
 
     return <Tooltip title={title}>
         <span>{/*required by mui tooltip in case button is disabled */}
-            <IconButton id={id} color={color} aria-label={ariaLabel}
-                disabled={inProps.disabled}
+            <IconButton id={id}
+                aria-label={ariaLabel}
+                {...rest}
                 onClick={onToggleTorch}>
-                {torch ? <Icon>flashlight_off</Icon> : <Icon>flashlight_on</Icon>}
+                {torch ?
+                    <Icon fontSize={props.size}>flashlight_off</Icon> :
+                    <Icon fontSize={props.size}>flashlight_on</Icon>}
             </IconButton>
         </span>
     </Tooltip>

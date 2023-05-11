@@ -1,4 +1,4 @@
-import React, { Children, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 import Box, { type BoxProps } from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
@@ -13,10 +13,6 @@ const speakingBorder = {
     border: 1,
     borderColor: 'primary.main'
 };
-
-const mt = 4;
-const mb = 8;
-const mr = 4;
 
 export interface StreamProps extends BoxProps {
     name?: string,
@@ -48,7 +44,11 @@ export function Stream({
 
     const [isSpeaking, setSpeaking] = useState(false);
 
+    const ref = useRef(null);
     const controlsRef = useRef(null);
+
+    const [size, setSize] = useState({ height: 0, width: 0 });
+    const [controlsSize, setControlsSize] = useState({ height: 0, width: 0 });
 
     useEffect(() => {
         // TODO: NOT WORKING => Backlog Fred
@@ -72,7 +72,22 @@ export function Stream({
         }
     }, [stream, detectSpeaking])
 
-    const [controlsSize, setControlsSize] = useState({ height: 0, width: 0 });
+    useEffect(() => {
+        const current = ref.current as any;
+        if (current) {
+            setSize({ height: current.clientHeight, width: current.clientWidth })
+
+            const observer = new ResizeObserver(() => {
+                setSize({ height: current.clientHeight, width: current.clientWidth })
+            });
+
+            observer.observe(current)
+
+            return () => {
+                observer.disconnect()
+            }
+        }
+    }, [ref])
 
     useEffect(() => {
         const current = controlsRef.current as any;
@@ -84,11 +99,16 @@ export function Stream({
         }
     }, [controlsRef])
 
+    const overlaysMargin = useMemo(() => {
+        return Math.max(Math.ceil(size.width * 0.01), 4)
+    }, [size])
+
     return <StreamContext.Provider value={{ stream: stream, muted: s_muted, toggleMuted }}>
         <Box id={id}
+            ref={ref}
             sx={{
-                minHeight: controlsSize.height + mb * 2 + (name ? 32 + mt : 0),
-                minWidth: controls ? controlsSize.width * 2 + mr * 2 + 40 : 0,
+                minHeight: controlsSize.height + overlaysMargin + (name ? 32 : 0),
+                minWidth: controls ? Math.max(controlsSize.width * 2, 40) + overlaysMargin : 0,
                 ...sx,
                 position: 'relative',
                 ...isSpeaking && speakingBorder
@@ -98,13 +118,13 @@ export function Stream({
             {children}
             {name && <Chip sx={{
                 position: 'absolute',
-                top: { xs: mt, md: mt * 2, lg: mt * 4 }, left: '50%', transform: 'translate(-50%)', // 4px from top and centered horizontally
+                top: overlaysMargin, left: '50%', transform: 'translate(-50%)', // 4px from top and centered horizontally
                 opacity: 0.9
             }} label={name} color={nameColor} />}
             <Stack ref={controlsRef} sx={{
                 position: 'absolute',
                 float: 'right',
-                bottom: { xs: mb, md: mb * 2, lg: mb * 4 }, right: { xs: mr, md: mr * 2, lg: mr * 4 },
+                bottom: overlaysMargin, right: overlaysMargin,
                 opacity: 0.9
             }}>
                 {controls}

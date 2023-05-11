@@ -30,7 +30,9 @@ export function MuteButton(inProps: MuteButtonProps) {
 
     const title = stream && stream.hasAudio() ? (muted ? mutedTooltip : unmutedTooltip) : noAudioTooltip;
 
-    const _icon = stream && stream.hasAudio() ? (muted ? <Icon>volume_off</Icon> : <Icon>volume_up</Icon>) : <Icon>volume_off</Icon>;
+    const _icon = stream && stream.hasAudio() ?
+        (muted ? <Icon fontSize={props.size}>volume_off</Icon> : <Icon fontSize={props.size}>volume_up</Icon>) :
+        <Icon fontSize={props.size}>volume_off</Icon>;
 
     const doToggle = (event: React.SyntheticEvent) => {
         event.preventDefault()

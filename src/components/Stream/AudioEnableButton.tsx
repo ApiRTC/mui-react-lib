@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useReducer } from 'react'
 import { MediaStreamTrackFlowStatus } from '@apirtc/apirtc'
 
 import Icon from '@mui/material/Icon'
-import IconButton from '@mui/material/IconButton'
+import IconButton, { IconButtonProps } from '@mui/material/IconButton'
 import { useThemeProps } from '@mui/material/styles'
 import Tooltip from '@mui/material/Tooltip'
 
@@ -15,25 +15,20 @@ import Tooltip from '@mui/material/Tooltip'
 
 import { StreamContext } from './StreamContext'
 
-export type AudioEnableButtonProps = {
-    id?: string,
-    color?: "primary" | "inherit" | "default" | "secondary" | "error" | "info" | "success" | "warning",
-    disabled?: boolean,
-    'aria-label'?: string,
+export interface AudioEnableButtonProps extends IconButtonProps {
     enabledTooltip?: string,
     disabledTooltip?: string,
     noAudioTooltip?: string
-};
+}
+
 const COMPONENT_NAME = "AudioEnableButton";
 export function AudioEnableButton(inProps: AudioEnableButtonProps) {
 
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
     const { id = "audio-enable-btn",
-        color = undefined,
-        //ariaLabel = "enable or disable audio",
         enabledTooltip = "Audio enabled, click to disable",
         disabledTooltip = "Audio disabled, click to enable",
-        noAudioTooltip = "No Audio" } = props;
+        noAudioTooltip = "No Audio", ...rest } = props;
     const ariaLabel = props['aria-label'] ?? "enable or disable audio";
 
     // Toggling audio on stream is not captured in react state
@@ -115,11 +110,15 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
 
     return <Tooltip title={title}>
         <span>{/*required by mui tooltip in case button is disabled */}
-            <IconButton id={id} key={id} color={color} aria-label={ariaLabel}
+            <IconButton id={id} key={id}
+                aria-label={ariaLabel}
+                {...rest}
                 disabled={props.disabled || (stream && !stream.hasAudio())}
                 onClick={onToggle}
                 onKeyDown={onMicKeyDown} onKeyUp={onMicKeyUp}>
-                {stream && stream.hasAudio() && stream.isAudioEnabled() ? <Icon>mic</Icon> : <Icon>mic_off</Icon>}
+                {stream && stream.hasAudio() && stream.isAudioEnabled() ?
+                    <Icon fontSize={props.size}>mic</Icon> :
+                    <Icon fontSize={props.size}>mic_off</Icon>}
             </IconButton>
         </span>
     </Tooltip>
