@@ -110,7 +110,7 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
 
     return <Tooltip title={title}>
         <span>{/*required by mui tooltip in case button is disabled */}
-            <IconButton id={id} key={id}
+            <IconButton id={id}
                 aria-label={ariaLabel}
                 {...rest}
                 disabled={props.disabled || (stream && !stream.hasAudio())}

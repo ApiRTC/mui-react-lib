@@ -18,7 +18,8 @@ export function SnapshotButton(inProps: SnapshotButtonProps) {
 
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
     const { id = "snapshot-btn",
-        snapshotTooltip = "Take snapshot", ...rest } = props;
+        snapshotTooltip = "Take snapshot",
+        sx, ...rest } = props;
     const ariaLabel = props['aria-label'] ?? "snapshot";
 
     const { stream } = useContext(StreamContext);
@@ -45,7 +46,8 @@ export function SnapshotButton(inProps: SnapshotButtonProps) {
             disabled={inProps.disabled || inProgress}
             onClick={onTakeSnapshot}
             sx={{
-                position: 'relative'
+                position: 'relative',
+                ...sx
             }}>
             <Icon fontSize={props.size}>photo_camera</Icon>
             {inProgress && <CircularProgress
