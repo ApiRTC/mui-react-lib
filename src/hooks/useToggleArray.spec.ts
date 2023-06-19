@@ -3,6 +3,7 @@ import { act, renderHook } from '@testing-library/react';
 import useToggleArray from './useToggleArray';
 
 describe('useToggleArray', () => {
+
     test(`Empty array value will be undefined`, () => {
         const { result } = renderHook(() => useToggleArray([]))
         expect(result.current.value).toBe(undefined)
@@ -65,6 +66,18 @@ describe('useToggleArray', () => {
         })
         expect(result.current.value).toBe(two)
         expect(result.current.index).toBe(1)
+    })
+
+    test(`re-render with different initial props`, () => {
+        //const { result, rerender } = renderHook(useToggleArray, { initialProps: { values: ['1', '2'], initIndex: 0 } });
+        const { result, rerender } = renderHook(useToggleArray, { initialProps: ['1', '2'] });
+        expect(result.current.value).toBe('1')
+
+        rerender()
+        expect(result.current.value).toBe(undefined)
+
+        rerender(['a', 'b'])
+        expect(result.current.value).toBe('a')
     })
 
 })

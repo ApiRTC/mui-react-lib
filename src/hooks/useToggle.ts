@@ -1,14 +1,19 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-const useToggle = (initialValue: boolean) => {
-  const [value, setValue] = useState(initialValue);
+const useToggle = (iValue: boolean) => {
+  const [value, setValue] = useState(iValue);
 
   const toggle = useCallback(() => {
     setValue((prev) => !prev);
   }, []);
 
+  useEffect(() => {
+    setValue(iValue)
+  }, [iValue])
+
   return useMemo(() => ({
     value,
+    setValue,
     toggle
   }), [value, toggle]
   );

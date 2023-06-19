@@ -17,7 +17,7 @@ const COMPONENT_NAME = "MuteButton";
 export function MuteButton(inProps: MuteButtonProps) {
 
     if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-        console.debug(COMPONENT_NAME + "|Rendering")
+        console.debug(`${COMPONENT_NAME}|Rendering`)
     }
 
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
