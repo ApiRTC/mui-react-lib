@@ -23,6 +23,8 @@ export interface StreamProps extends BoxProps {
     detectSpeaking?: boolean,
 }
 
+const MIN_BORDER = 4;
+
 const COMPONENT_NAME = "Stream";
 export function Stream({
     id,
@@ -75,12 +77,15 @@ export function Stream({
     useEffect(() => {
         const current = ref.current as any;
         if (current) {
+            if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
+                console.debug(COMPONENT_NAME + "|setSize", current.clientHeight, current.clientWidth)
+            }
+
             setSize({ height: current.clientHeight, width: current.clientWidth })
 
             const observer = new ResizeObserver(() => {
                 setSize({ height: current.clientHeight, width: current.clientWidth })
             });
-
             observer.observe(current)
 
             return () => {
@@ -95,19 +100,29 @@ export function Stream({
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
                 console.debug(COMPONENT_NAME + "|setControlsSize", current.clientHeight, current.clientWidth)
             }
+
             setControlsSize({ height: current.clientHeight, width: current.clientWidth })
+
+            const observer = new ResizeObserver(() => {
+                setControlsSize({ height: current.clientHeight, width: current.clientWidth })
+            });
+            observer.observe(current)
+
+            return () => {
+                observer.disconnect()
+            }
         }
     }, [controlsRef])
 
     const overlaysMargin = useMemo(() => {
-        return Math.max(Math.ceil(size.width * 0.01), 4)
+        return Math.max(Math.ceil(size.width * 0.01), MIN_BORDER)
     }, [size])
 
     return <StreamContext.Provider value={{ stream: stream, muted: s_muted, toggleMuted }}>
         <Box id={id}
             ref={ref}
             sx={{
-                minHeight: controlsSize.height + overlaysMargin + (name ? 32 : 0),
+                minHeight: controlsSize.height + overlaysMargin * 2 + (name ? 32 + MIN_BORDER : 0),
                 minWidth: controls ? Math.max(controlsSize.width * 2, 40) + overlaysMargin : 0,
                 ...sx,
                 position: 'relative',
