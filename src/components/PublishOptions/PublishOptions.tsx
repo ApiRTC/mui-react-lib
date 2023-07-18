@@ -4,14 +4,15 @@ import { PublishOptions as ApiRtcPublishOptions } from '@apirtc/apirtc'
 
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import FormLabel from '@mui/material/FormLabel'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import { useThemeProps } from '@mui/material/styles'
 
 import useToggleArray from '../../hooks/useToggleArray'
-import FormLabel from '@mui/material/FormLabel'
 
-const PUBLISH_OPTIONS: Array<ApiRtcPublishOptions> = [{}, { audioOnly: true }, { videoOnly: true }];
+const EMPTY: ApiRtcPublishOptions = {};
+const PUBLISH_OPTIONS: Array<ApiRtcPublishOptions> = [EMPTY, { audioOnly: true }, { videoOnly: true }];
 
 const toIndex = (publishOptions: ApiRtcPublishOptions): number => {
     if (publishOptions.audioOnly) {
@@ -24,7 +25,7 @@ const toIndex = (publishOptions: ApiRtcPublishOptions): number => {
 
 export type PublishOptionsProps = {
     value: ApiRtcPublishOptions,
-    onChange: (options: ApiRtcPublishOptions | undefined) => void,
+    onChange: (options: ApiRtcPublishOptions) => void,
     labelText?: string,
     audioAndVideoText?: string,
     audioOnlyText?: string,
@@ -45,7 +46,7 @@ export function PublishOptions(inProps: PublishOptionsProps) {
     }, [JSON.stringify(props.value)])
 
     useEffect(() => {
-        props.onChange(publishOptions)
+        props.onChange(publishOptions ?? EMPTY)
     }, [publishOptions])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
