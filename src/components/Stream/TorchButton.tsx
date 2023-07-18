@@ -5,13 +5,14 @@ import { MediaStreamSettings, MediaTrackVideoConstraints } from '@apirtc/apirtc'
 import Icon from '@mui/material/Icon'
 import IconButton, { IconButtonProps } from '@mui/material/IconButton'
 import { useThemeProps } from '@mui/material/styles'
-import Tooltip from '@mui/material/Tooltip'
+import Tooltip, { TooltipProps } from '@mui/material/Tooltip'
 
 import { StreamContext } from './StreamContext'
 
 export interface TorchButtonProps extends IconButtonProps {
     torchOffTooltip?: string,
-    torchOnTooltip?: string
+    torchOnTooltip?: string,
+    tooltipProps?: Omit<TooltipProps, 'title' | 'children'>
 }
 
 const COMPONENT_NAME = "TorchButton";
@@ -20,6 +21,7 @@ export function TorchButton(inProps: TorchButtonProps) {
     const props = useThemeProps({ props: inProps, name: `ApiRtcMuiReactLib${COMPONENT_NAME}` });
     const { id = "torch-btn",
         torchOffTooltip = "Turn off torch", torchOnTooltip = "Turn on torch",
+        tooltipProps = { placement: 'left', arrow: true },
         ...rest
     } = props;
     const ariaLabel = props['aria-label'] ?? "torch";
@@ -95,7 +97,7 @@ export function TorchButton(inProps: TorchButtonProps) {
 
     const title = torch ? torchOffTooltip : torchOnTooltip;
 
-    return <Tooltip title={title}>
+    return <Tooltip title={title} {...tooltipProps}>
         <span>{/*required by mui tooltip in case button is disabled */}
             <IconButton id={id}
                 aria-label={ariaLabel}

@@ -5,14 +5,15 @@ import { MediaStreamTrackFlowStatus } from '@apirtc/apirtc'
 import Icon from '@mui/material/Icon'
 import IconButton, { IconButtonProps } from '@mui/material/IconButton'
 import { useThemeProps } from '@mui/material/styles'
-import Tooltip from '@mui/material/Tooltip'
+import Tooltip, { TooltipProps } from '@mui/material/Tooltip'
 
 import { StreamContext } from './StreamContext'
 
 export interface VideoEnableButtonProps extends IconButtonProps {
     enabledTooltip?: string,
     disabledTooltip?: string,
-    noVideoTooltip?: string
+    noVideoTooltip?: string,
+    tooltipProps?: Omit<TooltipProps, 'title' | 'children'>
 }
 
 const COMPONENT_NAME = "VideoEnableButton";
@@ -22,7 +23,9 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
     const { id = "video-enable-btn",
         enabledTooltip = "Video enabled, click to disable",
         disabledTooltip = "Video disabled, click to enable",
-        noVideoTooltip = "No Video", ...rest } = props;
+        noVideoTooltip = "No Video",
+        tooltipProps = { placement: 'left', arrow: true },
+        ...rest } = props;
     const ariaLabel = props['aria-label'] ?? "enable or disable video";
 
     // Toggling video on stream is not captured in react state
@@ -83,7 +86,7 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
 
     const title = stream && stream.hasVideo() ? (stream.isVideoEnabled() ? enabledTooltip : disabledTooltip) : noVideoTooltip;
 
-    return <Tooltip title={title}>
+    return <Tooltip title={title} {...tooltipProps}>
         <span>{/*required by mui tooltip in case button is disabled */}
             <IconButton id={id}
                 aria-label={ariaLabel}

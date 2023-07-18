@@ -5,7 +5,7 @@ import { MediaStreamTrackFlowStatus } from '@apirtc/apirtc'
 import Icon from '@mui/material/Icon'
 import IconButton, { IconButtonProps } from '@mui/material/IconButton'
 import { useThemeProps } from '@mui/material/styles'
-import Tooltip from '@mui/material/Tooltip'
+import Tooltip, { TooltipProps } from '@mui/material/Tooltip'
 
 // Note: replaced by usage of Icon, because @mui/icons-material has no umd package available
 // import MicIcon from '@mui/icons-material/Mic'
@@ -18,7 +18,8 @@ import { StreamContext } from './StreamContext'
 export interface AudioEnableButtonProps extends IconButtonProps {
     enabledTooltip?: string,
     disabledTooltip?: string,
-    noAudioTooltip?: string
+    noAudioTooltip?: string,
+    tooltipProps?: Omit<TooltipProps, 'title' | 'children'>
 }
 
 const COMPONENT_NAME = "AudioEnableButton";
@@ -28,7 +29,9 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
     const { id = "audio-enable-btn",
         enabledTooltip = "Audio enabled, click to disable",
         disabledTooltip = "Audio disabled, click to enable",
-        noAudioTooltip = "No Audio", ...rest } = props;
+        noAudioTooltip = "No Audio",
+        tooltipProps = { placement: 'left', arrow: true },
+        ...rest } = props;
     const ariaLabel = props['aria-label'] ?? "enable or disable audio";
 
     // Toggling audio on stream is not captured in react state
@@ -108,7 +111,7 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
 
     const title = stream && stream.hasAudio() ? (stream.isAudioEnabled() ? enabledTooltip : disabledTooltip) : noAudioTooltip;
 
-    return <Tooltip title={title}>
+    return <Tooltip title={title} {...tooltipProps}>
         <span>{/*required by mui tooltip in case button is disabled */}
             <IconButton id={id}
                 aria-label={ariaLabel}

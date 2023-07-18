@@ -29,6 +29,13 @@ describe('useToggleArray', () => {
         expect(result.current.index).toBe(0)
     })
 
+    test(`Testing undefined array`, () => {
+        const array = undefined;
+        const { result } = renderHook(() => useToggleArray(array as any, 0))
+        expect(result.current.value).toBe(undefined)
+        expect(result.current.index).toBe(-1)
+    })
+
     test(`Array of Strings toggle`, () => {
         const { result } = renderHook(() => useToggleArray<string>(['one', 'two', 'three']))
         expect(result.current.value).toBe('one')

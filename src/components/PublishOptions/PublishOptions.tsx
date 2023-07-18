@@ -24,7 +24,7 @@ const toIndex = (publishOptions: ApiRtcPublishOptions): number => {
 
 export type PublishOptionsProps = {
     value: ApiRtcPublishOptions,
-    onChange: (options: ApiRtcPublishOptions) => void,
+    onChange: (options: ApiRtcPublishOptions | undefined) => void,
     labelText?: string,
     audioAndVideoText?: string,
     audioOnlyText?: string,

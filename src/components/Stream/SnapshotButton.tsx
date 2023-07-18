@@ -4,12 +4,13 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Icon from '@mui/material/Icon';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { useThemeProps } from '@mui/material/styles';
-import Tooltip from '@mui/material/Tooltip';
+import Tooltip, { TooltipProps } from '@mui/material/Tooltip';
 
 import { StreamContext } from './StreamContext';
 
 export interface SnapshotButtonProps extends IconButtonProps {
     snapshotTooltip?: string,
+    tooltipProps?: Omit<TooltipProps, 'title' | 'children'>,
     onSnapshot: (dataUrl: string) => Promise<void>
 }
 
@@ -20,7 +21,9 @@ export function SnapshotButton(inProps: SnapshotButtonProps) {
     const { id = "snapshot-btn",
         snapshotTooltip = "Take snapshot",
         onSnapshot,
-        sx, ...rest } = props;
+        sx,
+        tooltipProps = { placement: 'left', arrow: true },
+        ...rest } = props;
     const ariaLabel = props['aria-label'] ?? "snapshot";
 
     const { stream } = useContext(StreamContext);
@@ -41,7 +44,7 @@ export function SnapshotButton(inProps: SnapshotButtonProps) {
         }
     }, [stream, onSnapshot]);
 
-    return <Tooltip title={snapshotTooltip}>
+    return <Tooltip title={snapshotTooltip} {...tooltipProps}>
         <span><IconButton id={id}
             aria-label={ariaLabel}
             {...rest}
