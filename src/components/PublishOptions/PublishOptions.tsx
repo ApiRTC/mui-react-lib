@@ -13,7 +13,7 @@ import FormLabel from "@mui/material/FormLabel";
 
 const EMPTY: ApiRtcPublishOptions = {};
 const PUBLISH_OPTIONS: Array<ApiRtcPublishOptions> = [
-  {},
+  EMPTY,
   { audioOnly: true },
   { videoOnly: true },
 ];
