@@ -4,12 +4,12 @@ import { PublishOptions as ApiRtcPublishOptions } from "@apirtc/apirtc";
 
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import { useThemeProps } from "@mui/material/styles";
 
 import useToggleArray from "../../hooks/useToggleArray";
-import FormLabel from "@mui/material/FormLabel";
 
 const EMPTY: ApiRtcPublishOptions = {};
 const PUBLISH_OPTIONS: Array<ApiRtcPublishOptions> = [
