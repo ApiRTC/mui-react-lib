@@ -11,6 +11,7 @@ import { useThemeProps } from "@mui/material/styles";
 import useToggleArray from "../../hooks/useToggleArray";
 import FormLabel from "@mui/material/FormLabel";
 
+const EMPTY: ApiRtcPublishOptions = {};
 const PUBLISH_OPTIONS: Array<ApiRtcPublishOptions> = [
   {},
   { audioOnly: true },
@@ -67,7 +68,7 @@ export function PublishOptions(inProps: PublishOptionsProps) {
   }, [JSON.stringify(props.value)]);
 
   useEffect(() => {
-    props.onChange(publishOptions);
+    props.onChange(publishOptions ?? EMPTY);
   }, [publishOptions]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
