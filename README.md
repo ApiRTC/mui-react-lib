@@ -21,7 +21,7 @@ in index.html `<head>` to make Icons work.
 Use it to display any **ApiRTC** **Stream**. Example:
 
 ```tsx
-import { Stream } from '@apirtc/mui-react-lib'
+import { MuteButton, Stream, Video } from '@apirtc/mui-react-lib'
 
 <Stream stream={stream}
         muted={false}
