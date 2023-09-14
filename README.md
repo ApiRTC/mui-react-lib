@@ -18,7 +18,7 @@ in index.html `<head>` to make Icons work.
 
 ### Stream
 
-Use it to display any **ApiRTC** remote **Stream**. Example:
+Use it to display any **ApiRTC** **Stream**. Example:
 
 ```tsx
 import { Stream } from '@apirtc/mui-react-lib'
@@ -28,6 +28,23 @@ import { Stream } from '@apirtc/mui-react-lib'
         controls={<><MuteButton /></>}>
         <Video />
 </Stream>
+```
+
+Available children:
+
+```tsx
+<Audio />
+<Video />
+```
+
+Available controls:
+
+```tsx
+<AudioEnableButton/>
+<MuteButton />
+<SnapshotButton />
+<TorchButton />
+<VideoEnableButton/>
 ```
 
 ## Configure log level
