@@ -21,7 +21,6 @@ const COMPONENT_NAME = "MediaDeviceSelect";
 export function MediaDeviceSelect(props: MediaDeviceSelectProps) {
 
     const { id = 'media-device-selector',
-        testid = 'test-media-device-selector',
         devices,
         selectedDevice,
         setSelectedDevice,
@@ -41,7 +40,7 @@ export function MediaDeviceSelect(props: MediaDeviceSelectProps) {
         return <MenuItem key={device.getId()} value={device.getId()}>{device.getLabel()}</MenuItem>
     });
 
-    return <Select id={id} data-testid={testid}
+    return <Select id={id}
         value={selectedDevice ? selectedDevice.getId() : DEFAULT_ID}
         onChange={onSelectDevice}
         {...rest}>

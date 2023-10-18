@@ -1,6 +1,6 @@
-import React from "react";
-import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import UserEvent from '@testing-library/user-event';
+import React from "react";
 
 import { unmountComponentAtNode } from "react-dom";
 
@@ -52,7 +52,7 @@ it("renders", () => {
     selectedDevice: undefined,
     setSelectedDevice: jest.fn()
   };
-  const { rerender } = render(<MediaDeviceSelect {...props} />);
+  const { rerender } = render(<MediaDeviceSelect data-testid='test-media-device-selector' {...props} />);
 
   const select = screen.getByTestId('test-media-device-selector');
   const btn = screen.getByRole("button");
@@ -95,14 +95,13 @@ it("simulate clicks", async () => {
   const deviceA1 = new MediaDevice('a1', 'audioinput', 'deviceA1');
   const props: MediaDeviceSelectProps = {
     id: 'an-id',
-    testid: 'a-test-id',
     devices: {
       [deviceA1.getId()]: deviceA1
     },
     selectedDevice: undefined,
     setSelectedDevice: jest.fn()
   };
-  const { rerender } = render(<MediaDeviceSelect {...props} />);
+  const { rerender } = render(<MediaDeviceSelect data-testid='a-test-id' {...props} />);
 
   const select = screen.getByTestId('a-test-id');
 
