@@ -33,8 +33,8 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
         disabledTooltip = "Audio disabled, click to enable",
         noAudioTooltip = "No Audio",
         tooltipProps = { placement: 'left', arrow: true },
-        enabledAudioIcon = 'mic',
-        disabledAudioIcon = 'mic_off',
+        enabledAudioIcon = "mic",
+        disabledAudioIcon = "mic_off",
         ...rest } = props;
     const ariaLabel = props['aria-label'] ?? "enable or disable audio";
 
@@ -124,8 +124,8 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
                 onClick={onToggle}
                 onKeyDown={onMicKeyDown} onKeyUp={onMicKeyUp}>
                 {stream && stream.hasAudio() && stream.isAudioEnabled() ?
-                    <Icon fontSize={props.size}>{props.enabledAudioIcon}</Icon> :
-                    <Icon fontSize={props.size}>{props.disabledAudioIcon}</Icon>}
+                    <Icon fontSize={props.size}>{enabledAudioIcon}</Icon> :
+                    <Icon fontSize={props.size}>{disabledAudioIcon}</Icon>}
             </IconButton>
         </span>
     </Tooltip>
