@@ -13,7 +13,9 @@ export interface VideoEnableButtonProps extends IconButtonProps {
     enabledTooltip?: string,
     disabledTooltip?: string,
     noVideoTooltip?: string,
-    tooltipProps?: Omit<TooltipProps, 'title' | 'children'>
+    tooltipProps?: Omit<TooltipProps, 'title' | 'children'>,
+    enabledVideoIcon?: string,
+    disabledVideoIcon?: string
 }
 
 const COMPONENT_NAME = "VideoEnableButton";
@@ -25,6 +27,8 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
         disabledTooltip = "Video disabled, click to enable",
         noVideoTooltip = "No Video",
         tooltipProps = { placement: 'left', arrow: true },
+        enabledVideoIcon = "videocam",
+        disabledVideoIcon = "videocam_off",
         ...rest } = props;
     const ariaLabel = props['aria-label'] ?? "enable or disable video";
 
@@ -91,11 +95,12 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
             <IconButton id={id}
                 aria-label={ariaLabel}
                 {...rest}
+                className={stream && stream.hasVideo() && stream.isVideoEnabled() ? 'enable' : 'disable'}
                 disabled={props.disabled || (stream && !stream.hasVideo())}
                 onClick={toggleVideo}>
                 {stream && stream.hasVideo() && stream.isVideoEnabled() ?
-                    <Icon fontSize={props.size}>videocam</Icon> :
-                    <Icon fontSize={props.size}>videocam_off</Icon>}
+                    <Icon fontSize={props.size}>{enabledVideoIcon}</Icon> :
+                    <Icon fontSize={props.size}>{disabledVideoIcon}</Icon>}
             </IconButton>
         </span>
     </Tooltip>
