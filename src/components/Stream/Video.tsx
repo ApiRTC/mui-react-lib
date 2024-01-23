@@ -60,7 +60,7 @@ export function Video(inProps: VideoProps) {
         const htmlMediaElement = videoRef?.current as any;
         if (s_stream && htmlMediaElement) {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|useEffect stream", htmlMediaElement, s_stream)
+                console.debug(`${COMPONENT_NAME}|useEffect stream`, htmlMediaElement, s_stream)
             }
             s_stream.attachToElement(htmlMediaElement)
 
@@ -69,7 +69,7 @@ export function Video(inProps: VideoProps) {
             //
             const onVideoFlowStatusChanged = (mediaStreamTrackFlowStatus: MediaStreamTrackFlowStatus) => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                    console.debug(COMPONENT_NAME + "|onVideoFlowStatusChanged", s_stream, mediaStreamTrackFlowStatus)
+                    console.debug(`${COMPONENT_NAME}|onVideoFlowStatusChanged`, s_stream, mediaStreamTrackFlowStatus)
                 }
                 setVideoMuted(mediaStreamTrackFlowStatus.muted)
             };
@@ -78,7 +78,7 @@ export function Video(inProps: VideoProps) {
 
             return () => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                    console.debug(COMPONENT_NAME + "|useEffect stream destroy")
+                    console.debug(`${COMPONENT_NAME}|useEffect stream destroy`)
                 }
                 htmlMediaElement.src = "";
 

@@ -9,7 +9,7 @@ import { setLogLevel } from '../..';
 import { MediaDeviceSelect, MediaDeviceSelectProps } from "./MediaDeviceSelect";
 
 import '../../mock/getDisplayMedia.mock';
-
+//
 import { MediaDevice } from "@apirtc/apirtc";
 
 // Set log level to max to maximize code coverage
@@ -55,7 +55,7 @@ it("renders", () => {
   const { rerender } = render(<MediaDeviceSelect data-testid='test-media-device-selector' {...props} />);
 
   const select = screen.getByTestId('test-media-device-selector');
-  const btn = screen.getByRole("button");
+  const btn = screen.getByRole('combobox');
 
   expect(select.textContent).toContain('Default');
   expect(btn.textContent).toBe('Default');
@@ -108,7 +108,7 @@ it("simulate clicks", async () => {
   expect(select.textContent).toContain('Default');
 
   // click on select
-  UserEvent.click(screen.getByRole("button"));
+  UserEvent.click(screen.getByRole('combobox'));
 
   // click to select device a1
   const dropdownItem = await screen.findByRole("option", { name: deviceA1.getLabel() });

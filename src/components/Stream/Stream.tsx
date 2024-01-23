@@ -38,10 +38,6 @@ export function Stream({
     sx,
     ...rest }: StreamProps) {
 
-    if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-        console.debug(COMPONENT_NAME + "|Rendering")
-    }
-
     const { value: s_muted, toggle: toggleMuted } = useToggle(muted);
 
     const [isSpeaking, setSpeaking] = useState(false);
@@ -78,7 +74,7 @@ export function Stream({
         const current = ref.current as any;
         if (current) {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|setSize", current.clientHeight, current.clientWidth)
+                console.debug(`${COMPONENT_NAME}|setSize`, current.clientHeight, current.clientWidth)
             }
 
             setSize({ height: current.clientHeight, width: current.clientWidth })
@@ -98,7 +94,7 @@ export function Stream({
         const current = controlsRef.current as any;
         if (current) {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|setControlsSize", current.clientHeight, current.clientWidth)
+                console.debug(`${COMPONENT_NAME}|setControlsSize`, current.clientHeight, current.clientWidth)
             }
 
             setControlsSize({ height: current.clientHeight, width: current.clientWidth })

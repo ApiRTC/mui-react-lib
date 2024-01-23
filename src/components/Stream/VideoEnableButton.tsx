@@ -39,7 +39,7 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
         if (stream) {
             const onVideoFlowStatusChanged = (mediaStreamTrackFlowStatus: MediaStreamTrackFlowStatus) => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                    console.debug(COMPONENT_NAME + "|onVideoFlowStatusChanged", stream, mediaStreamTrackFlowStatus, stream.isVideoEnabled())
+                    console.debug(`${COMPONENT_NAME}|onVideoFlowStatusChanged`, stream, mediaStreamTrackFlowStatus, stream.isVideoEnabled())
                 }
                 forceUpdate()
             };
@@ -56,28 +56,31 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
         event.preventDefault()
         // stop propagation because the underlying Stream may be clickable
         event.stopPropagation()
-        if (stream?.isVideoEnabled()) {
+        if (!stream) {
+            return
+        }
+        if (stream.isVideoEnabled()) {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|stream.disableVideo", stream?.isVideoEnabled())
+                console.debug(`${COMPONENT_NAME}|stream.disableVideo`, stream.isVideoEnabled())
             }
             // Note : always set applyRemotely to true so that it is executed
             // remotely for remote Streams. For local Streams, the boolean is
             // not used.
-            stream?.disableVideo(true).catch((reason: any) => {
+            stream.disableVideo(true).catch((reason: any) => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isWarnEnabled) {
-                    console.warn(COMPONENT_NAME + "|stream.disableVideo failed", reason)
+                    console.warn(`${COMPONENT_NAME}|stream.disableVideo failed`, reason)
                 }
             })
         } else {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|stream.enableVideo", stream?.isVideoEnabled())
+                console.debug(`${COMPONENT_NAME}|stream.enableVideo`, stream.isVideoEnabled())
             }
             // Note : always set applyRemotely to true so that it is executed
             // remotely for remote Streams. For local Streams, the boolean is
             // not used.
-            stream?.enableVideo(true).catch((reason: any) => {
+            stream.enableVideo(true).catch((reason: any) => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isWarnEnabled) {
-                    console.warn(COMPONENT_NAME + "|stream.enableVideo failed", reason)
+                    console.warn(`${COMPONENT_NAME}|stream.enableVideo failed`, reason)
                 }
             })
         }

@@ -45,7 +45,7 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
         if (stream) {
             const onAudioFlowStatusChanged = (mediaStreamTrackFlowStatus: MediaStreamTrackFlowStatus) => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                    console.debug(COMPONENT_NAME + "|onAudioFlowStatusChanged", stream, mediaStreamTrackFlowStatus, stream.isAudioEnabled())
+                    console.debug(`${COMPONENT_NAME}|onAudioFlowStatusChanged`, stream, mediaStreamTrackFlowStatus, stream.isAudioEnabled())
                 }
                 forceUpdate()
             };
@@ -59,28 +59,31 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
     }, [stream])
 
     const toggleAudio = () => {
-        if (stream?.isAudioEnabled()) {
+        if (!stream) {
+            return;
+        }
+        if (stream.isAudioEnabled()) {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|stream.disableAudio", stream?.isAudioEnabled())
+                console.debug(`${COMPONENT_NAME}|stream.disableAudio`, stream.isAudioEnabled())
             }
             // Note : always set applyRemotely to true so that it is executed
             // remotely for remote Streams. For local Streams, the boolean is
             // not used.
-            stream?.disableAudio(true).catch((reason: any) => {
+            stream.disableAudio(true).catch((reason: any) => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isWarnEnabled) {
-                    console.warn(COMPONENT_NAME + "|stream.disableAudio failed", reason)
+                    console.warn(`${COMPONENT_NAME}|stream.disableAudio failed`, reason)
                 }
             })
         } else {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|stream.enableAudio", stream?.isAudioEnabled())
+                console.debug(`${COMPONENT_NAME}|stream.enableAudio`, stream.isAudioEnabled())
             }
             // Note : always set applyRemotely to true so that it is executed
             // remotely for remote Streams. For local Streams, the boolean is
             // not used.
-            stream?.enableAudio(true).catch((reason: any) => {
+            stream.enableAudio(true).catch((reason: any) => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isWarnEnabled) {
-                    console.warn(COMPONENT_NAME + "|stream.enableAudio failed", reason)
+                    console.warn(`${COMPONENT_NAME}|stream.enableAudio failed`, reason)
                 }
             })
         }

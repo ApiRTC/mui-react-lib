@@ -12,11 +12,9 @@ const useToggle = (iValue: boolean) => {
   }, [iValue])
 
   return useMemo(() => ({
-    value,
-    setValue,
+    value, setValue,
     toggle
-  }), [value, toggle]
-  );
+  }), [value, toggle]);
 };
 
 export default useToggle;

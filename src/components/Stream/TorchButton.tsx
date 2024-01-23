@@ -52,7 +52,7 @@ export function TorchButton(inProps: TorchButtonProps) {
 
         stream?.getSettings().then(settings => {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|stream.getSettings", stream, settings)
+                console.debug(`${COMPONENT_NAME}|stream.getSettings`, stream, settings)
             }
             const videoSettings: MediaTrackVideoConstraints = (settings as MediaStreamSettings).video;
             setTorch(videoSettings.torch ?? false)
@@ -67,7 +67,7 @@ export function TorchButton(inProps: TorchButtonProps) {
         if (stream) {
             stream.getSettings().then(settings => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                    console.debug(COMPONENT_NAME + "|stream.getSettings", stream, settings)
+                    console.debug(`${COMPONENT_NAME}|stream.getSettings`, stream, settings)
                 }
                 const videoSettings: MediaTrackVideoConstraints = (settings as MediaStreamSettings).video;
                 const newValue = !videoSettings.torch;
@@ -79,17 +79,17 @@ export function TorchButton(inProps: TorchButtonProps) {
                 }).then(() => {
                     setTorch(newValue)
                     if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                        console.debug(COMPONENT_NAME + "|stream.applyConstraints done")
+                        console.debug(`${COMPONENT_NAME}|stream.applyConstraints done`)
                     }
                 }).catch((error: any) => {
                     setTorch(videoSettings.torch)
                     if (globalThis.apirtcMuiReactLibLogLevel.isWarnEnabled) {
-                        console.warn(COMPONENT_NAME + "|stream.applyConstraints error", error, videoSettings.torch)
+                        console.warn(`${COMPONENT_NAME}|stream.applyConstraints error`, error, videoSettings.torch)
                     }
                 })
             }).catch((error) => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isWarnEnabled) {
-                    console.warn(COMPONENT_NAME + "|stream.getSettings", stream, error)
+                    console.warn(`${COMPONENT_NAME}|stream.getSettings`, stream, error)
                 }
             })
         }

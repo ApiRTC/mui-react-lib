@@ -26,7 +26,7 @@ const COMPONENT_NAME = "Audio";
 export function Audio(props: AudioProps) {
 
     if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-        console.debug(COMPONENT_NAME + "|Rendering")
+        console.debug(`${COMPONENT_NAME}|Rendering`)
     }
 
     const { id = props.stream?.getId(),
@@ -44,12 +44,12 @@ export function Audio(props: AudioProps) {
         const htmlMediaElement = audioRef?.current as any;
         if (s_stream && htmlMediaElement) {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                console.debug(COMPONENT_NAME + "|useEffect stream", htmlMediaElement, s_stream)
+                console.debug(`${COMPONENT_NAME}|useEffect stream`, htmlMediaElement, s_stream)
             }
             s_stream.attachToElement(htmlMediaElement)
             return () => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
-                    console.debug(COMPONENT_NAME + "|useEffect stream destroy")
+                    console.debug(`${COMPONENT_NAME}|useEffect stream destroy`)
                 }
                 htmlMediaElement.src = "";
             }
