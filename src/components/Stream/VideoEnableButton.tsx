@@ -95,7 +95,6 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
             <IconButton id={id}
                 aria-label={ariaLabel}
                 {...rest}
-                className={stream && stream.hasVideo() && stream.isVideoEnabled() ? 'enable' : 'disable'}
                 disabled={props.disabled || (stream && !stream.hasVideo())}
                 onClick={toggleVideo}>
                 {stream && stream.hasVideo() && stream.isVideoEnabled() ?

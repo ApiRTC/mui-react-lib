@@ -120,7 +120,6 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
             <IconButton id={id}
                 aria-label={ariaLabel}
                 {...rest}
-                className={stream && stream.hasAudio() && stream.isAudioEnabled() ? 'enable' : 'disable'}
                 disabled={props.disabled || (stream && !stream.hasAudio())}
                 onClick={onToggle}
                 onKeyDown={onMicKeyDown} onKeyUp={onMicKeyUp}>
