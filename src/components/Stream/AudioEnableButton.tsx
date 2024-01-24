@@ -20,8 +20,8 @@ export interface AudioEnableButtonProps extends IconButtonProps {
     disabledTooltip?: string,
     noAudioTooltip?: string,
     tooltipProps?: Omit<TooltipProps, 'title' | 'children'>,
-    enabledAudioIcon?: string,
-    disabledAudioIcon?: string
+    enabledIcon?: React.ReactNode,
+    disabledIcon?: React.ReactNode
 }
 
 const COMPONENT_NAME = "AudioEnableButton";
@@ -33,8 +33,8 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
         disabledTooltip = "Audio disabled, click to enable",
         noAudioTooltip = "No Audio",
         tooltipProps = { placement: 'left', arrow: true },
-        enabledAudioIcon = "mic",
-        disabledAudioIcon = "mic_off",
+        enabledIcon = <Icon fontSize={props.size}>mic</Icon>,
+        disabledIcon = <Icon fontSize={props.size}>mic_off</Icon>,
         ...rest } = props;
     const ariaLabel = props['aria-label'] ?? "enable or disable audio";
 
@@ -125,8 +125,7 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
                 onClick={onToggle}
                 onKeyDown={onMicKeyDown} onKeyUp={onMicKeyUp}>
                 {stream && stream.hasAudio() && stream.isAudioEnabled() ?
-                    <Icon fontSize={props.size}>{enabledAudioIcon}</Icon> :
-                    <Icon fontSize={props.size}>{disabledAudioIcon}</Icon>}
+                    enabledIcon : disabledIcon}
             </IconButton>
         </span>
     </Tooltip>
