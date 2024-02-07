@@ -1,10 +1,10 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, queryByLabelText, render, screen, waitFor } from '@testing-library/react';
 import React from "react";
 import ReactDOM from 'react-dom/client';
 
 import '../../mock/getDisplayMedia.mock';
 //
-import { Stream } from "@apirtc/apirtc";
+import { MediaStreamTrackFlowStatus, Stream } from "@apirtc/apirtc";
 
 import { AudioEnableButton } from "./AudioEnableButton";
 import { StreamContext } from "./StreamContext";
@@ -12,6 +12,9 @@ import { StreamContext } from "./StreamContext";
 import { setLogLevel } from '../..';
 
 import UserEvent from '@testing-library/user-event';
+
+let audioEnabled = true;
+let on_audioFlowStatusChanged_cb: (mediaStreamTrackFlowStatus: MediaStreamTrackFlowStatus) => void;
 
 // Partial mocking @apirtc/apirtc module
 // see https://jestjs.io/docs/mock-functions
@@ -39,7 +42,11 @@ jest.mock('@apirtc/apirtc', () => {
           });
         },
         isAudioEnabled: () => { return audio },
-        on: (event: string, fn: Function) => { },
+        on: (event: string, fn: Function) => {
+          if (event === 'audioFlowStatusChanged') {
+            on_audioFlowStatusChanged_cb = fn as any;
+          }
+        },
         removeListener: (event: string, fn: Function) => { }
       }
     }),
@@ -123,6 +130,39 @@ it("renders mic with stream with audio and audio enabled, toggle audio", async (
   fireEvent.click(btn);
   await waitFor(() => {
     expect(container.textContent).toBe("mic");
+  })
+
+  unmount()
+  expect(container.textContent).toBe("");
+});
+
+it("renders with stream and test audioFlowStatusChanged", async () => {
+
+  // Make sure audioEnabled is true to begin this test
+  audioEnabled = true;
+
+  const stream = new Stream(null, { id: 'stream-01' });
+  const muted = true;
+  const toggleMuted = () => {
+    console.log('toggleMuted called')
+  };
+
+  const { container, unmount } = render(<StreamContext.Provider value={{ stream: stream, muted, toggleMuted }}>
+    <AudioEnableButton />
+  </StreamContext.Provider>);
+
+  expect(container.textContent).toBe("mic");
+  expect(queryByLabelText(container, "Audio enabled, click to disable")).toBeDefined();
+
+  act(() => {
+    audioEnabled = false;
+    on_audioFlowStatusChanged_cb({
+      enabled: audioEnabled,
+      muted: false
+    })
+  });
+  await waitFor(() => {
+    expect(queryByLabelText(container, "Audio disabled, click to enable")).toBeDefined();
   })
 
   unmount()

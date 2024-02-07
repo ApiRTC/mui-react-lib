@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
 import { MediaStreamTrackFlowStatus, Stream } from '@apirtc/apirtc';
 
@@ -54,7 +54,9 @@ export function Video(inProps: VideoProps) {
 
     const videoRef = useRef<HTMLVideoElement>(null);
 
-    const [videoMuted, setVideoMuted] = useState(false);
+    // Stream.isVideoMuted is not captured in react state
+    // so using forceUpdate when FlowStatus changes will force rendering
+    const [, forceUpdate] = useReducer(x => x + 1, 0);
 
     useEffect(() => {
         const htmlMediaElement = videoRef?.current as any;
@@ -62,6 +64,7 @@ export function Video(inProps: VideoProps) {
             if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
                 console.debug(`${COMPONENT_NAME}|useEffect stream`, htmlMediaElement, s_stream)
             }
+
             s_stream.attachToElement(htmlMediaElement)
 
             // manage isVideoMuted to display a spinner when track is muted for technical reasons
@@ -71,7 +74,7 @@ export function Video(inProps: VideoProps) {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
                     console.debug(`${COMPONENT_NAME}|onVideoFlowStatusChanged`, s_stream, mediaStreamTrackFlowStatus)
                 }
-                setVideoMuted(mediaStreamTrackFlowStatus.muted)
+                forceUpdate()
             };
             s_stream.on('videoFlowStatusChanged', onVideoFlowStatusChanged)
             s_stream.on('remoteVideoFlowStatusChanged', onVideoFlowStatusChanged)
@@ -111,7 +114,7 @@ export function Video(inProps: VideoProps) {
             top: pointer.top, left: pointer.left, transform: 'translate(-50%,-50%)',
             opacity: 0.9
         }} color={pointerColor}>adjust</Icon>}
-        {videoMuted &&
+        {s_stream?.isVideoMuted() &&
             <Tooltip sx={{
                 position: 'absolute',
                 top: '50%', left: '50%', transform: 'translate(-50%,-50%)', // centered
