@@ -16,7 +16,7 @@ const useToggleArray = <T>(values: T[], initIndex: number = 0) => {
     index,
     toggle,
     setIndex
-  }), [value, toggle])
+  }), [value, index, toggle])
 };
 
 export default useToggleArray;

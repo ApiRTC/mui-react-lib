@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { PublishOptions as ApiRtcPublishOptions } from "@apirtc/apirtc";
 
-import FormControl from "@mui/material/FormControl";
+import FormControl, { FormControlProps } from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import Radio from "@mui/material/Radio";
@@ -27,7 +27,7 @@ const toIndex = (publishOptions: ApiRtcPublishOptions): number => {
   return 0;
 };
 
-export type PublishOptionsProps = {
+export interface PublishOptionsProps extends Omit<FormControlProps, 'value' | 'onChange'> {
   value: ApiRtcPublishOptions;
   onChange: (options: ApiRtcPublishOptions) => void;
   labelText?: string;
@@ -37,7 +37,8 @@ export type PublishOptionsProps = {
   audioAndVideoOption?: boolean;
   audioOnlyOption?: boolean;
   videoOnlyOption?: boolean;
-};
+}
+
 const COMPONENT_NAME = "PublishOptions";
 export function PublishOptions(inProps: PublishOptionsProps) {
   const props = useThemeProps({
@@ -45,6 +46,8 @@ export function PublishOptions(inProps: PublishOptionsProps) {
     name: `ApiRtcMuiReactLib${COMPONENT_NAME}`,
   });
   const {
+    value,
+    onChange,
     labelText = "Publish options",
     audioAndVideoText = "Audio & Video",
     audioOnlyText = "Audio Only",
@@ -52,6 +55,7 @@ export function PublishOptions(inProps: PublishOptionsProps) {
     audioAndVideoOption = true,
     audioOnlyOption = true,
     videoOnlyOption = true,
+    ...rest
   } = props;
 
   const {
@@ -60,52 +64,49 @@ export function PublishOptions(inProps: PublishOptionsProps) {
     setIndex: setPublishOptionsIndex,
   } = useToggleArray<ApiRtcPublishOptions>(
     PUBLISH_OPTIONS,
-    toIndex(props.value)
+    toIndex(value)
   );
 
   useEffect(() => {
-    setPublishOptionsIndex(toIndex(props.value));
-  }, [JSON.stringify(props.value)]);
+    setPublishOptionsIndex(toIndex(value));
+  }, [value, setPublishOptionsIndex]);//JSON.stringify(value)
 
   useEffect(() => {
-    props.onChange(publishOptions ?? EMPTY);
-  }, [publishOptions]);
+    onChange(publishOptions ?? EMPTY);
+  }, [publishOptions, onChange]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPublishOptionsIndex(+(event.target as HTMLInputElement).value);
   };
 
-  return (
-    <FormControl>
-      <FormLabel id="publish-options-label">{labelText}</FormLabel>
-      <RadioGroup
-        aria-labelledby="publish-options-label"
-        name="publish-options"
-        value={String(publishOptionsIndex)}
-        onChange={handleChange}
-      >
-        {audioAndVideoOption && (
-          <FormControlLabel
-            value="0"
-            control={<Radio size="small" />}
-            label={audioAndVideoText}
-          />
-        )}
-        {audioOnlyOption && (
-          <FormControlLabel
-            value="1"
-            control={<Radio size="small" />}
-            label={audioOnlyText}
-          />
-        )}
-        {videoOnlyOption && (
-          <FormControlLabel
-            value="2"
-            control={<Radio size="small" />}
-            label={videoOnlyText}
-          />
-        )}
-      </RadioGroup>
-    </FormControl>
-  );
+  return <FormControl {...rest}>
+    <FormLabel id="publish-options-label">{labelText}</FormLabel>
+    <RadioGroup
+      aria-labelledby="publish-options-label"
+      name="publish-options"
+      value={String(publishOptionsIndex)}
+      onChange={handleChange}>
+      {audioAndVideoOption && (
+        <FormControlLabel
+          value="0"
+          control={<Radio size="small" />}
+          label={audioAndVideoText}
+        />
+      )}
+      {audioOnlyOption && (
+        <FormControlLabel
+          value="1"
+          control={<Radio size="small" />}
+          label={audioOnlyText}
+        />
+      )}
+      {videoOnlyOption && (
+        <FormControlLabel
+          value="2"
+          control={<Radio size="small" />}
+          label={videoOnlyText}
+        />
+      )}
+    </RadioGroup>
+  </FormControl>;
 }
