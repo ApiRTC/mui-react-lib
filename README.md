@@ -69,3 +69,25 @@ from console:
 ```js
 setApirtcMuiReactLibLogLevel('debug')
 ```
+
+## Contribute
+
+You need to get access in write mode to the repository.
+
+The 'developers' team has access.
+
+Then work on a branch and submit merge requests to main branch.
+
+## Release a new version
+
+  - run `npm run test`, making sure tests passed, and code coverage as high as possible.
+
+  - Update README documentation section if relevant.
+
+  - Update package.json version number.
+
+  - Update CHANGELOG accordingly.
+
+  - run `npm run build`
+
+  - run `npm publish --access public`
