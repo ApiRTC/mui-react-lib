@@ -7,6 +7,7 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton'
 import { useThemeProps } from '@mui/material/styles'
 import Tooltip, { TooltipProps } from '@mui/material/Tooltip'
 
+import { stopPropagation } from './common'
 import { StreamContext } from './StreamContext'
 
 export interface TorchButtonProps extends IconButtonProps {
@@ -62,8 +63,6 @@ export function TorchButton(inProps: TorchButtonProps) {
 
     const onToggleTorch = (event: React.SyntheticEvent) => {
         event.preventDefault()
-        // stop propagation because the underlying Stream may be clickable
-        event.stopPropagation()
         if (stream) {
             stream.getSettings().then(settings => {
                 if (globalThis.apirtcMuiReactLibLogLevel.isDebugEnabled) {
@@ -98,7 +97,8 @@ export function TorchButton(inProps: TorchButtonProps) {
     const title = torch ? torchOffTooltip : torchOnTooltip;
 
     return <Tooltip title={title} {...tooltipProps}>
-        <span>{/*required by mui tooltip in case button is disabled */}
+        <span /*required by mui tooltip in case button is disabled */
+            onClick={stopPropagation} /* to prevent click on underlying Stream (which might be clickable) even if IconButton is disabled */>
             <IconButton id={id}
                 aria-label={ariaLabel}
                 {...rest}

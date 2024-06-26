@@ -6,6 +6,7 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { useThemeProps } from '@mui/material/styles';
 import Tooltip, { TooltipProps } from '@mui/material/Tooltip';
 
+import { stopPropagation } from './common';
 import { StreamContext } from './StreamContext';
 
 export interface SnapshotButtonProps extends IconButtonProps {
@@ -32,8 +33,6 @@ export function SnapshotButton(inProps: SnapshotButtonProps) {
 
     const onTakeSnapshot = useCallback((event: React.SyntheticEvent) => {
         event.preventDefault()
-        // stop propagation because the underlying Stream may be clickable
-        event.stopPropagation()
         if (stream) {
             setInProgress(true)
             stream.takeSnapshot()
@@ -45,22 +44,24 @@ export function SnapshotButton(inProps: SnapshotButtonProps) {
     }, [stream, onSnapshot]);
 
     return <Tooltip title={snapshotTooltip} {...tooltipProps}>
-        <span><IconButton id={id}
-            aria-label={ariaLabel}
-            {...rest}
-            disabled={inProps.disabled || inProgress}
-            onClick={onTakeSnapshot}
-            sx={{
-                position: 'relative',
-                ...sx
-            }}>
-            <Icon fontSize={props.size}>photo_camera</Icon>
-            {inProgress && <CircularProgress
+        <span /*required by mui tooltip in case button is disabled */
+            onClick={stopPropagation} /* to prevent click on underlying Stream (which might be clickable) even if IconButton is disabled */>
+            <IconButton id={id}
+                aria-label={ariaLabel}
+                {...rest}
+                disabled={inProps.disabled || inProgress}
+                onClick={onTakeSnapshot}
                 sx={{
-                    position: 'absolute'
-                }}
-                style={{ width: '100%', height: '100%' }}
-            />}
-        </IconButton></span>
+                    position: 'relative',
+                    ...sx
+                }}>
+                <Icon fontSize={props.size}>photo_camera</Icon>
+                {inProgress && <CircularProgress
+                    sx={{
+                        position: 'absolute'
+                    }}
+                    style={{ width: '100%', height: '100%' }}
+                />}
+            </IconButton></span>
     </Tooltip>
 }

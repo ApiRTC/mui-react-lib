@@ -7,6 +7,7 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton'
 import { useThemeProps } from '@mui/material/styles'
 import Tooltip, { TooltipProps } from '@mui/material/Tooltip'
 
+import { stopPropagation } from './common'
 import { StreamContext } from './StreamContext'
 
 export interface VideoEnableButtonProps extends IconButtonProps {
@@ -58,8 +59,6 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
 
     const toggleVideo = (event: React.SyntheticEvent) => {
         event.preventDefault()
-        // stop propagation because the underlying Stream may be clickable
-        event.stopPropagation()
         if (!stream) {
             return
         }
@@ -94,7 +93,8 @@ export function VideoEnableButton(inProps: VideoEnableButtonProps) {
     const title = stream && stream.hasVideo() ? (stream.isVideoEnabled() ? enabledTooltip : disabledTooltip) : noVideoTooltip;
 
     return <Tooltip title={title} {...tooltipProps}>
-        <span>{/*required by mui tooltip in case button is disabled */}
+        <span /*required by mui tooltip in case button is disabled */
+            onClick={stopPropagation} /* to prevent click on underlying Stream (which might be clickable) even if IconButton is disabled */>
             <IconButton id={id}
                 aria-label={ariaLabel}
                 {...rest}

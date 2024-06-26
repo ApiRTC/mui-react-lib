@@ -13,6 +13,7 @@ import Tooltip, { TooltipProps } from '@mui/material/Tooltip'
 // Note to let Icon work, you have to have
 // <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" /> in <head>
 
+import { stopPropagation } from './common'
 import { StreamContext } from './StreamContext'
 
 export interface AudioEnableButtonProps extends IconButtonProps {
@@ -96,8 +97,6 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
 
     const onToggle = (event: React.SyntheticEvent) => {
         event.preventDefault()
-        // stop propagation because the underlying Stream may be clickable
-        event.stopPropagation()
         toggleAudio()
     };
 
@@ -119,7 +118,8 @@ export function AudioEnableButton(inProps: AudioEnableButtonProps) {
     const title = stream && stream.hasAudio() ? (stream.isAudioEnabled() ? enabledTooltip : disabledTooltip) : noAudioTooltip;
 
     return <Tooltip title={title} {...tooltipProps}>
-        <span>{/*required by mui tooltip in case button is disabled */}
+        <span /*required by mui tooltip in case button is disabled */
+            onClick={stopPropagation} /* to prevent click on underlying Stream (which might be clickable) even if IconButton is disabled */>
             <IconButton id={id}
                 aria-label={ariaLabel}
                 {...rest}

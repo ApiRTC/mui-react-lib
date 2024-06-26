@@ -5,6 +5,7 @@ import IconButton, { type IconButtonProps } from '@mui/material/IconButton';
 import { useThemeProps } from '@mui/material/styles';
 import Tooltip, { TooltipProps } from '@mui/material/Tooltip';
 
+import { stopPropagation } from './common';
 import { StreamContext } from './StreamContext';
 
 export interface MuteButtonProps extends IconButtonProps {
@@ -39,13 +40,12 @@ export function MuteButton(inProps: MuteButtonProps) {
 
     const doToggle = (event: React.SyntheticEvent) => {
         event.preventDefault()
-        // stop propagation because the underlying Stream may be clickable
-        event.stopPropagation()
         toggleMuted()
     };
 
     return <Tooltip title={title} {...tooltipProps}>
-        <span>{/*required by mui tooltip in case button is disabled */}
+        <span /*required by mui tooltip in case button is disabled */
+            onClick={stopPropagation} /* to prevent click on underlying Stream (which might be clickable) even if IconButton is disabled */>
             <IconButton id={id}
                 aria-label={ariaLabel}
                 {...rest}
