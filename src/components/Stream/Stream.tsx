@@ -119,7 +119,7 @@ export function Stream({
             ref={ref}
             sx={{
                 minHeight: controlsSize.height + overlaysMargin * 2 + (name ? 32 + MIN_BORDER : 0),
-                minWidth: controls ? Math.max(controlsSize.width * 2, 40) + overlaysMargin : 0,
+                minWidth: controls ? Math.max(40 + (controlsSize.width * 2), 40) + overlaysMargin : 0,
                 ...sx,
                 position: 'relative',
                 ...isSpeaking && speakingBorder
